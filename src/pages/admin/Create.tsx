@@ -208,6 +208,7 @@ const Create = () => {
           <p className="w-1/3">Map link</p>
           <div className="w-2/3">
             <MuiTextarea
+            placeholder=""
             rows={2}
               label="Enter your map link"
               name="google_map_url"
