@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+::placeholder{
+    font-size: 13px;
+}
+body{
+    overflow: hidden;
+}
+
+p{
+  color:#444240;
+}
+
+
+li{
+  list-style-image: url('/list.svg');
+}
+
+
+
+.buttonOutlined{
+  padding: 8px 16px 8px 16px;
+  border-radius: 10px;
+  border: 1px solid #FFB381;
+  height: 40px;
+}
+
+.buttonPrimary{
+  padding: 12px 24px;
+  border-radius: 10px;
+  background-color: #FF6604;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.viewButton {
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: green;
+    border: 1px dotted rgba(0, 139, 2, 0.596);
+    cursor: pointer;
+  }
+
+.editButton {
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #FFF7ED;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .cancelButton {
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: 1px dotted rgba(32, 32, 37, 0.596);
+    cursor: pointer;
+  }
+  
+  .deleteButton {
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: crimson;
+    border: 1px dotted rgba(220, 20, 60, 0.6);
+    cursor: pointer;
+  }
+  
+  .onButton {
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(20, 176, 61);
+    cursor: pointer;
+  }
+  
+  .offButton {
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(210, 32, 32);
+    cursor: pointer;
+  }
+  
+  .defaultButton {
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(71, 73, 76);
+    cursor: pointer;
+  }
