@@ -394,6 +394,25 @@ export const CopyIcon: React.FC<IconWrapProps> = (props) => {
   );
 };
 
+export const HistoryIcon: React.FC<IconWrapProps> = (props) => {
+  return (
+    <IconWrap {...props}>
+      <svg
+        width="25"
+        height="24"
+        viewBox="0 0 25 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.5 2C18.023 2 22.5 6.477 22.5 12C22.5 17.523 18.023 22 12.5 22C6.977 22 2.5 17.523 2.5 12H4.5C4.5 16.418 8.082 20 12.5 20C16.918 20 20.5 16.418 20.5 12C20.5 7.582 16.918 4 12.5 4C10.036 4 7.832 5.114 6.365 6.865L8.5 9H2.5V3L4.947 5.446C6.78 3.336 9.484 2 12.5 2ZM13.5 7V11.585L16.743 14.828L15.328 16.243L11.5 12.413V7H13.5Z"
+          fill="white"
+        />
+      </svg>
+    </IconWrap>
+  );
+};
+
 const IconWrap = styled.div<IconWrapProps>`
   width: ${(props) => (props.width ? props.width : "20")}px;
   height: ${(props) => (props.height ? props.height : "20")}px;

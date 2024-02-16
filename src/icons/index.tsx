@@ -26,6 +26,7 @@ import {
   DeleteIcon,
   DetailIcon,
   EditIcon,
+  HistoryIcon,
   PrimaryDeleteIcon,
   SaveIcon,
   WhiteEditIcon,
@@ -45,6 +46,8 @@ const Icon: React.FC<IconProps> = (props) => {
       return <DashboardIcon {...props} />;
     case "admin":
       return <AdminIcon {...props} />;
+    case "history":
+      return <HistoryIcon {...props} />;
     case "menu":
       return (
         <svg

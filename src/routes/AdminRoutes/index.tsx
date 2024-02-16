@@ -37,6 +37,9 @@ import {
   AdminCreate,
   ProfileEdit,
   AdminDetail,
+  EditAdminPermission,
+  CounterDetails,
+  RiderDetails,
 } from "../element";
 import MovieMenu from "../../pages/menu";
 import Login from "../../pages/login";
@@ -61,6 +64,14 @@ const routes = [
       {
         path: "create",
         element: <AdminCreate />,
+      },
+      {
+        path: "edit/:id",
+        element: <AdminCreate />,
+      },
+      {
+        path: "edit/permissions/:id",
+        element: <EditAdminPermission />,
       },
       {
         path: ":id",
@@ -109,6 +120,32 @@ const routes = [
       {
         path: "create",
         element: <CustomerForm />,
+      },
+    ],
+  },
+  {
+    path: "/counters",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "",
+        element: <CounterList />,
+      },
+      {
+        path: "create",
+        element: <CounterCreate />,
+      },
+      {
+        path: "edit/:id",
+        element: <CounterCreate />,
+      },
+      {
+        path: ":id",
+        element: <CounterDetails />,
+      },
+      {
+        path: "riders/:id",
+        element: <RiderDetails />,
       },
     ],
   },

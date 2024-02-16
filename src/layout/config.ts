@@ -23,8 +23,8 @@ export const items: ISide[] = [
     name: "Admins",
     icon: "admin",
     children: [
-      { name: "All Admins", link: "/admin", icon: "user" },
-      { name: "Create Admins", link: "/admin/create", icon: "parcel" },  
+      { name: "All Admins", link: "/admin" },
+      { name: "Create Admins", link: "/admin/create" },  
     ],
   },
   {
@@ -32,11 +32,8 @@ export const items: ISide[] = [
     name: "Counters",
     icon: "counter",
     children: [
-      { name: "Customer reports", link: "/reports/customers", icon: "user" },
-      { name: "Parcel reports", link: "/reports/parcels", icon: "parcel" },
-      { name: "Voucher reports", link: "/reports/vouchers", icon: "voucher" },
-      { name: "Counter reports", link: "/reports/counters", icon: "counter" },
-  
+      { name: "All Counters", link: "/counters"},
+      { name: "Create Counter", link: "/counters/create" },  
     ],
   },
   {

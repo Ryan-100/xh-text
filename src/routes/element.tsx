@@ -32,9 +32,13 @@ export const AdminCreate = Loadable(lazy(() => import("../pages/admin/Create")))
 
 export const AdminDetail = Loadable(lazy(() => import("../pages/admin/Detail")));
 
+export const EditAdminPermission = Loadable(lazy(() => import("../pages/admin/EditPermission")));
+
 export const RiderList = Loadable(lazy(() => import("../pages/rider")));
 
 export const RiderForm = Loadable(lazy(() => import("../pages/rider/Create")));
+
+export const RiderDetails = Loadable(lazy(() => import("../pages/rider/RiderDetail")));
 
 export const ParcelLists = Loadable(lazy(()=>import("../pages/parcelList/ParcelLists")));
 
@@ -64,9 +68,11 @@ export const CityList = Loadable(lazy(()=>import("../pages/setting/city/CityList
 
 export const CityCreate = Loadable(lazy(()=>import("../pages/setting/city/Create")))
 
-export const CounterList = Loadable(lazy(()=>import("../pages/setting/counter/CounterList")))
+export const CounterList = Loadable(lazy(()=>import("../pages/counter/CounterList")))
 
-export const CounterCreate = Loadable(lazy(()=>import("../pages/setting/counter/Create")))
+export const CounterCreate = Loadable(lazy(()=>import("../pages/counter/CreateorEdit")))
+
+export const CounterDetails = Loadable(lazy(()=>import("../pages/counter/CounterDetail")))
 
 export const RoleList = Loadable(lazy(()=>import("../pages/setting/roles/RoleList")))
 

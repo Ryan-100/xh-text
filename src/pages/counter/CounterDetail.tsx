@@ -11,10 +11,10 @@ const AdminDetail = () => {
     navigate(-1);
   };
   const goToEdit = () => {
-    navigate("/admin/edit/123");
+    navigate("/counters/edit/123");
   };
   const goToEditPermission = () => {
-    navigate("/admin/edit/permissions/123");
+    navigate("/counters/edit/permissions/123");
   };
   return (
     <div className="flex flex-col space-y-6">
@@ -26,12 +26,10 @@ const AdminDetail = () => {
           <Icon name="leftArrow" />
           <p className="">Back</p>
         </div>
-        <p className="text-2xl font-semibold">Admin Detail</p>
+        <p className="text-2xl font-semibold">Counter Detail</p>
         <div className="flex items-center text-base font-normal  h-10">
-          <p className="py-2 px-4 border-r border-r-gray text-gray">
-            Admin List
-          </p>{" "}
-          <p className=" py-2 px-4">Admin Detail</p>
+          <p className="py-2 px-4 border-r border-r-gray text-gray">Counter</p>{" "}
+          <p className=" py-2 px-4">Counter Detail</p>
         </div>
       </div>
       <div className="bg-white rounded-[10px] shadow flex flex-col items-start p-6 space-y-6">
@@ -60,32 +58,8 @@ const AdminDetail = () => {
           </div>
         </div>
         <Divider className="w-full" />
-        <div className="flex space-x-6 justify-start">
-          <img
-            src="/profile.png"
-            alt="profile"
-            className="w-[252px] h-[252px]"
-          />
+        <div className="flex space-x-[176px] justify-start w-full">
           <div className="flex flex-col">
-            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1">
-              <p className="text-gray">Admin Name</p>
-              <p className="text-secondary w-[235px]">Hsu Hnin Wai</p>
-            </div>
-            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between">
-              <p className="text-gray">Admin ID</p>
-              <div className="flex items-center justify-normal space-x-2 w-[235px]">
-                <p className="text-secondary">SuperAdmin_HHW </p>
-                <Icon name="copy" />
-              </div>
-            </div>
-            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1">
-              <p className="text-gray">Phone</p>
-              <p className="text-secondary w-[235px]">09976666666</p>
-            </div>
-            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between">
-              <p className="text-gray">Role</p>
-              <p className="text-secondary w-[235px]">Super Admin</p>
-            </div>
             <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1">
               <p className="text-gray">Branch</p>
               <p className="text-secondary w-[235px]">Lashio</p>
@@ -109,24 +83,28 @@ const AdminDetail = () => {
               <p className="text-secondary w-[235px]">SuperAdmin_HHW</p>
             </div>
           </div>
+          <img
+            src="/counter.svg"
+            alt="profile"
+            className="w-[247px] h-[184px] self-center place-self-start"
+          />
         </div>
-        <Divider className="w-full" />
-        <div className="w-full flex flex-col space-y-4">
-          <div className="w-full flex items-center justify-between">
-            <p className="text-sm md:text-base xl:text-xl">Permissions</p>
-            <div
-              onClick={goToEditPermission}
-              className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
-            >
-              <Icon name="edit1" width={24} height={24} />
-              <p className="text-[20px] text-white">Edit Permission</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 grid-rows-5 gap-2">
-            {permissionData.map((data, i) => (
-              <BulletList key={i}>{data}</BulletList>
-            ))}
-          </div>
+      </div>
+      <div className="bg-white rounded-[10px] shadow p-6 grid grid-cols-12 grid-rows-1">
+        <div className="w-[136px]   col-span-2 flex flex-col space-y-2">
+          <p className="h-[48px] text-gray">Total Admins</p>
+          <p className="h-[48px] text-gray">Total Riders</p>
+          <p className="h-[48px] text-gray">Total Scanned Packages</p>
+        </div>
+        <div className="w-[253px]   col-span-2 flex flex-col space-y-2">
+          <p className="h-[48px]">3</p>
+          <p className="h-[48px]">15</p>
+          <p className="h-[48px]">1532</p>
+        </div>
+        <div className=" col-span-2 flex flex-col space-y-2">
+          <p className="h-[48px] text-primary">View All</p>
+          <p className="h-[48px] text-primary">View All</p>
+          <p className="h-[48px] text-primary">View All</p>
         </div>
       </div>
     </div>
@@ -134,11 +112,3 @@ const AdminDetail = () => {
 };
 
 export default AdminDetail;
-
-const BulletList = styled.li`
-  display: list-item;
-  font-size: 16px;
-  height: 24px;
-  list-style-image: url("/list.svg");
-  padding-inline-start: 12px;
-`;
