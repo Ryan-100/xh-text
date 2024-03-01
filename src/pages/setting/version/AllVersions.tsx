@@ -1,257 +1,129 @@
-import { useRef, useState } from "react";
-import { TextField } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
-import { versionRows } from "../../../layout/config";
-import Button from "../../../components/form/Button";
-import Datatable from "../../../components/table/datatable";
-import Modal from "../../../components/Modal";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import InputSelect from "../../../components/form/InputSelect";
+import Icon from "../../../icons";
+import { roleOptions } from "../../../layout/config";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
-const AllVersions = () => {
-  const [data, setData] = useState(versionRows);
-  const [editRowId, setEditRowId] = useState(null);
-  const [editedData, setEditedData] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [iseditRow, setIsEditRow] = useState(false);
-  const apiRef = useRef(null);
-
-
-  const handleProcessRowUpdate = (updatedRow, originalRow) => {
-    console.log(updatedRow, originalRow, "rows");
-    handleSave();
-    return updatedRow;
+const RiderReportDetail = () => {
+  const { control } = useForm({ mode: "onChange" });
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
   };
 
-  const handleUpdateChange = (id) => {
-    setData((prevData) =>
-      prevData.map((item) =>
-        item.id === id ? { ...item, update: !item.update } : item
-      )
-    );
-  };
-
-
-  const versionColumns: GridColDef[] = [
-    { field: "no", headerName: "No.", width: 70 },
+  const versionHistory = [
     {
-      field: "os",
-      headerName: "OS Type",
-      align: "center",
-      headerAlign: "center",
-      width: 180,
+      id: 1,
+      date: "11 Sep 2023, 11:00:00 AM",
+      application: "User Application",
+      version: "Ver 3.2.1",
+      link: "www.link.com",
+      created_by: "SuperAdmin_HHW",
     },
     {
-      field: "app",
-      headerName: "App name",
-      align: "center",
-      headerAlign: "center",
-      width: 180,
+      id: 12,
+      date: "11 Sep 2023, 11:00:00 AM",
+      application: "User Application",
+      version: "Ver 3.2.1",
+      link: "www.link.com",
+      created_by: "SuperAdmin_HHW",
     },
     {
-      field: "link",
-      headerName: "Link",
-      align: "center",
-      headerAlign: "center",
-      width: 230,
-      renderCell: (params) => {
-        return <a target="_blank" className="text-emerald-800 hover:underline" href={params.row.link}>{params.row.link}</a>;
-      },
-    },
-    {
-      field: "version",
-      headerName: "Current Version",
-      align: "center",
-      headerAlign: "center",
-      width: 180,
+      id: 13,
+      date: "11 Sep 2023, 11:00:00 AM",
+      application: "User Application",
+      version: "Ver 3.2.1",
+      link: "www.link.com",
+      created_by: "SuperAdmin_HHW",
     },
   ];
 
-  const actionColumn: GridColDef[] = [
-    {
-      field: "update",
-      headerName: "Force Update",
-      width: 180,
-      align: "center",
-      headerAlign: "center",
-      renderCell: (params) => {
-        const updateText = params.row.update ? "On" : "Off";
-        return (
-          <div className={`${updateText === "On" ? "onButton" : "offButton"}`}>
-            <button onClick={() => handleToggleSwitch(params.row.id)}>
-              {updateText}
-            </button>
-          </div>
-        );
-      },
-    },
-  
-    {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <div
-              className="editButton"
-              onClick={() => handleEdit(params.row.id)}
-            >
-              Edit
-            </div>
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
-            >
-              Delete
-            </div>
-          </div>
-        );
-      },
-    },
-  ];
-
-  const handleEdit = (id) => {
-    setEditRowId(id);
-
-    // Find the corresponding row data for the given id
-    const selectedRow = data.find((row) => row.id === id);
-
-    // Set the edited data in the state
-    setEditedData(selectedRow);
-
-    // Open the modal
-    setIsEditRow(true);
-  };
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
-
-  const handleSave = () => {
-    // Update the data with the edited data
-    const newData = data.map((row) => (row.id === editRowId ? editedData : row));
-    setData(newData);
-
-    // Close the modal and reset edit states
-    setIsModalOpen(false);
-    setIsEditRow(false);
-    setEditRowId(null);
-    setEditedData(null);
-  };
-
-  const handleCancelEdit = () => {
-    // Close the modal and reset edit states
-    setIsEditRow(false);
-    setIsModalOpen(false);
-    setEditRowId(null);
-    setEditedData(null);
-  };
-
-  const handleToggleSwitch = (id) => {
-    setEditRowId(id);
-    setIsModalOpen(true);
-  };
-
-  const handleModalConfirm = () => {
-    // Implement your logic to handle the switch state change
-    handleUpdateChange(editRowId);
-    // Close the modal
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    // Reset state without saving changes
-    setIsModalOpen(false);
-    setIsEditRow(false);
-    setEditRowId(null);
-  };
   return (
-    <>
-    <div className="p-2 md:p-5 w-full  flex flex-col space-y-6">
-      <div className="self-end">
-      <Link to="create">
-          <Button>+ Create</Button>
-        </Link>
+    <div className="flex flex-col space-y-6">
+      <div className="flex justify-between items-center">
+        <div
+          onClick={goBack}
+          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
+        >
+          <Icon name="leftArrow" />
+          <p className="">Back</p>
+        </div>
+        <div className="text-center">
+          <p className="text-2xl font-semibold">Application Version History</p>
+        </div>
+        <div className="flex items-center text-base font-normal  h-10">
+          <p className="py-2 px-2 border-r border-r-gray text-gray">
+            Application Version
+          </p>
+          <p className="py-2 px-2">Version History</p>
+        </div>
       </div>
-      <Datatable
-        title="Version Information"
-        rows={data}
-        columns={versionColumns.concat(actionColumn)}
-        apiRef={apiRef}
-        editRowId={editRowId}
-        updateRow={handleProcessRowUpdate}
-      />
-    </div>
-    <Modal
-        open={iseditRow || isModalOpen}
-        onClose={handleCancelEdit}
-        title={isModalOpen?"Confirm Switch State":"Edit Version Updates"}
 
+      <div className="flex flex-col space-y-1 w-[344px]">
+        <p className="text-base">Filter By Application</p>
+        <div className="w-[344px]">
+          <InputSelect
+            fullWidth
+            name="role"
+            control={control}
+            label={""}
+            options={roleOptions}
+          />
+        </div>
+      </div>
+      <Table
+        sx={{
+          ".MuiTableCell-head ": {
+            backgroundColor: "#ECEDEF",
+            fontSize: "20px",
+          },
+          "& .MuiTableCell-root": {
+            borderLeft: "1px solid rgba(224, 224, 224, 1)",
+          },
+          "& .MuiTableCell-body": {
+            fontSize: "16px",
+          },
+
+          backgroundColor: "white",
+          borderRadius: "10px",
+        }}
       >
-        {editedData && (
-          <>
-            <TextField
-              variant="standard"
-              label="OS Type"
-              value={editedData.os}
-              onChange={(e) => setEditedData({ ...editedData, os: e.target.value })}
-            />
-            <TextField
-              variant="standard"
-              label="App name"
-              value={editedData.app}
-              onChange={(e) => setEditedData({ ...editedData, os: e.target.value })}
-            />
-            <TextField
-              variant="standard"
-              label="Link"
-              value={editedData.link}
-              onChange={(e) => setEditedData({ ...editedData, link: e.target.value })}
-            />
-            <TextField
-              variant="standard"
-              label="Current Version"
-              value={editedData.version}
-              onChange={(e) => setEditedData({ ...editedData, version: e.target.value })}
-            />
-            <div className="flex justify-between">
-              <p>Force Update : </p>
-              <button
-                className={`${editedData.update ? "onButton" : "offButton"}`}
-                onClick={() =>  setEditedData((prevData) => ({
-                  ...prevData,
-                  update: !prevData.update,
-                }))}
-                >
-                {editedData.update ? "On" : "Off"}
-              </button>
-            </div>
-            <div className="flex justify-end space-x-2">
-              <div className="deleteButton" onClick={handleCancelEdit}>
-                Cancel
-              </div>
-              <div className="editButton" onClick={handleSave}>
-                Save
-              </div>
-            </div>
-            {/* Add more fields as needed */}
-          </>
-        )}
-        {
-          isModalOpen && <> <p>Are you sure you want to change the switch state?</p>
-          <div className="flex justify-end space-x-2">
-            <div className="deleteButton" onClick={handleCancel}>
-              Cancel
-            </div>
-            <div className="editButton" onClick={handleModalConfirm}>
-              Confirm
-            </div>
-          </div></>
-        }
-      </Modal>
-    
-    </>
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">Date</TableCell>
+            <TableCell align="center">Application</TableCell>
+            <TableCell align="center">Version</TableCell>
+            <TableCell align="center">Version Link</TableCell>
+            <TableCell align="center">Created By</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {versionHistory.map((data) => (
+            <TableRow>
+              <TableCell align="center">{data.date}</TableCell>
+              <TableCell align="center">{data.application}</TableCell>
+              <TableCell align="center">{data.version}</TableCell>
+              <TableCell align="center">
+                <div className="flex items-center justify-center space-x-2">
+                  <Icon name="copylink" />
+                  <p className="text-primary">Copy Link</p>
+                </div>
+              </TableCell>
+              <TableCell align="center">{data.created_by}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 
-export default AllVersions;
+export default RiderReportDetail;

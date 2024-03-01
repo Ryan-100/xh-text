@@ -3,13 +3,14 @@ import {getToken} from '../../service/auth'
 const client = axios.create();
 const token = getToken();
 
+console.log(token,'token')
+
 client.interceptors.request.use(
   async config => {
-    config.baseURL = process.env.REACT_APP_API_ENDPOINT;
+    config.baseURL = 'http://64.23.137.248:2850/api/';
     config.headers['Content-Type'] = 'application/json';
     config.headers['Accept'] = 'application/json';
     config.headers['Authorization'] = `Bearer ${token ? token : ''}`;
-    config.headers['X_API_TOKEN'] = process.env.X_API_TOKEN;
     return config;
   },
   error => {

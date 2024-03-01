@@ -8,15 +8,15 @@ const RiderDetail = () => {
   const goBack = () => {
     navigate(-1);
   };
-  const goToEdit = () => {
-    navigate("edit");
+  const goToDeliveredHistory = () => {
+    navigate("/counters/delivered-history");
   };
   return (
     <div className="flex flex-col space-y-6">
       <div className="flex justify-between items-center mb-[2px]">
         <div
           onClick={goBack}
-          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3"
+          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
         >
           <Icon name="leftArrow" />
           <p className="">Back</p>
@@ -45,7 +45,7 @@ const RiderDetail = () => {
           </div>
           <div className="flex items-center space-x-6">
             <div
-              onClick={goToEdit}
+              onClick={goToDeliveredHistory}
               className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
             >
               <Icon name="history" width={24} height={24} />

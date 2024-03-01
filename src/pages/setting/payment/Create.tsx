@@ -1,134 +1,129 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import Button from "../../../components/form/Button";
-import InputSelect from "../../../components/form/InputSelect";
 import { useNavigate } from "react-router-dom";
-import MUIinput from "../../../components/form/MUIinput";
-import { counterOptions } from "../../../layout/config";
+import InputSelect from "../../../components/form/InputSelect";
+import Icon from "../../../icons";
+import { counterOptions, roleOptions } from "../../../layout/config";
+import InputField from "../../../components/form/InputFiled";
 
-
-
-
-export const switchOptions = [
-  { value: true, label: "on" },
-  { value: false, label: "off" },
-];
-
-const Create = () => {  
-  const [iconImage, setIconImage] = useState<string | undefined>(
-  undefined
-);
-const [imageFile, setImageFile] = useState<File | null>(null);
+const PaymentMethodCreate = () => {
+  const [source, setSource] = React.useState<string | undefined>(undefined);
+  const [file, setFile] = React.useState<File | null>(null);
+  const { control } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
-  const { control, handleSubmit, watch } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      // Specify your default values here
-      method: "",
-      switch: "",
-      city:"",
-    },
-  });
   const goBack = () => {
     navigate(-1);
   };
 
-  const uploadIconImage = (event) => {
+  const updateFile = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       const file: File = event.target.files[0];
-      setImageFile(file);
+      setFile(file);
+
+      if (file.size > 100 * 1024) {
+        alert("File size exceeds the limit of 100 KB.");
+        return;
+      }
+
+      setFile(file);
+
+      // Get file name
+      const fileName = file.name;
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
       reader.onloadend = (e: ProgressEvent<FileReader>) => {
         if (e.target && e.target.result) {
-          setIconImage(e.target.result.toString());
+          setSource(fileName);
         }
       };
-      // setOpenSuccessModal(true);
     }
   };
   return (
-    <form className="w-full flex flex-col items-center justify-center">
-      <div className="w-[260px] md:w-[460px] flex flex-col items-center space-y-4">
-        <p className="font-bold text-lg my-3 self-start">Creat payment type</p>
-        {/* <div className="self-start">
-          <MUIRadioGroup
-            name="device"
-            control={control}
-            options={deviceOptions}
-          />
-        </div> */}
-        <div className="flex items-center justify-center w-full">
-          <div className="w-1/3">
-           <img className="w-16 h-16 md:w-24 md:h-24 object-contain border" src={iconImage?iconImage:"/icon.png"} />
-          </div>
-          <div className="w-2/3">
-
-          <label htmlFor="file-input" className=" border border-1 p-1 rounded-md cursor-pointer">
-            <input
-              id="file-input"
-              type="file"
-              accept=".png"
-              onChange={uploadIconImage}
-              hidden
-            />
-            Choose icon
-          </label>
+    <div className="flex flex-col space-y-6">
+      <div className="flex justify-between items-center">
+        <div
+          onClick={goBack}
+          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
+        >
+          <Icon name="leftArrow" />
+          <p className="">Back</p>
         </div>
+        <div className="text-center">
+          <p className="text-2xl font-semibold">Create Payment Method</p>
         </div>
-        <div className="flex items-center justify-center w-full">
-          <p className="w-1/3">Method name</p>
-          <div className="w-2/3">
-            <MUIinput
-              label="Enter method name"
-              name="method"
-              control={control}
-              fullWidth
-            />
-          </div>
-        </div>
-
-        <div className="flex items-center justify-center w-full">
-          <p className="w-1/3">City</p>
-          <div className="w-2/3">
-          <InputSelect
-              label="Select city"
-              name="city"
-              control={control}
-              options={counterOptions}
-              fullWidth
-            />
-          </div>
-        </div>
-
-          <div className="flex items-center justify-center w-full">
-          <p className="w-1/3">
-            On/Off
+        <div className="flex items-center text-base font-normal  h-10">
+          <p className="py-2 px-2 border-r border-r-gray text-gray">
+            Payment Method
           </p>
-          <div className="w-2/3">
-            <InputSelect
-              label="Select open or close"
-              name="switch"
-              control={control}
-              options={switchOptions}
-              fullWidth
-            />
-          </div>
-        </div>
-
-       
-
-        <div className=" w-full flex self-start items-center justify-between">
-          <div className="deleteButton" onClick={goBack}>
-            Back
-          </div>
-          <Button className="">Submit</Button>
+          <p className="py-2 px-2">Create Payment Method</p>
         </div>
       </div>
-    </form>
+      <div className="bg-white p-6 w-full flex flex-col space-y-4 rounded-[10px] drop-shadow">
+        <div className="flex items-center justify-between w-[780px]">
+          <p className="text-sm md:text-base xl:text-xl text-gray">City</p>
+          <div className="w-[528px]">
+            <InputSelect
+              fullWidth
+              name="city"
+              control={control}
+              label={""}
+              options={counterOptions}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-start justify-between w-[780px]">
+          <p className="text-sm md:text-base xl:text-xl text-gray">
+            Payment Method Name
+          </p>
+          <div className="w-[528px]">
+            <InputField
+              name="payment"
+              control={control}
+              placeholder="E.g KBZ Pay"
+              label={""}
+            />
+          </div>
+        </div>
+        <div className="flex items-center justify-between w-[780px]">
+          <p className="text-sm md:text-base xl:text-xl text-gray">
+            Payment Method Photo
+          </p>
+          <div className="w-[528px]">
+            <div className="flex items-center space-x-6">
+              <label htmlFor="file-input" className="cursor-pointer">
+                <input
+                  id="file-input"
+                  type="file"
+                  accept=".jpg,.png"
+                  onChange={updateFile}
+                  hidden
+                />
+                <div className="rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
+                  <Icon name="edit1" width={24} height={24} />
+                  <p className="text-[20px] text-white">Select File</p>
+                </div>
+              </label>
+              <p className="text-gray">{source && source}</p>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-between w-[780px]">
+          <div className="pl-[256px] text-center">
+            <p className="text-gray">Acceptable formats : jpg, png only</p>
+            <p className="text-gray">Max file size : 500 KB</p>
+            <p className="text-gray">Recommend : 1:1 (Ratio Size)</p>
+          </div>
+        </div>
+      </div>
+      <div className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
+        <Icon name="add" width={24} height={24} />
+        <p className="text-[20px] text-white">Create</p>
+      </div>
+    </div>
   );
 };
 
-export default Create;
+export default PaymentMethodCreate;

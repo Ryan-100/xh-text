@@ -1,40 +1,52 @@
 import React from "react";
+import { Dialog } from "@mui/material";
+import Icon from "../../icons";
 
-const Modal = ({ open, onClose,title ,children }) => {
-  const modalClasses = open
-    ? "fixed inset-0 flex items-center justify-center !z-[999]"
-    : "hidden";
-
+const ModalComponent = ({ open, onClose, onConfirm, title, body }) => {
   return (
-    <div className={modalClasses}>
-      <div className="fixed inset-0 bg-black opacity-50"  onClick={onClose}></div>
-      <div className="absolute bg-white p-8 rounded-lg flex flex-col space-y-4 min-w-[300px]">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        outline: 0,
+        "& .MuiPaper-root ": {
+          borderRadius: "10px",
+          boxShadow: "none",
+        },
+        borderRadius: "10px",
+      }}
+    >
+      <div className="bg-white p-6 rounded-[10px] flex flex-col items-center space-y-4 min-w-[334px] h-fit">
         <div className="flex items-center justify-between">
-          <p className="text-xl font-semibold">{title}</p>
-        <button
-          className="self-end text-gray-700 hover:text-gray-900"
-          onClick={onClose}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button>
+          <p className="text-xl font-semibold text-primary">{title}</p>
         </div>
-        {children}
+        <div className="flex flex-col items-center justify-center text-center w-[316px]">
+            <p className="">
+              {body}
+            </p>
+          </div>
+        <div className="flex space-x-4">
+          <div
+            className="buttonOutlined w-[118px] h-10 space-x-1 "
+            onClick={onClose}
+          >
+            <Icon name="cancel" />
+            <p className="font-semibold ">Cancel</p>
+          </div>
+          <div
+            className="buttonPrimary w-[118px] h-10 space-x-1 "
+            onClick={onConfirm}
+          >
+            <Icon name="success" width={16} height={16} />
+            <p className="font-semibold text-white">Confirm</p>
+          </div>
+        </div>
       </div>
-    </div>
+    </Dialog>
   );
 };
 
-export default Modal;
+export default ModalComponent;

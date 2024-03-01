@@ -16,9 +16,11 @@ const InputSelect = ({ name, label, options, control, fullWidth }) => {
           select
           sx={{
             backgroundColor: "white",
-            borderRadius:'10px',
             ".MuiFormLabel-root": {
               lineHeight: "13px",
+            },
+            ".MuiInputBase-root": {
+              borderRadius:'10px',
             },
             ".MuiOutlinedInput-input": {
               color: "#444240",

@@ -117,7 +117,7 @@ const AdminList = () => {
 
   return (
     <div className="">
-      <div className="w-full flex flex-col justify-center items-end md:flex-row md:items-center md:justify-between">
+      <div className="pb-6 w-full flex flex-col justify-center items-end md:flex-row md:items-center md:justify-between">
         <div className="flex items-center space-x-6">
           <div className="">
             <p className="text-xs md:text-sm xl:text-base leading-6">

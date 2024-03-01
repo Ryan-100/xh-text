@@ -1,133 +1,120 @@
-import React, { useRef, useState } from "react";
+import React from "react";
+import { Divider } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Icon from "../../icons";
-import MuiTextarea from "../../components/form/TextArea";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { Alert } from "@mui/material";
+import { permissionData } from "../../layout/config";
+import styled from "styled-components";
 
-const Detail = () => {
-  const [isDelivery, setIsDelivery] = useState(true);
-  const [isCopied, setIsCopied] = useState(false);
-  const textareaRef = useRef(null);
-
-  const { control, getValues } = useForm({
-    defaultValues: {
-      address: `收货人: 小胡转xh2022
-    手机号码: 19912930888
-    所在地区: 云南省临沧市沧源佤族自治县勐董镇
-    详细地址:xh2022勐董镇巴烧克美食城46栋(勿删小胡 xh2022 XH Testing 0987654321)`,
-    },
-  });
-  const handleCopyClick = () => {
-    if (textareaRef.current) {
-      navigator.clipboard
-        .writeText(getValues('address'))
-        .then(() => {
-          setIsCopied(true);
-        })
-        .catch((err) => {
-          console.error("Unable to copy text to clipboard", err);
-        });
-    }
+const CustomerDetail = () => {
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
   };
-  const setPickup = () => {
-    setIsDelivery((p) => !p);
+  const goToEdit = () => {
+    navigate("/admin/edit/123");
+  };
+  const goToEditPermission = () => {
+    navigate("/admin/edit/permissions/123");
   };
   return (
-    <div className="w-full">
-      <p className="font-bold text-lg my-3 self-start">Customer details</p>
-      <div className="flex flex-col w-full p-2 md:p-4">
-        <div className="flex justify-between items-center pb-2 md:pb-4">
-          <div className="flex flex-col space-y-4">
-            <p className="font-bold">始 - 至</p>
-            <p className="">2023-03-12 - 2023-05-18</p>
-          </div>
-          <div className="flex flex-col space-y-4">
-            <p className="font-bold">总包裹数量</p>
-            <p className="">10 件 - 37527 MMK</p>
-          </div>
-          <Link to={'/customers/history/'+1} className="w-24 h-20 md:w-24 md:h-24  p-2 bg-slate-600 text-center text-white">
-            历史 记录
-          </Link>
+    <div className="flex flex-col space-y-6">
+      <div className="flex justify-between items-center mb-[2px]">
+        <div
+          onClick={goBack}
+          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
+        >
+          <Icon name="leftArrow" />
+          <p className="">Back</p>
         </div>
-        <div className="grid grid-cols-1 grid-rows-2">
-          <div className="grid grid-cols-12">
-            <div className="border border-stone-300 col-span-3 p-2 md:p-4 md:col-span-2">
-              <p>编号</p>
-              <p>订货姓名</p>
-              <p>真实姓名</p>
-              <p>电话</p>
-              <p>城市</p>
-              <p>区域</p>
-              <p>地址</p>
-              <p>所属店</p>
-              <p>注册日期</p>
-              <p>密码</p>
-              <p>Point</p>
+        <p className="text-2xl font-semibold">Customer Detail</p>
+        <div className="flex items-center text-base font-normal  h-10">
+          <p className="py-2 px-4 border-r border-r-gray text-gray">
+            Customer List
+          </p>{" "}
+          <p className=" py-2 px-4">Customer Detail</p>
+        </div>
+      </div>
+      <div className="bg-white rounded-[10px] shadow flex flex-col items-start p-6 space-y-6">
+        <div className="w-full flex items-center justify-between">
+          <div className="flex items-center justify-center space-x-[84px]">
+            <div className="flex flex-col">
+              <p className="text-gray leading-6">Joined Date</p>
+              <p className="text-secondary leading-6">9 Sep 2022</p>
             </div>
-            <div className="border border-stone-300 col-span-4 p-2 md:p-4 md:col-span-4">
-              <p>xh2022</p>
-              <p>XH Testing</p>
-              <p>XH Testing</p>
-              <p>0987654321</p>
-              <p>腊戌</p>
-              <p>1保</p>
-              <p>L5A</p>
-              <p>12 保</p>
-              <p>2023-03-11</p>
-              <p>123</p>
-              <p>0</p>
-            </div>
-            <div className="border border-stone-300 col-span-2 p-2 md:p-4 md:col-span-4">
-              0
-            </div>
-            <div className="border border-stone-300 col-span-3 p-2 md:p-4 md:col-span-2">
-              <div
-                onClick={setPickup}
-                className={`w-14 flex items-center justify-center text-[8px] md:text-base md:w-20 ${
-                  isDelivery ? " onButton" : "defaultButton"
-                } transition-all`}
-              >
-                {isDelivery ? (
-                  <p>
-                    派送
-                    <Icon name={"on"} />
-                  </p>
-                ) : (
-                  <p>
-                    派送 <Icon name={"off"} />
-                  </p>
-                )}
-              </div>
+            <div className="flex flex-col">
+              <p className="text-gray leading-6">Now</p>
+              <p className="text-secondary leading-6">9 Sep 2022</p>
             </div>
           </div>
-          <div className="col-span-12">
-            <div className="text-center border border-stone-300 border-y-0 flex p-4">
-              <MuiTextarea name="address" control={control} label="" placeholder="" rows={4} ref={textareaRef} />
-              <div onClick={handleCopyClick} className="border border-stone-300 flex items-center justify-center w-10 h-10 cursor-pointer">
+          <div className="flex items-center space-x-6">
+            <div
+              onClick={goToEdit}
+              className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
+            >
+              <Icon name="history" width={24} height={24} />
+              <p className="text-[20px] text-white">Parcel History</p>
+            </div>
+          </div>
+        </div>
+        <Divider className="w-full" />
+        <div className="flex space-x-6 justify-start">
+          <img
+            src="/profile.png"
+            alt="profile"
+            className="w-[252px] h-[252px]"
+          />
+          <div className="flex flex-col">
+            <div className="h-fit w-[411px] py-3 px-4 flex items-start justify-between bg-gray-light-1">
+              <p className="text-gray">Rider Name</p>
+              <p className="text-secondary w-[235px]">
+                Myint Thu Thu Htet Wai Yan Min Hein Nyi Nyi
+              </p>
+            </div>
+            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between">
+              <p className="text-gray">Customer ID</p>
+              <div className="flex items-center justify-normal space-x-2 w-[235px]">
+                <p className="text-secondary">LABAER012345 </p>
                 <Icon name="copy" />
               </div>
             </div>
-            {isCopied && <Alert
-              onClose={() => {
-                setIsCopied(false);
-              }}
-            >
-             Successfully copied to clipboard — check it out!
-            </Alert>}
-            <div className="border border-stone-300 flex items-center justify-center p-4">
-              <Link to='/customers/edit/id' className="defaultButton w-16 text-center">
-                <Icon name="edit" color="#fff" fillColor="#fff" />
-              </Link>
+            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1">
+              <p className="text-gray">Type</p>
+              <p className="text-secondary w-[235px]">Pick Up</p>
+            </div>
+            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between">
+              <p className="text-gray">Phone</p>
+              <p className="text-secondary w-[235px]">09976666666</p>
+            </div>
+            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1">
+              <p className="text-gray">Password</p>
+              <p className="text-secondary w-[235px]">123456</p>
+            </div>
+            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between">
+              <p className="text-gray">Address</p>
+              <p className="text-secondary w-[235px]">
+                Lashio, Thiri Mahar Quarter, East Region, Station Street
+              </p>
+            </div>
+            <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1">
+              <p className="text-gray">Created By</p>
+              <p className="text-secondary w-[235px]">Self</p>
+            </div>
+          </div>
+          <div className="bg-gray-light-1 rounded-[10px] p-4 w-[252px] h-[192px] flex flex-col space-y-2">
+            <p className="font-medium text-black">China Destination Address</p>
+            <p className="text-sm font-normal">
+              LABAER012345 Lashio Block A East Region Near Lashio University
+              ABCDEF street House No. 12
+            </p>
+            <div className="bg-primary self-center w-[118px] h-10 rounded-[10px] flex items-center justify-center space-x-2">
+              <Icon name='copy' color='#fff' fillColor="#fff"/>
+              <p className="text-white font-semibold">Copy</p>
             </div>
           </div>
         </div>
-        <Link to="/customers" className="deleteButton w-16 text-center">
-          Back
-        </Link>
       </div>
     </div>
   );
 };
 
-export default Detail;
+export default CustomerDetail;

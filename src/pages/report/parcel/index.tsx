@@ -1,60 +1,145 @@
-import { useRef, useState } from "react";
-import { TextField } from "@mui/material";
+import React, { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { GridColDef } from "@mui/x-data-grid";
-import { parcelReports } from "../../../layout/config";
-import Button from "../../../components/form/Button";
+import {  incomeReportRows,incomeReportSheet } from "../../../layout/config";
+import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
-import { Link } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
+import { Divider, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import TableComponent from "../../../components/table/table";
 
-const ParcelReport = () => {
-  const [data, setData] = useState(parcelReports);
+const DailyReport = () => {
+  const [data, setData] = useState(incomeReportRows.daily);
+  const [sheet, setSheet] = useState(incomeReportSheet.daily)
+  const [daily, setDaily] = useState(true);
+  const [monthly, setMonthly] = useState(false);
+  const [yearly, setYearly] = useState(false);
   const apiRef = useRef(null);
+  const { control } = useForm({ mode: "onChange" });
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
+  };
 
-  const parcelColumns: GridColDef[] = [
+  const amountColumns: GridColDef[] = [
     {
-      field: "date",
-      headerName: "Date",
-
-      width: 250,
+      field: "no",
+      headerName: "No.",
+      width: 92,
     },
-    { field: "arrive_jiegao", headerName: "Arrive Jiegao", width: 150 },
-    { field: "arrive_lasio", headerName: "Arrive Lasio", width: 150 },
-    { field: "take_lasio", headerName: "Take Away Lasio", width: 150 },
-    { field: "arrive_laukkai", headerName: "Arrive Laukkai", width: 150 },
-    { field: "take_laukkai", headerName: "Take Away Laukkai", width: 150 },
-    { field: "arrive_muse", headerName: "Arrive Muse", width: 150 },
-    { field: "take_muse", headerName: "Take Away Muse", width: 150 },
+    {
+      field: "counter",
+      headerName: "Counter",
+      width: 257,
+    },
+    {
+      field: "income",
+      headerName: "Total Parcels",
+      width: 193,
+    },
+    {
+      field: "pickup",
+      headerName: "Pickup Parcels",
+      width: 214,
+    },
+    {
+      field: "delivery",
+      headerName: "Delivery Parcels",
+      width: 205,
+    },
   ];
 
+  const actionColumn: GridColDef[] = [
+    {
+      field: "action",
+      headerName: "Action",
+      width: 110,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => {
+        return (
+          <div className="cellAction">
+            <Link
+              to={"/reports/parcels/" + params.row.id}
+              className="buttonPrimary space-x-2 h-10"
+            >
+              <Icon name="details" />
+              <span>Detail</span>
+            </Link>
+          </div>
+        );
+      },
+    },
+  ];
+
+  const activeButton = `bg-primary text-white  w-[360px] h-[52px] flex items-center justify-between px-6 text-xl font-normal`;
+  const inactiveButton = `bg-gray-light-1 text-secondary w-[360px] h-[52px] flex items-center justify-between px-6 text-xl font-normal`;
+
+  const dailyHandler = () => {
+    setData(incomeReportRows.daily);
+    setDaily(true);
+    setMonthly(false);
+    setYearly(false);
+  };
+
+  const monthlyHandler = () => {
+    setData(incomeReportRows.monthly);
+    setMonthly(true);
+    setDaily(false);
+    setYearly(false);
+  };
+
+  const yearlyHandler = () => {
+    setData(incomeReportRows.yearly);
+    setMonthly(false);
+    setDaily(false);
+    setYearly(true);
+  };
+
+  const tableBodyData = <>
+  {sheet.map(data=>
+  <TableRow>
+    <TableCell colSpan={1} align="center">{data.key}</TableCell>
+    <TableCell colSpan={1} align="center">{data.value}</TableCell>
+  </TableRow>
+    )}
+</>
   return (
-    <div className="p-2 md:p-5">
-      <p className="font-bold text-lg">Parcel Reports</p>
-      <div className="w-full flex flex-col justify-center items-end md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center space-x-2 p-2">
-          <DatePicker
-            value={new Date()}
-            onlyMonthPicker
-            sort
-            style={{
-              height: "24px",
-              borderRadius: "8px",
-              fontSize: "14px",
-              padding: "16px 10px",
-            }}
-          />
-          <Button>Filter</Button>
+    <div className="flex flex-col space-y-6">
+
+      <div className="flex items-center rounded-[10px] overflow-hidden">
+        <div
+          className={daily ? activeButton : inactiveButton}
+          onClick={dailyHandler}
+        >
+          Today <Icon name="calendar" color={daily ? "#fff" : "#444240"} />
+        </div>
+        <Divider orientation="vertical" sx={{ backgroundColor: "#444240" }} />
+        <div
+          className={monthly ? activeButton : inactiveButton}
+          onClick={monthlyHandler}
+        >
+          Monthly
+          <Icon name="calendar" color={monthly ? "#fff" : "#444240"} />
+        </div>
+        <Divider orientation="vertical" sx={{ backgroundColor: "#444240" }} />
+        <div
+          className={yearly ? activeButton : inactiveButton}
+          onClick={yearlyHandler}
+        >
+          Yearly
+          <Icon name="calendar" color={yearly ? "#fff" : "#444240"} />
         </div>
       </div>
+      <TableComponent colSpan={2} header={"Today - 1 Feb 2024"} data={tableBodyData} />
+
       <Datatable
         rows={data}
-        columns={parcelColumns}
+        columns={amountColumns.concat(actionColumn)}
         apiRef={apiRef}
-        editRowId={""}
-        updateRow={() => {}}
       />
     </div>
   );
 };
 
-export default ParcelReport;
+export default DailyReport;

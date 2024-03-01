@@ -12,23 +12,52 @@ import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import PedalBikeIcon from "@mui/icons-material/PedalBike";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import PanoramaRoundedIcon from "@mui/icons-material/PanoramaRounded";
 import DvrIcon from "@mui/icons-material/Dvr";
-import ReceiptIcon from "@mui/icons-material/Receipt";
 import {
+  AdIcon,
   AddIcon,
   AdminIcon,
+  AdminPermission,
+  AdminRole,
+  AppVersion,
   ArrowLeft,
   ArrowRight,
+  BarCode,
+  BlockIcon,
+  CalendarIcon,
+  CancelIcon,
+  ChargesIcon,
+  CityBranch,
   CopyIcon,
+  CopyLinkIcon,
+  CurrencyIcon,
   DashboardIcon,
   DeleteIcon,
+  DeliveryIcon,
+  DestinationIcon,
   DetailIcon,
   EditIcon,
+  EyeIcon,
+  HelpCenter,
   HistoryIcon,
+  MUIRadioChecked,
+  MUIRadioIcon,
+  NotificationIcon,
+  OpenClose,
+  ParcelIcon,
+  ParcelTypeIcon,
+  PaymentMethod,
+  PeopleIcon,
+  PriceIcon,
   PrimaryDeleteIcon,
+  RegionIcon,
   SaveIcon,
+  SuccessIcon,
+  TermsAndPolicy,
+  UserGuide,
+  UserIcon,
+  WeightIcon,
   WhiteEditIcon,
 } from "./Icon";
 
@@ -48,6 +77,66 @@ const Icon: React.FC<IconProps> = (props) => {
       return <AdminIcon {...props} />;
     case "history":
       return <HistoryIcon {...props} />;
+    case "view":
+      return <EyeIcon {...props} />;
+    case "barcode":
+      return <BarCode {...props} />;
+    case "charges":
+      return <ChargesIcon {...props} />;
+    case "user":
+      return <UserIcon {...props} />;
+    case "weight":
+      return <WeightIcon {...props} />;
+    case "city":
+      return <CityBranch {...props} />;
+    case "block":
+      return <BlockIcon {...props} />;
+    case "region":
+      return <RegionIcon {...props} />;
+    case "people":
+      return <PeopleIcon {...props} />;
+    case "delivery":
+      return <DeliveryIcon {...props} />;
+    case "parcel":
+      return <ParcelIcon {...props} />;
+    case "noti":
+      return <NotificationIcon {...props} />;
+    case "app":
+      return <AppVersion {...props} />;
+    case "ads":
+      return <AdIcon {...props} />;
+    case "price":
+      return <PriceIcon {...props} />;
+    case "parcel1":
+      return <ParcelTypeIcon {...props} />;
+    case "admin-role":
+      return <AdminRole {...props} />;
+    case "admin-permission":
+      return <AdminPermission {...props} />;
+    case "currency":
+      return <CurrencyIcon {...props} />;
+    case "clock":
+      return <OpenClose {...props} />;
+    case "payment-method":
+      return <PaymentMethod {...props} />;
+    case "destination":
+      return <DestinationIcon {...props} />;
+    case "user-guide":
+      return <UserGuide {...props} />;
+    case "agent":
+      return <HelpCenter {...props} />;
+    case "terms":
+      return <TermsAndPolicy {...props} />;
+    case "success":
+      return <SuccessIcon {...props} />;
+    case "cancel":
+      return <CancelIcon {...props} />;
+    case "copylink":
+      return <CopyLinkIcon {...props} />;
+    case "radio":
+      return <MUIRadioIcon {...props} />;
+    case "radio-check":
+      return <MUIRadioChecked {...props} />;
     case "menu":
       return (
         <svg
@@ -66,8 +155,45 @@ const Icon: React.FC<IconProps> = (props) => {
           />
         </svg>
       );
-    case "user":
-      return <GroupsIcon />;
+    case "id":
+      return (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="12" cy="12" r="11.25" stroke="black" stroke-width="1.5" />
+          <path
+            d="M8.28406 6.92V17H6.33206V6.92H8.28406ZM14.0377 6.92C14.795 6.92 15.4884 7.02133 16.1177 7.224C16.747 7.42667 17.2857 7.73067 17.7337 8.136C18.1924 8.54133 18.5444 9.048 18.7897 9.656C19.0457 10.2533 19.1737 10.952 19.1737 11.752C19.1737 12.68 19.0244 13.48 18.7257 14.152C18.427 14.8133 18.0217 15.3573 17.5097 15.784C16.9977 16.2 16.4004 16.5093 15.7177 16.712C15.0457 16.904 14.3257 17 13.5577 17H10.5977V6.92H14.0377ZM12.5497 15.464H13.4137C13.883 15.464 14.3364 15.4107 14.7737 15.304C15.2217 15.1867 15.6164 14.9893 15.9577 14.712C16.299 14.4347 16.571 14.056 16.7737 13.576C16.987 13.096 17.0937 12.488 17.0937 11.752C17.0937 10.6853 16.7897 9.86933 16.1817 9.304C15.5844 8.73867 14.7737 8.456 13.7497 8.456H12.5497V15.464Z"
+            fill="black"
+          />
+        </svg>
+      );
+    case "location1":
+      return (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 11.25C13.5508 11.25 14.8125 9.98831 14.8125 8.4375C14.8125 6.88669 13.5508 5.625 12 5.625C10.4492 5.625 9.1875 6.88669 9.1875 8.4375C9.1875 9.98831 10.4492 11.25 12 11.25ZM12 7.5C12.5169 7.5 12.9375 7.92056 12.9375 8.4375C12.9375 8.95444 12.5169 9.375 12 9.375C11.4831 9.375 11.0625 8.95444 11.0625 8.4375C11.0625 7.92056 11.4831 7.5 12 7.5Z"
+            fill="black"
+          />
+          <path
+            d="M20.4375 8.4375C20.4375 3.78506 16.6524 0 12 0C7.34756 0 3.5625 3.78506 3.5625 8.4375C3.5625 10.278 4.14478 12.0272 5.24644 13.496L9.74916 19.4991C10.278 20.2041 11.1195 20.625 12 20.625C12.8805 20.625 13.722 20.2041 14.2509 19.499L18.7536 13.496C19.8552 12.0272 20.4375 10.278 20.4375 8.4375ZM17.2536 12.3709L12.751 18.3739C12.5716 18.6129 12.2979 18.75 12 18.75C11.7021 18.75 11.4284 18.6129 11.2491 18.374L6.74639 12.3709C5.89013 11.2293 5.4375 9.86911 5.4375 8.4375C5.4375 4.81894 8.38144 1.875 12 1.875C15.6186 1.875 18.5625 4.81894 18.5625 8.4375C18.5625 9.86911 18.1099 11.2293 17.2536 12.3709Z"
+            fill="black"
+          />
+          <path
+            d="M16.6875 23.0625C16.6875 22.5447 16.2678 22.125 15.75 22.125H8.25C7.73222 22.125 7.3125 22.5447 7.3125 23.0625C7.3125 23.5803 7.73222 24 8.25 24H15.75C16.2678 24 16.6875 23.5803 16.6875 23.0625Z"
+            fill="black"
+          />
+        </svg>
+      );
     case "rider":
       return <DirectionsBikeIcon />;
     case "newUser":
@@ -104,14 +230,8 @@ const Icon: React.FC<IconProps> = (props) => {
       );
     case "dollar":
       return <AttachMoneyIcon />;
-    case "parcel":
-      return <InventoryIcon />;
     case "parcel2":
       return <DvrIcon />;
-    case "weight":
-      return <BalanceIcon />;
-    case "city":
-      return <DomainIcon />;
     case "counter":
       return (
         <svg
@@ -152,7 +272,7 @@ const Icon: React.FC<IconProps> = (props) => {
         </svg>
       );
     case "add":
-      return <AddIcon />;
+      return <AddIcon {...props}/>;
     case "roles":
       return <ManageAccountsIcon />;
     case "payment":
@@ -176,8 +296,6 @@ const Icon: React.FC<IconProps> = (props) => {
           />
         </svg>
       );
-    case "voucher":
-      return <ReceiptIcon />;
     case "bicycle":
       return <PedalBikeIcon />;
     case "on":
@@ -193,31 +311,35 @@ const Icon: React.FC<IconProps> = (props) => {
     case "delete2":
       return <PrimaryDeleteIcon />;
     case "copy":
-      return (
-        <CopyIcon {...props} />
-      );
+      return <CopyIcon {...props} />;
+    case "calendar":
+      return <CalendarIcon {...props} />;
     case "save":
       return <SaveIcon />;
     case "details":
-      return <DetailIcon />;
+      return <DetailIcon {...props} />;
     case "leftArrow":
       return <ArrowLeft />;
     case "rightArrow":
       return <ArrowRight />;
     case "banner":
       return <PanoramaRoundedIcon />;
-    case "ads":
+
+    case "2marks":
       return (
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="currentColor"
-          className="bi bi-badge-ad"
+          width="16"
+          height="16"
           viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="m3.7 11 .47-1.542h2.004L6.644 11h1.261L5.901 5.001H4.513L2.5 11zm1.503-4.852.734 2.426H4.416l.734-2.426zm4.759.128c-1.059 0-1.753.765-1.753 2.043v.695c0 1.279.685 2.043 1.74 2.043.677 0 1.222-.33 1.367-.804h.057V11h1.138V4.685h-1.16v2.36h-.053c-.18-.475-.68-.77-1.336-.77zm.387.923c.58 0 1.002.44 1.002 1.138v.602c0 .76-.396 1.2-.984 1.2-.598 0-.972-.449-.972-1.248v-.453c0-.795.37-1.24.954-1.24z" />
-          <path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M11.12 4.17757C11.3901 4.42777 11.4063 4.84958 11.1561 5.11969L5.1519 11.6019C4.66025 12.1327 3.84041 12.1327 3.34876 11.6019L0.844566 8.89833C0.59437 8.6282 0.610518 8.2064 0.880639 7.9562C1.15075 7.706 1.57256 7.7222 1.82275 7.99227L4.25033 10.6131L10.1779 4.21365C10.4281 3.94353 10.8499 3.92738 11.12 4.17757ZM14.4537 4.17757C14.7237 4.42777 14.7399 4.84957 14.4897 5.11969L8.48553 11.6019C8.23533 11.872 7.81353 11.8882 7.54339 11.638C7.27326 11.3878 7.25713 10.966 7.50733 10.6959L13.5115 4.21365C13.7617 3.94353 14.1835 3.92738 14.4537 4.17757Z"
+            fill="white"
+          />
         </svg>
       );
     default:

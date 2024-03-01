@@ -16,7 +16,7 @@ const ProfileLayout = () => {
       <div className="flex justify-between items-center mb-[2px]">
         <div
           onClick={goBack}
-          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3"
+          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
         >
           <Icon name="leftArrow" />
           <p className="">Back</p>

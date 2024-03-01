@@ -6,20 +6,20 @@ import { TablePagination } from "@mui/material";
 import Icon from "../../icons";
 
 export type TableProps = {
-  title?: string;
   rows: any[];
   columns: GridColDef[];
   apiRef: MutableRefObject<GridApi | null>;
-  editRowId: string;
-  updateRow: (updatedRow: any, originalRow: any) => any;
+  editRowId?: string;
+  updateRow?: (updatedRow: any, originalRow: any) => any;
+  rowHeight?:number;
 };
 
 const Datatable = ({
-  title,
   rows,
   columns,
   apiRef,
   editRowId,
+  rowHeight,
   updateRow,
 }: TableProps) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -40,12 +40,11 @@ const Datatable = ({
   return (
     <div className="h-fit">
       <div className="flex flex-col space-y-6 drop-shadow-sm">
-        <p className="text-lg font-bold">{title}</p>
         <DataGrid
           className="datagrid"
           autoHeight
           hideFooter
-          rowHeight={72}
+          rowHeight={rowHeight?rowHeight:72}
           disableColumnMenu
           disableRowSelectionOnClick
           rows={rows.map((row, index) => ({ ...row, no: `${index + 1}.` }))}

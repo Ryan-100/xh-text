@@ -159,34 +159,7 @@ const RiderList = () => {
           updateRow={handleProcessRowUpdate}
         />
       </div>
-      <Modal
-        open={isModalOpen|| isDelete}
-        onClose={handleCancelEdit}
-        title={isModalOpen?"Confrim delete":"Confirm Switch State"}
-      >
-       {isDelete && <> <p>Are you sure you want to delete?</p>
-        <div className="flex justify-end space-x-2">
-          <div className="deleteButton" onClick={handleCancelEdit}>
-            Cancel
-          </div>
-          <div className="editButton" onClick={handleSave}>
-            Confirm
-          </div>
-        </div></>
-        }
-        {
-          isModalOpen && <> <p>Are you sure you want to change the switch state?</p>
-          <div className="flex justify-end space-x-2">
-            <div className="deleteButton" onClick={handleCancelEdit}>
-              Cancel
-            </div>
-            <div className="editButton" onClick={handleSave}>
-              Confirm
-            </div>
-          </div></>
-        }
-      </Modal>
-    </>
+         </>
   );
 };
 

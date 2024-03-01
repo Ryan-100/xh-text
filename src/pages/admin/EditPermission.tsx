@@ -6,7 +6,11 @@ import Icon from "../../icons";
 import InputField from "../../components/form/InputFiled";
 import MuiTextarea from "../../components/form/TextArea";
 import InputSelect from "../../components/form/InputSelect";
-import { counterOptions, permissionData, roleOptions } from "../../layout/config";
+import {
+  counterOptions,
+  permissionData,
+  roleOptions,
+} from "../../layout/config";
 import MUICheckbox from "../../components/form/Checkbox";
 
 const ProfileEditComponent = () => {
@@ -20,7 +24,7 @@ const ProfileEditComponent = () => {
       <div className="flex justify-between items-center mb-[2px]">
         <div
           onClick={goBack}
-          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3"
+          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
         >
           <Icon name="leftArrow" />
           <p className="">Back</p>
@@ -37,11 +41,11 @@ const ProfileEditComponent = () => {
         </div>
       </div>
       <div className="bg-white rounded-t-[10px] flex flex-col items-start p-6 space-y-6 w-full">
-      <div className="grid grid-cols-3 grid-rows-5 gap-2 w-full">
-            {permissionData.map((data, i) => (
-              <MUICheckbox key={i} name={data} control={control} label={data}  />
-            ))}
-          </div>
+        <div className="grid grid-cols-3 grid-rows-5 gap-2 w-full">
+          {permissionData.map((data, i) => (
+            <MUICheckbox key={i} name={data} control={control} label={data} />
+          ))}
+        </div>
       </div>
       <div className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
         <Icon name="save" width={16} height={16} />

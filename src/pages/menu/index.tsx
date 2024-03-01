@@ -7,7 +7,6 @@ import { dummyMovies, movieHeaders } from '../../layout/config'
 const MovieMenu = () => {
   return (
     <>
-    <Table headers={movieHeaders} data={dummyMovies} />
     </>
   )
 }
