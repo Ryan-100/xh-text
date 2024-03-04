@@ -1,93 +1,188 @@
 import { ApexOptions } from "apexcharts";
 
 export const TotalRevenueSeries = [
-    {
-        name: "Last Month",
-        data: [183, 124, 115, 85, 143, 143, 96],
-    },
-    {
-        name: "Running Month",
-        data: [95, 84, 72, 44, 108, 108, 47],
-    },
+  {
+    name: "Last Month",
+    data: [183, 124, 115, 85, 143, 143, 96],
+  },
+  {
+    name: "Running Month",
+    data: [95, 84, 72, 44, 108, 108, 47],
+  },
 ];
 
-export const TotalUserSeries =  [{
-    name: "Users",
-    data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-}];
-
 export const TotalRevenueOptions: ApexOptions = {
-    chart: {
-        type: "bar",
-        toolbar: {
-            show: false,
-        },
+  chart: {
+    type: "bar",
+    toolbar: {
+      show: false,
     },
-    colors: ["#475BE8", "#CFC8FF"],
-    plotOptions: {
-        bar: {
-            borderRadius: 4,
-            horizontal: false,
-            columnWidth: "55%",
-        },
+  },
+  colors: ["#475BE8", "#CFC8FF"],
+  plotOptions: {
+    bar: {
+      borderRadius: 4,
+      horizontal: false,
+      columnWidth: "55%",
     },
-    dataLabels: {
-        enabled: false,
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  grid: {
+    show: false,
+  },
+  stroke: {
+    colors: ["transparent"],
+    width: 4,
+  },
+  xaxis: {
+    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+  },
+  yaxis: {
+    title: {
+      text: "Ks (Kyats)",
     },
-    grid: {
-        show: false,
+  },
+  fill: {
+    opacity: 1,
+  },
+  legend: {
+    position: "top",
+    horizontalAlign: "right",
+  },
+  tooltip: {
+    y: {
+      formatter(val: number) {
+        return `$ ${val} thousands`;
+      },
     },
-    stroke: {
-        colors: ["transparent"],
-        width: 4,
-    },
-    xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-    },
-    yaxis: {
-        title: {
-            text: "Ks (Kyats)",
-        },
-    },
-    fill: {
-        opacity: 1,
-    },
-    legend: {
-        position: "top",
-        horizontalAlign: "right",
-    },
-    tooltip: {
-        y: {
-            formatter(val: number) {
-                return `$ ${val} thousands`;
-            },
-        },
-    },
+  },
 };
 
 
-export const TotalUserOptions: ApexOptions = {
-    chart: {
-      height: 350,
-      type: 'line',
-      zoom: {
-        enabled: false
-      }
+export const TotalIncomeSeries = [
+    {
+      name: "Income",
+      data: [100, 414, 345, 551, 494, 624, 444, 931, 148],
     },
-    colors: ["#475BE8"],
-    dataLabels: {
-      enabled: false
+  ];
+  export const CustomerParcelSeries = [
+    {
+      name: "Customers",
+      data: [10, 41, 35, 55, 44, 662, 44, 93, 1444],
     },
-    stroke: {
-      curve: 'straight'
+    {
+      name: "Parcels",
+      data: [100, 414, 345, 551, 494, 624, 444, 931, 148],
     },
-    grid: {
-      row: {
-        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-        opacity: 0.5
+  ];
+
+export const CustomerParcelOptions: ApexOptions = {
+  chart: {
+    type: "line",
+    height: 400,
+    zoom: {
+      enabled: false,
+    },
+    toolbar: {
+      show: false,
+    },
+  },
+  colors: ["#78C5FC","#1AC869"],
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+    width: 3,
+  },
+  grid: {
+    row: {
+      colors: ["transparent"], // takes an array which will be repeated on columns
+      opacity: 0.5,
+    },
+    strokeDashArray: 7,
+    padding: {
+      left: 0,
+      right: 0,
+    },
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+    },
+  },
+  xaxis: {
+    type: "category",
+    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
+  },
+  yaxis: {
+    tickAmount: 4,
+    labels: {
+      align: "left",
+      offsetX: -12,
+         },
+  },
+  legend: {
+    position: 'top',
+    horizontalAlign: 'left',
+    offsetX:-30,
+    offsetY:-4
+  }
+};
+
+export const TotalIncomeOptions: ApexOptions = {
+  chart: {
+    type: "line",
+    height: 374,
+    zoom: {
+      enabled: false,
+    },
+    toolbar: {
+      show: false,
+    },
+  },
+  colors: ["#FF6604"],
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+    width: 3,
+  },
+  grid: {
+    row: {
+      colors: ["transparent"], // takes an array which will be repeated on columns
+      opacity: 0.5,
+    },
+    strokeDashArray: 7,
+    padding: {
+      left: 0,
+      right: 0,
+    },
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+    },
+  },
+  xaxis: {
+    type: "category",
+    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
+  },
+  yaxis: {
+    tickAmount: 4,
+    labels: {
+      align: "left",
+      offsetX: -12,
+      formatter: (value: any) => {
+        // Format the y-axis labels as '100 Ks', '414 Ks', etc.
+        if (value >= 0) {
+          return value.toFixed(0) + " Ks";
+        }
+        return value;
       },
     },
-    xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-    }
-  };
+  },
+};

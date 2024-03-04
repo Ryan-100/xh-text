@@ -46,9 +46,9 @@ const getCounterById = (id:string) => async (dispatch:Dispatch) => {
     .catch(error => dispatch(FetchFailure(types.GET_COUNTER_BY_ID_ERROR, error.message)));
 };
 
-const updateCounter = (id:string) => async (dispatch:Dispatch) => {
+const updateCounter = (id:string,data:any) => async (dispatch:Dispatch) => {
   dispatch(FetchRequest(types.UPDATE_COUNTER_REQUEST));
-  return await controller(`${apiRoutes.update_counter}/${id}`,id)
+  return await controller(`${apiRoutes.update_counter}/${id}`,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);

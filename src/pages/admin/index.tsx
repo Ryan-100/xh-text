@@ -27,18 +27,6 @@ const AdminList = () => {
     // Add logic to save the edited data (e.g., make an API call)
   };
 
-  const handleCancelEdit = () => {
-    setEditRowId(null);
-    // Add logic to cancel the edit mode (if needed)
-  };
-
-  const handleButtonClick = () => {
-    // Check if the apiRef is available
-    if (apiRef.current && apiRef.current.api) {
-      // Call the processRowModelUpdate method to update the rows
-      apiRef.current.api.processRowModelUpdate();
-    }
-  };
 
   const handleProcessRowUpdate = (updatedRow, originalRow) => {
     console.log(updatedRow, originalRow, "rows");
@@ -55,8 +43,8 @@ const AdminList = () => {
     },
     {
       field: "user",
-      headerName: "User",
-      width: 230,
+      headerName: "Admin",
+      width: 195,
       renderCell: (params) => {
         return (
           <>
@@ -68,20 +56,10 @@ const AdminList = () => {
         );
       },
     },
-    { field: "email", headerName: "Email", width: 230, editable: true },
-    { field: "age", headerName: "Age", width: 100, editable: true },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 160,
-      renderCell: (params) => {
-        return (
-          <div className={`cellWithStatus ${params.row.status}`}>
-            {params.row.status}
-          </div>
-        );
-      },
-    },
+    { field: "id", headerName: "Admin ID", width: 167 },
+    { field: "role", headerName: "Role", width: 190 },
+    { field: "counter", headerName: "Counter", width: 200 },
+    
   ];
 
   const actionColumn: GridColDef[] = [

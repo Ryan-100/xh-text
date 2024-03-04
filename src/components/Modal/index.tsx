@@ -40,7 +40,7 @@ const ModalComponent = ({ open, onClose, onConfirm, title, body }) => {
             className="buttonPrimary w-[118px] h-10 space-x-1 "
             onClick={onConfirm}
           >
-            <Icon name="success" width={16} height={16} />
+            <Icon name="success" width={24} height={24} />
             <p className="font-semibold text-white">Confirm</p>
           </div>
         </div>

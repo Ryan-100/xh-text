@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { TextField } from "@mui/material";
 import ChevronDown from "../../icons/chevronDown";
 
-const InputSelect = ({ name, label, options, control, fullWidth }) => {
+const InputSelect = ({ name, label, options, defaultValue="", control, fullWidth }) => {
   return (
     <Controller
       name={name}
@@ -19,10 +19,15 @@ const InputSelect = ({ name, label, options, control, fullWidth }) => {
             ".MuiFormLabel-root": {
               lineHeight: "13px",
             },
+            ".MuiSelect-select em": {
+              fontStyle: "normal",
+            },
             ".MuiInputBase-root": {
-              borderRadius:'10px',
+              borderRadius: "10px",
+              height: "48px",
             },
             ".MuiOutlinedInput-input": {
+              outline:'none',
               color: "#444240",
               fontSize: "20px",
               "::placeholder": {
@@ -49,10 +54,11 @@ const InputSelect = ({ name, label, options, control, fullWidth }) => {
           }}
           {...field}
           fullWidth={fullWidth ? true : false}
+          defaultValue={defaultValue}
           SelectProps={{
-            displayEmpty:true,
-            inputProps:{'aria-label': 'Without label' },
-            IconComponent: () => <ChevronDown width={"5rem"} />, 
+            displayEmpty: true,
+            inputProps: { "aria-label": "Without label" },
+            IconComponent: () => <ChevronDown width={"5rem"} />,
             sx: {
               ".MuiSelect-select": {
                 maxHeight: "48px",
@@ -65,9 +71,9 @@ const InputSelect = ({ name, label, options, control, fullWidth }) => {
             },
           }}
         >
-            <MenuItem value="">
-              <em>{label}</em>
-            </MenuItem>
+          <MenuItem value="">
+            <em>{label}</em>
+          </MenuItem>
           {options.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}

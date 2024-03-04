@@ -100,6 +100,7 @@ import {
   Onboarding,
   Banner,
   Ads,
+  CounterEdit,
 } from "../element";
 import Login from "../../pages/login";
 
@@ -196,7 +197,7 @@ const routes = [
       },
       {
         path: "edit/:id",
-        element: <CounterCreate />,
+        element: <CounterEdit />,
       },
       {
         path: ":id",

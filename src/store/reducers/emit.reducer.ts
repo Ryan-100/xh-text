@@ -12,7 +12,7 @@ const initialState = {
   page: 'Dashboard',
 };
 
-const emit = (state = initialState, action) => {
+const emit = (state = initialState, action:EmitAction) => {
   switch (action.type) {
     case 'PAGE_NAME_CHANGE':
       return {

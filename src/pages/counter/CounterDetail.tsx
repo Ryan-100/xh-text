@@ -31,7 +31,7 @@ const CounterDetail = () => {
     navigate(-1);
   };
   const goToEdit = () => {
-    navigate("/counters/edit/123");
+    navigate(`/counters/edit/${counterId}`);
   };
 
   const deleteHandler = () =>{}

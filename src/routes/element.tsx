@@ -72,7 +72,11 @@ export const CounterList = Loadable(
 );
 
 export const CounterCreate = Loadable(
-  lazy(() => import("../pages/counter/CreateorEdit"))
+  lazy(() => import("../pages/counter/CounterCreate"))
+);
+
+export const CounterEdit = Loadable(
+  lazy(() => import("../pages/counter/CounterEdit"))
 );
 
 export const CounterDetails = Loadable(

@@ -1,11 +1,11 @@
-import TotalRevenue from "../../components/charts/TotalRevenue";
-import TotalUser from "../../components/charts/TotalUser";
+import TotalIncome from "../../components/charts/TotalIncome";
 import Widget from "../../components/widget";
 import { useDispatch, useSelector } from "react-redux";
 import { emit } from "../../store/actions";
 import { useEffect } from "react";
 import { RootState } from "../../store/reducers/root";
 import { getToken } from "../../service/auth";
+import CustomerParcel from "../../components/charts/CustomerParcel";
 const Dashbaord = () => {
   const token = getToken();
   console.log(token, "dashbboard token");
@@ -22,9 +22,9 @@ const Dashbaord = () => {
         <Widget type="order" />
         <Widget type="earning" />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 ">
-        <TotalUser />
-        <TotalRevenue />
+      <div className="grid grid-cols-1 gap-6 ">
+        <TotalIncome />
+        <CustomerParcel />
       </div>
     </div>
   );

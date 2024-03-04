@@ -5,32 +5,49 @@ import InputSelect from "../../../components/form/InputSelect";
 import Icon from "../../../icons";
 import { roleOptions } from "../../../layout/config";
 import { Divider } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { notification } from "../../../store/actions/notification.action";
+import moment from "moment";
+import Datepicker from "react-tailwindcss-datepicker";
+
+export const applicationType = [
+  { value: "userApp", label: "User Application" },
+  { value: "counterApp", label: "Counter Application" },
+  { value: "riderApp", label: "Rider Application" },
+]
 
 const History = () => {
+  const [data, setData] = React.useState<any[]>();
+  const [value, setValue] = React.useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  const handleValueChange = (newValue) => {
+    console.log("newValue:", newValue);
+    setValue(newValue);
+  };
   const { control } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
 
-  const NotificationHistory = [
-    {
-      id: 1,
-      date: "11 Sep 2023, 11:00:00 AM",
-      title: "System Maintenance Alert",
-      description:
-        "Our mobile app is undergoing scheduled maintenance on 5 Sep 2023, Sunday, from 22:00 hour to 23:00 hour . GMT.",
-      notice: "",
-    },
-    {
-      id: 12,
-      date: "11 Sep 2023, 11:00:00 AM",
-      title: "System Maintenance Alert",
-      description:
-        "Our mobile app is undergoing scheduled maintenance on 5 Sep 2023, Sunday, from 22:00 hour to 23:00 hour . GMT.",
-      notice: "During this period, creating parcel is unavailable.",
-    },
-  ];
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    const fetchCounters = async () => {
+      try {
+        const res = await dispatch(
+          notification.getSystemNotificationHistory() as any
+        );
+        setData(res?.data);
+      } catch (error) {
+        console.error("Error fetching counter:", error);
+      }
+    };
+    fetchCounters();
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col space-y-6">
@@ -50,42 +67,44 @@ const History = () => {
           <p className="py-2 px-2">Notification History</p>
         </div>
       </div>
-      <div className="flex w-full items-center justify-between">
-        <div className="fldivflex-col space-y-1 w-[528px]">
+      <div className="flex w-full items-center space-x-6">
+        <div className="w-[528px]">
           <div className="w-[528px]">
             <InputSelect
               fullWidth
-              name="role"
+              name="send_type"
               control={control}
+              defaultValue="userApp"
               label={""}
-              options={roleOptions}
+              options={applicationType}
             />
           </div>
         </div>
-        <div className="fldivflex-col space-y-1 w-[528px]">
-          <div className="w-[528px]">
-            <InputSelect
-              fullWidth
-              name="role"
-              control={control}
-              label={""}
-              options={roleOptions}
-            />
-          </div>
-        </div>
+        <div className="w-[528px]">
+          <Datepicker value={value} onChange={handleValueChange} primaryColor="orange" showShortcuts inputClassName="h-12 w-full outline-none border border-gray-light rounded-[10px] pl-6" />
+        </div>  
       </div>
       <div className="w-full bg-white rounded-[10px] flex flex-col">
-        {NotificationHistory.map((data,i) => (
-          <>
-            <div className="flex flex-col space-y-2 p-6">
-              <p className="text-xl font-semibold">{data.title}</p>
-              <p className="text-xl">{data.description}</p>
-              <p className="text-xl text-gray">{data.notice && data.notice}</p>
-              <p className="text-base text-gray">{data.date}</p>
-            </div>
-            {i!== NotificationHistory.length - 1 && <Divider/>}
-          </>
-        ))}
+        {data &&
+          data.length > 0 &&
+          data.map((data, i) => (
+            <>
+              <div className="flex flex-col space-y-2 p-6">
+                <p className="text-xl font-semibold">
+                  {data.title && data.title}
+                </p>
+                <p className="text-xl">{data.message && data.message}</p>
+                <p className="text-xl text-gray">
+                  {data.notice && data.notice}
+                </p>
+                <p className="text-base text-gray">
+                  {data.created_at &&
+                    moment(data.created_at).format("D MMM YYYY, h:mm a")}
+                </p>
+              </div>
+              {i !== data.length - 1 && <Divider />}
+            </>
+          ))}
       </div>
     </div>
   );

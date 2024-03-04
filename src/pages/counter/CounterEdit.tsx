@@ -1,18 +1,55 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { Divider } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import Icon from "../../icons";
 import InputField from "../../components/form/InputFiled";
 import MuiTextarea from "../../components/form/TextArea";
 import InputSelect from "../../components/form/InputSelect";
 import { counterOptions } from "../../layout/config";
 import AlertModal from "../../components/Modal/AlertModal";
+import { useDispatch } from "react-redux";
+import { counter } from "../../store/actions/counter.action";
 
-const ProfileEditComponent = () => {
+const CounterEdit = () => {
+  const [counterData, setCounterData] = React.useState<any>();
+  const [success, setSuccess] = React.useState<boolean>(false);
   const [notFilled, setNotFilled] = React.useState(false);
-  const { control, handleSubmit } = useForm({ mode: "onChange" });
+  const { control, handleSubmit,setValue } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
+  const { id: counterId } = useParams();
+  const dispatch = useDispatch();
+
+    React.useEffect(() => {
+    const fetchCounter = async () => {
+      try {
+        const res = await dispatch(counter.getCounterById(counterId) as any);
+        setCounterData(res?.data);
+      } catch (error) {
+        console.error("Error fetching counter:", error);
+      }
+    };
+    fetchCounter();
+  }, [dispatch, counterId]);
+
+  React.useEffect(()=>{
+    if(counterData){
+      setValue('name',counterData?.name)
+      setValue('block_id',counterData?.block_id)
+      setValue('city',counterData?.city_id)
+      setValue('phone',counterData?.phone);
+      setValue('address',counterData?.address)
+      setValue('address_block_id',counterData?.address_block_id)
+      setValue('address_region_id',counterData?.address_region_id)
+    }
+  },[counterData])
+
+  const updateCounterHandler =async (data) =>{
+    const res = await dispatch(counter.updateCounter(counterId,data) as any);
+    if(res.status === 201){
+      setSuccess(true);
+    }
+  }
+
   const goBack = () => {
     navigate(-1);
   };
@@ -36,10 +73,10 @@ const ProfileEditComponent = () => {
           </div>
           <p className="text-2xl font-semibold">Edit Counter </p>
           <div className="flex items-center text-base font-normal  h-10">
-            <p className="py-2 px-4 border-r border-r-gray text-gray">
+            <p className="py-2 px-2 border-r border-r-gray text-gray">
               Counter
             </p>{" "}
-            <p className="py-2 px-4">Edit Counter</p>
+            <p className="py-2 px-2">Edit Counter</p>
           </div>
         </div>
         <div className="bg-white rounded-t-[10px] flex flex-col items-start p-6 space-y-6">
@@ -54,7 +91,6 @@ const ProfileEditComponent = () => {
                   name="name"
                   control={control}
                   label={""}
-                  value={"Lashio_Branch_Counter1"}
                 />
               </div>
             </div>
@@ -66,7 +102,7 @@ const ProfileEditComponent = () => {
                 <InputSelect
                   label={"Select your branch"}
                   fullWidth
-                  name="branch"
+                  name="city"
                   control={control}
                   options={counterOptions}
                 />
@@ -81,7 +117,6 @@ const ProfileEditComponent = () => {
                   name="phone"
                   control={control}
                   label={""}
-                  value={"09976666666, 09976666666"}
                 />
               </div>
             </div>
@@ -96,7 +131,7 @@ const ProfileEditComponent = () => {
               </p>
               <div className="w-[528px]">
                 <MuiTextarea
-                  name="current_address"
+                  name="address"
                   control={control}
                   placeholder="Enter Current Address"
                   rows={3.5}
@@ -109,7 +144,7 @@ const ProfileEditComponent = () => {
               <div className="w-[528px]">
                 <InputSelect
                   fullWidth
-                  name="block"
+                  name="address_block_id"
                   control={control}
                   label={""}
                   options={counterOptions}
@@ -123,7 +158,7 @@ const ProfileEditComponent = () => {
               <div className="w-[528px]">
                 <InputSelect
                   fullWidth
-                  name="region"
+                  name="address_region_id"
                   control={control}
                   label={""}
                   options={counterOptions}
@@ -137,7 +172,7 @@ const ProfileEditComponent = () => {
               </p>
               <div className="w-[528px]">
                 <MuiTextarea
-                  name="address_detail"
+                  name="address"
                   control={control}
                   placeholder="Enter New Address"
                   rows={2.5}
@@ -162,4 +197,4 @@ const ProfileEditComponent = () => {
   );
 };
 
-export default ProfileEditComponent;
+export default CounterEdit;

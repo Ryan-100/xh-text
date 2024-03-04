@@ -40,7 +40,7 @@ const InputField = ({
   }, []);
 
   return (
-    <div className="mb-3">
+    <div className="">
       <div>
         {label && (
           <label className="text-[14px] xl:text-[20px] inline-block mb-1 ">

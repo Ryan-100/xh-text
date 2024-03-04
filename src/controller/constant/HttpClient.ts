@@ -3,8 +3,6 @@ import {getToken} from '../../service/auth'
 const client = axios.create();
 const token = getToken();
 
-console.log(token,'token')
-
 client.interceptors.request.use(
   async config => {
     config.baseURL = 'http://64.23.137.248:2850/api/';

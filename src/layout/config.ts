@@ -21,7 +21,7 @@ export const items: ISide[] = [
   {
     link: "/admin",
     name: "Admins",
-    icon: "admin",
+    icon: "people",
     children: [
       { name: "All Admins", link: "/admin" },
       { name: "Create Admins", link: "/admin/create" },

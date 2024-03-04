@@ -7,4 +7,8 @@ export const apiRoutes = {
   create_counter:`post:counter`,
   update_counter:`put:counter`,
   delete_counter:`delete:counter`,
+
+  //system-noti
+  system_noti_history:`get:system-notification`,
+  send_system_noti:`post:system-notification`,
 };

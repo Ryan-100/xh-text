@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useController } from "react-hook-form";
 
 type MuiTextareaProps = {
@@ -32,7 +32,10 @@ const MuiTextarea = React.forwardRef<HTMLDivElement, MuiTextareaProps>(
         rows={rows}
         fullWidth
         sx={{
-          borderRadius:'10px',
+          ".MuiInputBase-root": {
+
+            borderRadius:'10px',
+          },
           ".MuiOutlinedInput-input": {
             color: "#444240",
             fontSize: "20px",
