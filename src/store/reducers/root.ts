@@ -3,6 +3,7 @@ import emit, { EmitState } from "./emit.reducer";
 import auth, { AuthState } from "./auth.reducer";
 import counter, { CounterState } from "./counter.reducer";
 import notification, { NotificationState } from "./notification.reducer";
+import version, { VersionState } from "./version.reducer";
 type ActionType = {
   type: string;
   payload: any; // Adjust the type based on your actual actions
@@ -12,8 +13,8 @@ export interface RootState {
   emit: EmitState;
   auth: AuthState;
   counter: CounterState;
-  notification:NotificationState
-
+  notification: NotificationState;
+  version: VersionState;
 }
 export type RootAction = ActionType;
 
@@ -21,5 +22,6 @@ export default combineReducers({
   emit,
   auth,
   counter,
-  notification
+  notification,
+  version,
 });

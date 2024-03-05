@@ -28,6 +28,7 @@ import {
   CalendarIcon,
   CancelIcon,
   ChargesIcon,
+  CheckedIcon,
   CityBranch,
   CopyIcon,
   CopyLinkIcon,
@@ -137,6 +138,8 @@ const Icon: React.FC<IconProps> = (props) => {
       return <MUIRadioIcon {...props} />;
     case "radio-check":
       return <MUIRadioChecked {...props} />;
+    case "checked":
+      return <CheckedIcon {...props} />;
     case "menu":
       return (
         <svg
