@@ -11,6 +11,7 @@ import { admin } from "../../store/actions/admin.action";
 import { Admin } from "../../store/reducers/admin.reducer";
 import { counter } from "../../store/actions/counter.action";
 import { role } from "../../store/actions/role.action";
+import { safeFormatString } from "../../utils";
 
 const AdminList = () => {
 	const [data, setData] = useState<Admin[]>([]);
@@ -26,7 +27,7 @@ const AdminList = () => {
 	const fetchRoles = async () => {
 		try {
 			const res = await dispatch(role.getAllRoles() as any);
-			const _roles = res?.data.map((role) => ({
+			const _roles = res?.data?.map((role) => ({
 				value: role?.id,
 				label: role?.name,
 			}));
@@ -35,11 +36,11 @@ const AdminList = () => {
 			console.error("Error fetching counter:", error);
 		}
 	};
-	
+
 	const fetchCounters = async () => {
 		try {
 			const res = await dispatch(counter.getAllCounters() as any);
-			const _counters = res?.data.map((counter) => ({
+			const _counters = res?.data?.map((counter) => ({
 				value: counter?.id,
 				label: counter?.name,
 			}));
@@ -106,7 +107,15 @@ const AdminList = () => {
 				);
 			},
 		},
-		// { field: "id", headerName: "Admin ID", width: 167 },
+		{
+			field: "adminID",
+			headerName: "Admin ID",
+			width: 167,
+
+			renderCell: (params: { row: Admin }) => {
+				return <p className="">{safeFormatString(params?.row?.adminID)}</p>;
+			},
+		},
 		{
 			field: "role",
 			headerName: "Role",
@@ -139,10 +148,10 @@ const AdminList = () => {
 			headerName: "Action",
 			width: 245,
 			headerAlign: "center",
-			renderCell: (params) => {
+			renderCell: (params: { row: Admin }) => {
 				return (
 					<div className="cellAction">
-						<Link to="123" className="buttonPrimary space-x-2 h-10">
+						<Link to={params.row.id} className="buttonPrimary space-x-2 h-10">
 							<Icon name="details" />
 							<span>Detail</span>
 						</Link>

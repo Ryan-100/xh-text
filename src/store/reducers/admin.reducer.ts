@@ -29,7 +29,6 @@ export interface Admin {
 	} | null;
 }
 
-
 export interface AdminState {
 	error: string;
 	isLoading: boolean;
@@ -64,6 +63,24 @@ const admin = (state = initialState, action: Action) => {
 				all_admins: action.payload,
 			};
 		case types.GET_ALL_ADMINS_ERROR:
+			return {
+				...state,
+				isLoading: false,
+				error: action.payload,
+			};
+		case types.GET_ADMIN_BY_ID_REQUEST:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case types.GET_ADMIN_BY_ID_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				error: null,
+				counter_by_id: action.payload,
+			};
+		case types.GET_ADMIN_BY_ID_ERROR:
 			return {
 				...state,
 				isLoading: false,
