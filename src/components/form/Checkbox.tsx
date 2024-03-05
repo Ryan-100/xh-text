@@ -1,12 +1,12 @@
 import React from "react";
-import { Controller, Control, UseControllerProps } from "react-hook-form";
+import { Controller, Control } from "react-hook-form";
 import {
   Checkbox,
   FormControlLabel,
   FormControlLabelProps,
 } from "@mui/material";
-import Check from "../../icons/Check";
 import CheckBorder from "../../icons/CheckBorder";
+import Icon from "../../icons";
 
 interface MUICheckboxProps {
   name: string;
@@ -33,8 +33,8 @@ const MUICheckbox: React.FC<MUICheckboxProps> = ({
             <Checkbox
               {...field}
               {...checkboxProps}
-              checkedIcon={<Check width='32' height='32' />}
-              icon={<CheckBorder width='32' height='32' />}
+              checkedIcon={<Icon name="checked" width={32} height={32} />}
+              icon={<CheckBorder width="32" height="32" />}
             />
           }
           label={label}
