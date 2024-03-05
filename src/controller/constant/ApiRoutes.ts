@@ -11,4 +11,7 @@ export const apiRoutes = {
   //system-noti
   system_noti_history:`get:system-notification`,
   send_system_noti:`post:system-notification`,
+
+  // admin
+  all_admin: `get:admin-user`,
 };
