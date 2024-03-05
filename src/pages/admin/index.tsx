@@ -57,7 +57,12 @@ const AdminList = () => {
       },
     },
     { field: "id", headerName: "Admin ID", width: 167 },
-    { field: "role", headerName: "Role", width: 190 },
+    { field: "role", headerName: "Role", width: 190,
+    renderCell: (params) => {
+      return (
+        <p className="">{params?.row?.role?.name}</p>
+      );
+    }, },
     { field: "counter", headerName: "Counter", width: 200 },
     
   ];
