@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as types from "../type";
 
 export interface Admin {

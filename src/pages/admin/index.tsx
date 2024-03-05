@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import Datatable from "../../components/table/datatable";
 import { GridColDef } from "@mui/x-data-grid";
-import { counterOptions, roleOptions, userRows } from "../../layout/config";
 import { Link } from "react-router-dom";
 import InputSelect from "../../components/form/InputSelect";
 import { useForm } from "react-hook-form";
@@ -11,9 +10,12 @@ import { useDispatch } from "react-redux";
 import { admin } from "../../store/actions/admin.action";
 import { Admin } from "../../store/reducers/admin.reducer";
 import { counter } from "../../store/actions/counter.action";
+import { role } from "../../store/actions/role.action";
 
 const AdminList = () => {
 	const [data, setData] = useState<Admin[]>([]);
+	const [roleOptions, setRoleOptions] = useState([]);
+	const [counterOptions, setCouterOptions] = useState([]);
 	const [counters, setCounters] = useState([]);
 	const [editRowId, setEditRowId] = useState(null);
 	const apiRef = useRef(null);
@@ -21,25 +23,46 @@ const AdminList = () => {
 
 	const { control } = useForm({ mode: "onChange" });
 
+	const fetchRoles = async () => {
+		try {
+			const res = await dispatch(role.getAllRoles() as any);
+			const _roles = res?.data.map((role) => ({
+				value: role?.id,
+				label: role?.name,
+			}));
+			setRoleOptions(_roles);
+		} catch (error) {
+			console.error("Error fetching counter:", error);
+		}
+	};
+	
+	const fetchCounters = async () => {
+		try {
+			const res = await dispatch(counter.getAllCounters() as any);
+			const _counters = res?.data.map((counter) => ({
+				value: counter?.id,
+				label: counter?.name,
+			}));
+			setCouterOptions(_counters);
+			setCounters(res?.data);
+		} catch (error) {
+			console.error("Error fetching counter:", error);
+		}
+	};
+
+	const fetchAdmins = async () => {
+		try {
+			const res = await dispatch(admin.getAllAdmins() as any);
+			setData(res?.data as Admin[]);
+		} catch (error) {
+			console.error("Error fetching counter:", error);
+		}
+	};
+
 	useEffect(() => {
-		const fetchCounters = async () => {
-			try {
-				const res = await dispatch(counter.getAllCounters() as any);
-				setCounters(res?.data);
-			} catch (error) {
-				console.error("Error fetching counter:", error);
-			}
-		};
-		const fetchAdmins = async () => {
-			try {
-				const res = await dispatch(admin.getAllAdmins() as any);
-				setData(res?.data as Admin[]);
-			} catch (error) {
-				console.error("Error fetching counter:", error);
-			}
-		};
 		fetchAdmins();
 		fetchCounters();
+		fetchRoles();
 	}, []);
 
 	const handleDelete = (id) => {

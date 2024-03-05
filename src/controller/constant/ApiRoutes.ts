@@ -14,4 +14,7 @@ export const apiRoutes = {
 
   // admin
   all_admin: `get:admin-user`,
+
+  // role
+  all_role: `get:role`,
 };
