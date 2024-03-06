@@ -21,6 +21,8 @@ const AdminList = () => {
 	const [editRowId, setEditRowId] = useState(null);
 	const apiRef = useRef(null);
 	const dispatch = useDispatch();
+	const [roleId, setRoleId] = useState("");
+	const [counterId, setCounterId] = useState("");
 
 	const { control } = useForm({ mode: "onChange" });
 
@@ -51,9 +53,9 @@ const AdminList = () => {
 		}
 	};
 
-	const fetchAdmins = async () => {
+	const fetchAdmins = async (roleId: string, counterId: string) => {
 		try {
-			const res = await dispatch(admin.getAllAdmins() as any);
+			const res = await dispatch(admin.getAllAdmins(roleId, counterId) as any);
 			setData(res?.data as Admin[]);
 		} catch (error) {
 			console.error("Error fetching counter:", error);
@@ -61,10 +63,10 @@ const AdminList = () => {
 	};
 
 	useEffect(() => {
-		fetchAdmins();
+		fetchAdmins(roleId, counterId);
 		fetchCounters();
 		fetchRoles();
-	}, []);
+	}, [roleId, counterId]);
 
 	const handleDelete = (id) => {
 		setData(data.filter((item) => item.id !== id));
@@ -174,56 +176,66 @@ const AdminList = () => {
 	];
 
 	return (
-		<div className="">
-			<div className="pb-6 w-full flex flex-col justify-center items-end md:flex-row md:items-center md:justify-between">
-				<div className="flex items-center space-x-6">
-					<div className="">
-						<p className="text-xs md:text-sm xl:text-base leading-6">
-							Filter By Role
-						</p>
-						<div className="w-[344px]">
-							<InputSelect
-								name="role"
-								control={control}
-								options={roleOptions}
-								fullWidth
-								label={"Choose Admin Role"}
-							/>
+		<>
+			{data && (
+				<div className="">
+					<div className="pb-6 w-full flex flex-col justify-center items-end md:flex-row md:items-center md:justify-between">
+						<div className="flex items-center space-x-6">
+							<div className="">
+								<p className="text-xs md:text-sm xl:text-base leading-6">
+									Filter By Role
+								</p>
+								<div className="w-[344px]">
+									<InputSelect
+										name="role"
+										control={control}
+										options={roleOptions}
+										fullWidth
+										label={"Choose Admin Role"}
+										onChange={(selectedValue) => {
+											setRoleId(selectedValue);
+										}}
+									/>
+								</div>
+							</div>
+							<div className="">
+								<p className="text-xs md:text-sm xl:text-base leading-6">
+									Filter By Counter Name
+								</p>
+								<div className="w-[344px]">
+									<InputSelect
+										name="counter"
+										control={control}
+										options={counterOptions}
+										fullWidth
+										label={"Choose Counter Name"}
+										onChange={(selectedValue) => {
+											setCounterId(selectedValue);
+										}}
+									/>
+								</div>
+							</div>
 						</div>
+						<Link to="create">
+							<div className="buttonPrimary space-x-2 h-12">
+								<Icon name="add" />
+								<span className="text-sm md:text-base xl:text-xl">
+									{" "}
+									Create Admin
+								</span>
+							</div>
+						</Link>
 					</div>
-					<div className="">
-						<p className="text-xs md:text-sm xl:text-base leading-6">
-							Filter By Counter Name
-						</p>
-						<div className="w-[344px]">
-							<InputSelect
-								name="counter"
-								control={control}
-								options={counterOptions}
-								fullWidth
-								label={"Choose Counter Name"}
-							/>
-						</div>
-					</div>
+					<Datatable
+						rows={data}
+						columns={userColumns.concat(actionColumn)}
+						apiRef={apiRef}
+						editRowId={editRowId}
+						updateRow={handleProcessRowUpdate}
+					/>
 				</div>
-				<Link to="create">
-					<div className="buttonPrimary space-x-2 h-12">
-						<Icon name="add" />
-						<span className="text-sm md:text-base xl:text-xl">
-							{" "}
-							Create Admin
-						</span>
-					</div>
-				</Link>
-			</div>
-			<Datatable
-				rows={data}
-				columns={userColumns.concat(actionColumn)}
-				apiRef={apiRef}
-				editRowId={editRowId}
-				updateRow={handleProcessRowUpdate}
-			/>
-		</div>
+			)}
+		</>
 	);
 };
 
