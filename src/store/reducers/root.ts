@@ -5,18 +5,24 @@ import counter, { CounterState } from "./counter.reducer";
 import notification, { NotificationState } from "./notification.reducer";
 import version, { VersionState } from "./version.reducer";
 import city, { CityState } from "./city.reducer";
+import admin, { AdminState } from "./admin.reducer";
+import role, { RoleState } from "./role.reducer";
+
 type ActionType = {
-  type: string;
-  payload: any; // Adjust the type based on your actual actions
+	type: string;
+	payload: any; // Adjust the type based on your actual actions
 };
 export interface RootState {
-  // Add other reducer states as needed
-  emit: EmitState;
-  auth: AuthState;
-  counter: CounterState;
-  notification: NotificationState;
-  version: VersionState;
+
+	emit: EmitState;
+	auth: AuthState;
+	counter: CounterState;
+	notification: NotificationState;
+	admin: AdminState;
+	role: RoleState;
+	version: VersionState;
   city:CityState
+
 }
 export type RootAction = ActionType;
 
@@ -26,5 +32,8 @@ export default combineReducers({
   counter,
   notification,
   version,
-  city
+  city,
+  admin,
+  role,
+
 });

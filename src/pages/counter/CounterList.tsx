@@ -30,6 +30,8 @@ const CounterList = () => {
     fetchCounters();
   }, [dispatch]);
 
+  console.log(data);
+
   const { control, handleSubmit, setValue } = useForm({
     mode: "onChange",
     defaultValues: {

@@ -28,4 +28,11 @@ export const apiRoutes = {
   create_city: `post:city`,
   update_city: `put:city`,
   delete_city: `delete:city`,
+
+  // admin
+  all_admin: `get:admin-user`,
+  get_admin: `get:admin-user`,
+
+  // role
+  all_role: `get:role`,
 };
