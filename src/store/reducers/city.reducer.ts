@@ -1,8 +1,9 @@
 import * as types from '../type';
-export interface VersionState {
+export interface CityState {
   error: string,
   isLoading: boolean,
-  version_history: any,
+  all_cities: any,
+  city_by_id: any,
 }
 
 export type Action = {
@@ -13,39 +14,42 @@ export type Action = {
 const initialState = {
   error: null,
   isLoading: false,
-  version_history: null,
+  all_cities: null,
+  city_by_id:null,
 };
 
-const version = (state = initialState, action:Action) => {
+const city = (state = initialState, action:Action) => {
   switch (action.type) {
-    case types.GET_VERSION_HISTORY_REQUEST: // typeName 
+    case types.GET_ALL_CITY_REQUEST: // typeName 
       return {
         ...state,
         isLoading: true,
       };
-    case types.GET_VERSION_HISTORY_SUCCESS:
+    case types.GET_ALL_CITY_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        version_history: action.payload,
+        all_cities: action.payload,
       };
-    case types.GET_VERSION_HISTORY_ERROR:
+    case types.GET_ALL_CITY_ERROR:
       return {
         ...state,
         isLoading: false,
         error: action.payload,
       };
-    case types.POST_VERSION_REQUEST:  
+    case types.GET_CITY_BY_ID_REQUEST:  
       return {
         ...state,
         isLoading: true,
       };
-    case types.POST_VERSION_SUCCESS:
+    case types.GET_CITY_BY_ID_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        error: null,
+        city_by_id: action.payload,
       };
-    case types.POST_VERSION_ERROR:
+    case types.GET_CITY_BY_ID_ERROR:
       return {
         ...state,
         isLoading: false,
@@ -56,4 +60,4 @@ const version = (state = initialState, action:Action) => {
   }
 };
 
-export default version;
+export default city;

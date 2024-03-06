@@ -9,6 +9,7 @@ export const setToken = ({ j_token }) => {
 
 export const getToken = () => {
   const sessi = Cookies.get('j_token');
+  console.log(sessi,'sessi')
   if (!sessi) return false;
   const bytes = CryptoJS.AES.decrypt(sessi, 'j_token');
   try {

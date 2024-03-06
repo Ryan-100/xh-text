@@ -3,8 +3,9 @@ import { Dispatch } from 'redux';
 import controller, { apiRoutes } from '../../controller';
 import * as types from '../type';
 import { FetchFailure, FetchRequest, FetchSuccess } from './typehandle.action';
+import { routeFilter } from '../../utils';
 
-interface SystemNotificationData {
+export interface SystemNotificationData {
   send_type: string;
   noti_type: string;
   customer_id: string;
@@ -41,7 +42,22 @@ const getSystemNotificationHistory = () => async (dispatch:Dispatch) => {
     .catch(error => dispatch(FetchFailure(types.GET_SYSTEM_NOTI_HISTORY_ERROR, error.message)));
 };
 
+const getSystemNotificationHistoryByFilter = (params) => async (dispatch:Dispatch) => {
+  dispatch(FetchRequest(types.GET_SYSTEM_NOTI_HISTORY_REQUEST));
+  return await controller(`${apiRoutes.system_noti_history}/notification-list-by-filter?${routeFilter(params)}`)
+    .then(res => {
+      if (res?.error) {
+        console.log(res.data);
+      } else {
+        dispatch(FetchSuccess(types.GET_SYSTEM_NOTI_HISTORY_SUCCESS, res?.data));
+        return res?.data;
+      }
+    })
+    .catch(error => dispatch(FetchFailure(types.GET_SYSTEM_NOTI_HISTORY_ERROR, error.message)));
+};
+
 export const notification = {
   sendSytemNotification,
   getSystemNotificationHistory,
+  getSystemNotificationHistoryByFilter
 };
