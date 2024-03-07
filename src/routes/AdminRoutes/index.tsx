@@ -256,6 +256,10 @@ const routes = [
         element: <NotificationHistory />,
       },
       {
+        path: "notification/history?filter_type=:filterType&from_date=:fromDate&to_date=:toDate",
+        element: <NotificationHistory />,
+      },
+      {
         path: "onboarding",
         element: <Onboarding />,
       },
@@ -449,6 +453,10 @@ const routes = [
       },
       {
         path: "app-version/history",
+        element: <AllVersions />,
+      },
+      {
+        path: "app-version/history?skip=:skipValue&take=:takeValue&filter[app_name]=:appValue",
         element: <AllVersions />,
       },
       {

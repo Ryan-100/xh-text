@@ -8,11 +8,12 @@ import MuiTextarea from "../../../components/form/TextArea";
 import { applicationType } from "./History";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { notification } from "../../../store/actions/notification.action";
 import AlertModal from "../../../components/Modal/AlertModal";
+import { SystemNotificationData, notification } from "../../../store/actions";
 
 const RiderReportDetail = () => {
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [notFilled, setNotFilled] = React.useState(false);
   const { control, handleSubmit, setValue } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,26 +22,29 @@ const RiderReportDetail = () => {
     setValue("send_type", "userApp");
   }, []);
 
-  const sendNotification = async (data) => {
+  const sendNotification = async (data: SystemNotificationData) => {
     const res = await dispatch(notification.sendSytemNotification(data) as any);
     if (res?.statusCode === 201) {
       setIsSuccess(true);
-      setValue('title','')
-      setValue('message','')
+      setValue("title", "");
+      setValue("message", "");
     }
   };
 
   const onSubmit = (data) => {
-    console.log(data);
-    const notiData = {
-      send_type: data.send_type,
-      noti_type: "system",
-      customer_id: "3a67c960-f748-42b8-9aa6-030f393fca21",
-      image_url: "https://avatars.githubusercontent.com/u/145317987?s=48&v=4",
-      title: data.title,
-      message: data.message,
-    };
-    sendNotification(notiData);
+    if (data.send_type && data.title && data.message) {
+      const notiData = {
+        send_type: data.send_type,
+        noti_type: "system",
+        customer_id: "3a67c960-f748-42b8-9aa6-030f393fca21",
+        image_url: "https://avatars.githubusercontent.com/u/145317987?s=48&v=4",
+        title: data.title,
+        message: data.message,
+      };
+      sendNotification(notiData);
+    } else {
+      setNotFilled(true);
+    }
   };
   const goBack = () => {
     navigate(-1);
@@ -138,6 +142,12 @@ const RiderReportDetail = () => {
         onClose={() => setIsSuccess(false)}
         title={"Success"}
         body={"The notification has been sent successfully."}
+      />
+      <AlertModal
+        open={notFilled}
+        onClose={() => setNotFilled(false)}
+        title={"Alert"}
+        body={"Kindly fill all fields with the necessary information."}
       />
     </>
   );

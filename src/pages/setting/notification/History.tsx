@@ -1,34 +1,36 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
 import Icon from "../../../icons";
-import { roleOptions } from "../../../layout/config";
 import { Divider } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { notification } from "../../../store/actions/notification.action";
 import moment from "moment";
 import Datepicker from "react-tailwindcss-datepicker";
+import { notification } from "../../../store/actions";
+import { routeFilter } from "../../../utils";
 
 export const applicationType = [
   { value: "userApp", label: "User Application" },
   { value: "counterApp", label: "Counter Application" },
   { value: "riderApp", label: "Rider Application" },
-]
+];
 
 const History = () => {
   const [data, setData] = React.useState<any[]>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [value, setValue] = React.useState({
     startDate: null,
     endDate: null,
   });
+  const { control, watch } = useForm({ mode: "onChange" });
+  const navigate = useNavigate();
+  const send_type = watch("send_type");
 
   const handleValueChange = (newValue) => {
     console.log("newValue:", newValue);
     setValue(newValue);
   };
-  const { control } = useForm({ mode: "onChange" });
-  const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
@@ -46,8 +48,33 @@ const History = () => {
         console.error("Error fetching counter:", error);
       }
     };
-    fetchCounters();
-  }, [dispatch]);
+    const fetchCountersByFilter = async (params) => {
+      try {
+        const res = await dispatch(
+          notification.getSystemNotificationHistoryByFilter(params) as any
+        );
+        setData(res?.data);
+      } catch (error) {
+        console.error("Error fetching counter:", error);
+      }
+    };
+    //fetch system notification list according to filter
+    if (send_type && value.startDate && value.endDate) {
+      fetchCountersByFilter({
+        filter_type: send_type,
+        from_date: new Date(value.startDate).toISOString(),
+        to_date: new Date(value.endDate).toISOString(),
+      });
+      setSearchParams({
+        filter_type: send_type,
+        from_date: new Date(value.startDate).toISOString(),
+        to_date: new Date(value.endDate).toISOString(),
+      });
+    } else {
+      fetchCounters();
+      setSearchParams();
+    }
+  }, [dispatch, send_type]);
 
   return (
     <div className="flex flex-col space-y-6">
@@ -74,15 +101,20 @@ const History = () => {
               fullWidth
               name="send_type"
               control={control}
-              defaultValue="userApp"
-              label={""}
+              label={"Choose application type"}
               options={applicationType}
             />
           </div>
         </div>
         <div className="w-[528px]">
-          <Datepicker value={value} onChange={handleValueChange} primaryColor="orange" showShortcuts inputClassName="h-12 w-full outline-none border border-gray-light rounded-[10px] pl-6" />
-        </div>  
+          <Datepicker
+            value={value}
+            onChange={handleValueChange}
+            primaryColor="orange"
+            showShortcuts
+            inputClassName="h-12 w-full placeholder:text-base outline-none border border-gray-light rounded-[10px] pl-6"
+          />
+        </div>
       </div>
       <div className="w-full bg-white rounded-[10px] flex flex-col">
         {data &&

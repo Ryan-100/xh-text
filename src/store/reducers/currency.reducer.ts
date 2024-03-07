@@ -1,9 +1,9 @@
 import * as types from '../type';
-export interface CityState {
+export interface CurrencyState {
   error: string,
   isLoading: boolean,
-  all_cities: any,
-  city_by_id: any,
+  all_currency: any,
+  currency_by_id: any,
 }
 
 export type Action = {
@@ -14,42 +14,42 @@ export type Action = {
 const initialState = {
   error: null,
   isLoading: false,
-  all_cities: null,
-  city_by_id:null,
+  all_currency: null,
+  currency_by_id:null,
 };
 
-const city = (state = initialState, action:Action) => {
+const currency = (state = initialState, action:Action) => {
   switch (action.type) {
-    case types.GET_ALL_CITY_REQUEST: // typeName 
+    case types.GET_ALL_CURRENCY_REQUEST: // typeName 
       return {
         ...state,
         isLoading: true,
       };
-    case types.GET_ALL_CITY_SUCCESS:
+    case types.GET_ALL_CURRENCY_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        all_cities: action.payload,
+        all_currency: action.payload,
       };
-    case types.GET_ALL_CITY_ERROR:
+    case types.GET_ALL_CURRENCY_ERROR:
       return {
         ...state,
         isLoading: false,
         error: action.payload,
       };
-    case types.GET_CITY_BY_ID_REQUEST:  
+    case types.GET_CURRENCY_BY_ID_REQUEST:  
       return {
         ...state,
         isLoading: true,
       };
-    case types.GET_CITY_BY_ID_SUCCESS:
+    case types.GET_CURRENCY_BY_ID_SUCCESS:
       return {
         ...state,
         isLoading: false,
         error: null,
-        city_by_id: action.payload,
+        currency_by_id: action.payload,
       };
-    case types.GET_CITY_BY_ID_ERROR:
+    case types.GET_CURRENCY_BY_ID_ERROR:
       return {
         ...state,
         isLoading: false,
@@ -60,4 +60,4 @@ const city = (state = initialState, action:Action) => {
   }
 };
 
-export default city;
+export default currency;

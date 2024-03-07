@@ -1,9 +1,28 @@
 import React from "react";
 import { Divider } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Icon from "../../../icons";
+import { useDispatch } from "react-redux";
+import { parcel } from "../../../store/actions";
+import moment from "moment";
 
-const AmountDetail = () => {
+const ParcelDetail = () => {
+  const [parcelData, setParcelData] = React.useState<any>();
+  const { id: parcelId } = useParams();
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    const fetchParcelDetail = async () => {
+      try {
+        const res = await dispatch(parcel.getParcelById(parcelId) as any);
+        setParcelData(res?.data);
+      } catch (error) {
+        console.error("Error fetching counter:", error);
+      }
+    };
+    fetchParcelDetail();
+  }, [dispatch, parcelId]);
+  console.log(parcelData,'parcelData')
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
@@ -13,7 +32,9 @@ const AmountDetail = () => {
   };
 
   return (
-    <div className="flex flex-col space-y-6">
+    <>
+    
+    {parcelData && <div className="flex flex-col space-y-6">
       <div className="flex justify-between items-center mb-[2px]">
         <div
           onClick={goBack}
@@ -34,11 +55,11 @@ const AmountDetail = () => {
         <div className="flex items-center justify-center space-x-[84px]">
           <div className="flex flex-col">
             <p className="text-gray leading-6">Created Date</p>
-            <p className="text-secondary leading-6">9 Sep 2022</p>
+            <p className="text-secondary leading-6">{moment(parcelData?.created_at).format("D MMM YYYY")}</p>
           </div>
           <div className="flex flex-col">
             <p className="text-gray leading-6">Created By</p>
-            <p className="text-secondary leading-6">SuperAdmin_HHW</p>
+            <p className="text-secondary leading-6">{parcelData?.created_by || "Unknown"}</p>
           </div>
         </div>
         <div className="flex items-center space-x-6">
@@ -59,11 +80,11 @@ const AmountDetail = () => {
           <div className="flex flex-col space-y-4 w-[504px]">
             <div className="h-12 w-full py-3 px-4 flex items-center justify-between">
               <p className="text-gray">Parcel Type</p>
-              <p className="text-secondary w-[252px]">Electronic Device</p>
+              <p className="text-secondary w-[252px]">{parcelData?.parcel_type}</p>
             </div>
             <div className="h-12 w-full py-3 px-4 flex items-center justify-between">
               <p className="text-gray">State</p>
-              <p className="text-secondary w-[252px]">Default</p>
+              <p className="text-secondary w-[252px]">{parcelData?.state}</p>
             </div>
           </div>
           <img
@@ -73,8 +94,8 @@ const AmountDetail = () => {
           />
         </div>
       </div>
-    </div>
+    </div>}</>
   );
 };
 
-export default AmountDetail;
+export default ParcelDetail;

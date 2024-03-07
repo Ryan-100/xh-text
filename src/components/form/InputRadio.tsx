@@ -12,7 +12,7 @@ import Icon from "../../icons";
 interface MUIRadioGroupProps {
   name: string;
   control: Control<any>;
-  options: { label: string; value: string }[];
+  options: { label: string; value: string | number }[];
   formControlProps?: FormControlProps;
   defaultValue?: any;
   formControlLabelProps?: FormControlLabelProps;

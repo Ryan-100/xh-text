@@ -1,70 +1,115 @@
-import { useRef, useState } from "react";
-import { TextField } from "@mui/material";
+import React, { useRef } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
-import { counterOptions, counterRows } from "../../../layout/config";
 import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
+import { useDispatch, useSelector } from "react-redux";
+import { amount } from "../../../store/actions";
 
 const SettingAmount = () => {
-  const [data, setData] = useState(counterRows);
-  const [editRowId, setEditRowId] = useState(null);
-  const [editedData, setEditedData] = useState(null);
+  const [data, setData] = React.useState<any[]>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const apiRef = useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { control, watch } = useForm({
+    mode: "onChange",
+  });
+
+  const {all_cities} = useSelector((state:any)=>state.city);
+
+  const cityOptions = all_cities?.data?.map(city=> ({
+    value: city.id,
+    label: city.city_eng
+  }))
+
+  const skip = searchParams.get("skip") || "0";
+  const take = searchParams.get("take") || "10";
+
+  const from_city_id = watch("from_city");
+  const to_city_id = watch("to_city");
+
+  console.log(from_city_id, to_city_id, all_cities, "cities");
+
+  React.useEffect(() => {
+    const fetchAmounts = async () => {
+      try {
+        const res = await dispatch(amount.getAllAmounts() as any);
+        setData(res?.data);
+      } catch (error) {
+        console.error("Error fetching counter:", error);
+      }
+    };
+    const fetchAmountsByFilter = async (params) => {
+      try {
+        const res = await dispatch(amount.getAllAmountsByFilter(params) as any);
+        setData(res?.data?.data);
+      } catch (error) {
+        console.error("Error fetching counter:", error);
+      }
+    };
+    //fetch system notification list according to filter
+    if (from_city_id && to_city_id) {
+      fetchAmountsByFilter({
+        skip,
+        take,
+        "filter[from_city_id]": from_city_id,
+        "filter[to_city_id": to_city_id,
+      });
+      setSearchParams({
+        skip,
+        take,
+        "filter[from_city_id]": from_city_id,
+        "filter[to_city_id": to_city_id,
+      });
+    } else {
+      fetchAmounts();
+      setSearchParams();
+    }
+  }, [dispatch, from_city_id, to_city_id]);
+
   const goBack = () => {
     navigate(-1);
   };
-
-  const { control, handleSubmit, setValue } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      // Specify your default values here
-      counter: editedData?.counter,
-      city: editedData?.city,
-      block: editedData?.block,
-      region: editedData?.region,
-    },
-  });
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
 
   const handleEdit = (id) => {
-    navigate("/counters/edit/" + id);
+    navigate("" + id + "/edit");
   };
 
-  const handleSave = () => {
-    // Update the data with the edited data
-    const newData = data.map((row) =>
-      row.id === editRowId ? editedData : row
-    );
-    setData(newData);
-
-    // Close the modal and reset edit states
-    setEditRowId(null);
-    setEditedData(null);
-  };
-
-
-  const handleProcessRowUpdate = (updatedRow, originalRow) => {
-    console.log(updatedRow, originalRow, "rows");
-    handleSave();
-    return updatedRow;
-  };
   const amountColumns: GridColDef[] = [
     { field: "no", headerName: "No.", width: 100 },
     {
-      field: "from",
+      field: "from_city",
       headerName: "From",
       width: 186,
+      renderCell: (params) => {
+        return <p className="">{params.row.from_city.city_eng}</p>;
+      },
     },
-    { field: "to", headerName: "To", width: 200 },
-    { field: "weight", headerName: "Weight", width: 152 },
-    { field: "amount", headerName: "Amount", width: 174 },
+    {
+      field: "to_city",
+      headerName: "To",
+      width: 200,
+      renderCell: (params) => {
+        return <p className="">{params.row.to_city.city_eng}</p>;
+      },
+    },
+    {
+      field: "weight",
+      headerName: "Weight",
+      width: 152,
+      renderCell: (params) => {
+        return <p className="">{params.row.weight.weight} KG</p>;
+      },
+    },
+    { field: "delivery_fee", headerName: "Amount", width: 174 },
   ];
 
   const actionColumn: GridColDef[] = [
@@ -103,74 +148,77 @@ const SettingAmount = () => {
 
   return (
     <>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <div
-            onClick={goBack}
-            className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
-          >
-            <Icon name="leftArrow" />
-            <p className="">Back</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-semibold">Amount</p>
-          </div>
-          <div className="flex items-center text-base font-normal  h-10">
-            <p className="py-2 px-2 border-r border-r-gray text-gray">
-              Settings
-            </p>
-            <p className="py-2 px-2">Amount</p>
-          </div>
-        </div>
-        <div className="w-full flex justify-between items-center pb-6">
-          <div className="flex items-center space-x-6">
-            <div className="">
-              <p className="text-xs md:text-sm xl:text-base leading-6">
-                Filter By Start Location
+      {data && cityOptions && cityOptions.length >0 && (
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <div
+              onClick={goBack}
+              className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
+            >
+              <Icon name="leftArrow" />
+              <p className="">Back</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-semibold">Amount</p>
+            </div>
+            <div className="flex items-center text-base font-normal  h-10">
+              <p className="py-2 px-2 border-r border-r-gray text-gray">
+                Settings
               </p>
-              <div className="w-[344px]">
-                <InputSelect
-                  label={"Select Counter Name"}
-                  name="counter"
-                  control={control}
-                  options={counterOptions}
-                  fullWidth
-                />
+              <p className="py-2 px-2">Amount</p>
+            </div>
+          </div>
+          <div className="w-full flex justify-between items-center pb-6">
+            <div className="flex items-center space-x-6">
+              <div className="">
+                <p className="text-xs md:text-sm xl:text-base leading-6">
+                  Filter By Start Location
+                </p>
+                <div className="w-[344px]">
+                  <InputSelect
+                    label={"Select Counter Name"}
+                    name="from_city"
+                    control={control}
+                    options={cityOptions}
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="">
+                <p className="text-xs md:text-sm xl:text-base leading-6">
+                  Filter By End Location
+                </p>
+                <div className="w-[344px]">
+                  <InputSelect
+                    label={"Select Branch Name"}
+                    name="to_city"
+                    control={control}
+                    options={cityOptions}
+                    fullWidth
+                  />
+                </div>
               </div>
             </div>
-            <div className="">
-              <p className="text-xs md:text-sm xl:text-base leading-6">
-                Filter By End Location
-              </p>
-              <div className="w-[344px]">
-                <InputSelect
-                  label={"Select Branch Name"}
-                  name="role"
-                  control={control}
-                  options={counterOptions}
-                  fullWidth
-                />
+            <Link to="create" className="self-end">
+              <div className="buttonPrimary space-x-2 h-12">
+                <Icon name="add" />
+                <span className="text-sm md:text-base xl:text-xl">
+                  {" "}
+                  Create Amount
+                </span>
               </div>
-            </div>
+            </Link>
           </div>
-          <Link to="create" className="self-end">
-            <div className="buttonPrimary space-x-2 h-12">
-              <Icon name="add" />
-              <span className="text-sm md:text-base xl:text-xl">
-                {" "}
-                Create Amount
-              </span>
-            </div>
-          </Link>
+          {data && data.length > 0 ?  <Datatable
+              rows={data}
+              columns={amountColumns.concat(actionColumn)}
+              apiRef={apiRef}
+            />
+           : (
+            <p className="text-center">No data</p>
+          )}
         </div>
-        <Datatable
-          rows={data}
-          columns={amountColumns.concat(actionColumn)}
-          apiRef={apiRef}
-          editRowId={editRowId}
-          updateRow={handleProcessRowUpdate}
-        />
-      </div>
+      )}
     </>
   );
 };

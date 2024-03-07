@@ -4,41 +4,44 @@ import controller, { apiRoutes } from '../../controller';
 import * as types from '../type';
 import { FetchFailure, FetchRequest, FetchSuccess } from './typehandle.action';
 
-interface SystemNotificationData {
-  send_type: string;
-  noti_type: string;
-  customer_id: string;
-  image_url: string;
-  title: string;
-  message: string;
+export interface AppVersionData {
+  app_name: string;
+  platform: string;
+  version: string;
+  link: string;
+  is_force_update: number;
 } 
-
-const sendAppVersion = (data:SystemNotificationData) => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.POST_SYSTEM_NOTI_REQUEST));
-  return await controller(apiRoutes.send_system_noti,data)
+interface AppVersionFilter {
+  skip:string|number;
+  take:string|number;
+  filter:string;
+}
+const sendAppVersion = (data:AppVersionData) => async (dispatch:Dispatch) => {
+  dispatch(FetchRequest(types.POST_VERSION_REQUEST));
+  return await controller(apiRoutes.send_version,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.POST_SYSTEM_NOTI_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.POST_VERSION_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.POST_SYSTEM_NOTI_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.POST_VERSION_ERROR, error.message)));
 };
 
-const getAppVersionHistory = () => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.GET_SYSTEM_NOTI_HISTORY_REQUEST));
-  return await controller(apiRoutes.system_noti_history)
+const getAppVersionHistory = (data:AppVersionFilter) => async (dispatch:Dispatch) => {
+  dispatch(FetchRequest(types.GET_VERSION_HISTORY_REQUEST));
+  return await controller(`${apiRoutes.version_history}/pages?skip=${data.skip}&take=${data.take}&filter[app_name]=${data.filter}`)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.GET_SYSTEM_NOTI_HISTORY_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.GET_VERSION_HISTORY_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.GET_SYSTEM_NOTI_HISTORY_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.GET_VERSION_HISTORY_ERROR, error.message)));
 };
 
 export const version = {
