@@ -39,3 +39,9 @@ export const getLocalStorageData = name => {
 export const removeLocalStorage = name => {
   localStorage.removeItem(name);
 };
+
+export const logout = () => {
+  setRememberMe(false);
+  Cookies.remove('j_token');
+  localStorage.removeItem('j_token');
+};

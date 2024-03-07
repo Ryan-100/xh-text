@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { useController, UseControllerProps, Control } from "react-hook-form";
 import EyeOff from "../../icons/eyeOff";
 import Eye from "../../icons/eye";
-import { LoginFormValue } from "../../pages/login";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -55,7 +54,8 @@ const InputField = ({
         >
           <input
             {...field}
-            type={showPassword ? "text" : "password"}
+            type={(password && showPassword) ? "text" : (type === 'number' ? 'number' : (password ? 'password' : 'text'))}
+            max={type === "number" ? 100000 : undefined}
             className="outline-none w-full bg-white text-secondary placeholder:text-gray-light leading-4 md:leading-6 xl:leading-8 text-base xl:text-xl placeholder:text-base placeholder:xl:text-xl"
             {...props}
           />

@@ -5,9 +5,19 @@ import * as types from '../type';
 import { FetchFailure, FetchRequest, FetchSuccess } from './typehandle.action';
 import { routeFilter } from '../../utils';
 
-const createAmount = () => async (dispatch:Dispatch) => {
+export type AmountType = {
+  parcel_type_id: string;
+  weight_id: string;
+  from_city_id: string;
+  to_city_id: string;
+  currency_id: string;
+  delivery_fee: number;
+};
+
+
+const createAmount = (data:AmountType) => async (dispatch:Dispatch) => {
   dispatch(FetchRequest(types.CREATE_AMOUNT_REQUEST));
-  return await controller(apiRoutes.create_amount)
+  return await controller(apiRoutes.create_amount,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);

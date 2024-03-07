@@ -3,11 +3,20 @@ import { useNavigate } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
 import Icon from "../../../icons";
 import InputField from "../../../components/form/InputFiled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { AmountType, amount } from "../../../store/actions";
+import AlertModal from "../../../components/Modal/AlertModal";
 
 const AmountCreate = () => {
-  const { control } = useForm({ mode: "onChange" });
+  const [isSuccess, setIsSuccess] = React.useState(false);
+  const [notFilled, setNotFilled] = React.useState(false);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const { control,handleSubmit,setValue } = useForm({ mode: "onChange" });
+
   const { all_cities } = useSelector((state: any) => state.city);
   const { all_currency } = useSelector((state: any) => state.currency);
   const { all_weight } = useSelector((state: any) => state.weight);
@@ -25,7 +34,29 @@ const AmountCreate = () => {
     label: weight.weight,
   }));
 
-  console.log(weightOptions, all_weight,'weight')
+  const createAmount = async (data:AmountType) => {
+    const res = await dispatch(amount.createAmount(data) as any);
+    if (res?.statusCode === 201) {
+      setIsSuccess(true);
+      setNotFilled(false)
+      setValue("delivery_fee", 0);
+    }
+  };
+
+  const onSubmit = ({from_city_id,to_city_id,currency_id,weight_id,delivery_fee}) =>{
+    if(from_city_id && to_city_id && currency_id && weight_id && delivery_fee){
+      createAmount({
+        from_city_id,
+        to_city_id,
+        currency_id,
+        weight_id,
+        delivery_fee:parseInt(delivery_fee),
+        parcel_type_id:"11ca9396-176a-47ef-b816-0565584f9c85"
+      })
+    }else{
+      setNotFilled(true);
+    }
+  }
 
   const goBack = () => {
     navigate(-1);
@@ -33,7 +64,7 @@ const AmountCreate = () => {
   return (
     <>
       {cityOptions && currencyOptions && weightOptions && (
-        <div className="flex flex-col space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-6">
           <div className="flex justify-between items-center">
             <div
               onClick={goBack}
@@ -58,7 +89,7 @@ const AmountCreate = () => {
               <div className="w-[528px]">
                 <InputSelect
                   fullWidth
-                  name="from_city"
+                  name="from_city_id"
                   control={control}
                   label={"Select Start Location"}
                   options={cityOptions}
@@ -70,7 +101,7 @@ const AmountCreate = () => {
               <div className="w-[528px]">
                 <InputSelect
                   fullWidth
-                  name="to_city"
+                  name="to_city_id"
                   control={control}
                   label={"Select End Location"}
                   options={cityOptions}
@@ -84,7 +115,7 @@ const AmountCreate = () => {
               <div className="w-[528px]">
                 <InputSelect
                   fullWidth
-                  name="weight"
+                  name="weight_id"
                   control={control}
                   label={"Select weight"}
                   options={weightOptions}
@@ -98,7 +129,7 @@ const AmountCreate = () => {
               <div className="w-[528px]">
                 <InputSelect
                   fullWidth
-                  name="currency"
+                  name="currency_id"
                   control={control}
                   label={"Select Currency"}
                   options={currencyOptions}
@@ -120,12 +151,24 @@ const AmountCreate = () => {
               </div>
             </div>
           </div>
-          <div className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
+          <button className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
             <Icon name="add" width={24} height={24} />
             <p className="text-[20px] text-white">Create</p>
-          </div>
-        </div>
+          </button>
+        </form>
       )}
+      <AlertModal
+        open={isSuccess}
+        onClose={() => setIsSuccess(false)}
+        title={"Success"}
+        body={"Amount Delivery Fee has been sent successfully."}
+      />
+      <AlertModal
+        open={notFilled}
+        onClose={() => setNotFilled(false)}
+        title={"Alert"}
+        body={"Kindly fill all fields with the necessary information."}
+      />
     </>
   );
 };

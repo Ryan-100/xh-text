@@ -26,7 +26,6 @@ const AmountDetail = () => {
     };
     fetchCounter();
   }, [dispatch, amountId]);
-  console.log(amountData, "amountData");
 
   const deleteHandler = async () =>{
     const res = await dispatch(amount.deleteAmount(amountId) as any);

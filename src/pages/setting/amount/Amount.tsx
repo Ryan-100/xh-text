@@ -7,9 +7,14 @@ import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
 import { useDispatch, useSelector } from "react-redux";
 import { amount } from "../../../store/actions";
+import ModalComponent from "../../../components/Modal";
+import AlertModal from "../../../components/Modal/AlertModal";
 
 const SettingAmount = () => {
   const [data, setData] = React.useState<any[]>();
+  const [isSuccess, setIsSuccess] = React.useState<boolean>();
+  const [isDelete, setIsDelete] = React.useState<boolean>();
+  const [deleteId, setDeleteId] = React.useState<string>();
   const [searchParams, setSearchParams] = useSearchParams();
   const apiRef = useRef(null);
   const navigate = useNavigate();
@@ -19,12 +24,12 @@ const SettingAmount = () => {
     mode: "onChange",
   });
 
-  const {all_cities} = useSelector((state:any)=>state.city);
+  const { all_cities } = useSelector((state: any) => state.city);
 
-  const cityOptions = all_cities?.data?.map(city=> ({
+  const cityOptions = all_cities?.data?.map((city) => ({
     value: city.id,
-    label: city.city_eng
-  }))
+    label: city.city_eng,
+  }));
 
   const skip = searchParams.get("skip") || "0";
   const take = searchParams.get("take") || "10";
@@ -32,25 +37,23 @@ const SettingAmount = () => {
   const from_city_id = watch("from_city");
   const to_city_id = watch("to_city");
 
-  console.log(from_city_id, to_city_id, all_cities, "cities");
-
+  const fetchAmounts = async () => {
+    try {
+      const res = await dispatch(amount.getAllAmounts() as any);
+      setData(res?.data);
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
+  const fetchAmountsByFilter = async (params) => {
+    try {
+      const res = await dispatch(amount.getAllAmountsByFilter(params) as any);
+      setData(res?.data?.data);
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
   React.useEffect(() => {
-    const fetchAmounts = async () => {
-      try {
-        const res = await dispatch(amount.getAllAmounts() as any);
-        setData(res?.data);
-      } catch (error) {
-        console.error("Error fetching counter:", error);
-      }
-    };
-    const fetchAmountsByFilter = async (params) => {
-      try {
-        const res = await dispatch(amount.getAllAmountsByFilter(params) as any);
-        setData(res?.data?.data);
-      } catch (error) {
-        console.error("Error fetching counter:", error);
-      }
-    };
     //fetch system notification list according to filter
     if (from_city_id && to_city_id) {
       fetchAmountsByFilter({
@@ -71,12 +74,17 @@ const SettingAmount = () => {
     }
   }, [dispatch, from_city_id, to_city_id]);
 
-  const goBack = () => {
-    navigate(-1);
+  const deleteHandler = async (id) => {
+    const res = await dispatch(amount.deleteAmount(id) as any);
+    if (res?.statusCode === 200) {
+      setIsDelete(false);
+      setIsSuccess(true);
+      fetchAmounts();
+    }
   };
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const goBack = () => {
+    navigate(-1);
   };
 
   const handleEdit = (id) => {
@@ -136,7 +144,10 @@ const SettingAmount = () => {
             </div>
             <div
               className="editButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => {
+                setIsDelete(true);
+                setDeleteId(params.row.id);
+              }}
             >
               <Icon name="delete" color="#444240" fillColor="#444240" />
             </div>
@@ -148,7 +159,7 @@ const SettingAmount = () => {
 
   return (
     <>
-      {data && cityOptions && cityOptions.length >0 && (
+      {data && cityOptions && cityOptions.length > 0 && (
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div
@@ -209,15 +220,33 @@ const SettingAmount = () => {
               </div>
             </Link>
           </div>
-          {data && data.length > 0 ?  <Datatable
+          {data && data.length > 0 ? (
+            <Datatable
               rows={data}
               columns={amountColumns.concat(actionColumn)}
               apiRef={apiRef}
             />
-           : (
+          ) : (
             <p className="text-center">No data</p>
           )}
         </div>
+      )}
+      {isDelete && (
+        <ModalComponent
+          title="Confirm"
+          body={"Are you sure to delete this define amount? Please confirm it."}
+          open={isDelete}
+          onClose={() => setIsDelete(false)}
+          onConfirm={()=>deleteHandler(deleteId)}
+        />
+      )}
+      {isSuccess && (
+        <AlertModal
+          title="Success"
+          body={"The amount is successfully deleted. Please check into list."}
+          open={isSuccess}
+          onClose={() => setIsSuccess(false)}
+        />
       )}
     </>
   );

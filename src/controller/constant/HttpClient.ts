@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {getToken} from '../../service/auth'
+
 const client = axios.create();
 const token = getToken();
 

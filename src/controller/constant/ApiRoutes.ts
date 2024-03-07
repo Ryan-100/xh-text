@@ -20,7 +20,7 @@ export const apiRoutes = {
   all_amount: `get:delivery-fee`,
   get_amount: `get:delivery-fee`,
   create_amount: `post:delivery-fee`,
-  update_amount: `put:delivery-fee`,
+  update_amount: `patch:delivery-fee`,
   delete_amount: `delete:delivery-fee`,
   //city
   all_city: `get:city`,

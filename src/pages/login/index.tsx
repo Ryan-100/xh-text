@@ -1,10 +1,11 @@
-import React, { useMemo } from "react";
+import React from "react";
 import InputField from "../../components/form/InputFiled";
 import Button from "../../components/form/Button";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { auth } from "../../store/actions";
+import { logout } from "../../service/auth";
 
 export type LoginFormValue = {
   username: string;
@@ -19,6 +20,9 @@ const Login = () => {
       username: "",
     },
   });
+  React.useEffect(()=>{
+    logout();
+  },[])
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
