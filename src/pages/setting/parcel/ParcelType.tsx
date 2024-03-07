@@ -1,18 +1,37 @@
-import { useRef, useState } from "react";
-import { TextField } from "@mui/material";
+import React, { useRef, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
 import { counterOptions, counterRows } from "../../../layout/config";
 import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
+import { useDispatch } from "react-redux";
+import { parcel } from "../../../store/actions";
 
 const ParcelType = () => {
-  const [data, setData] = useState(counterRows);
+  const [data, setData] = useState<any>();
   const [editRowId, setEditRowId] = useState(null);
   const [editedData, setEditedData] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const apiRef = useRef(null);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    const fetchParcel = async () => {
+      try {
+        const res = await dispatch(parcel.getAllParcel() as any);
+        setData(res?.data);
+      } catch (error) {
+        console.error("Error fetching counter:", error);
+      }
+    };
+    fetchParcel();
+  }, [dispatch]);
+
+  console.log(data, "Parcel Type Data");
+
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
@@ -57,11 +76,11 @@ const ParcelType = () => {
   const amountColumns: GridColDef[] = [
     { field: "no", headerName: "No.", width: 100 },
     {
-      field: "type",
+      field: "parcel_type",
       headerName: "Parcel Type Name",
       width: 371,
     },
-    { field: "to", headerName: "State", width: 341 },
+    { field: "state", headerName: "State", width: 341 },
   ];
 
   const actionColumn: GridColDef[] = [
@@ -100,74 +119,76 @@ const ParcelType = () => {
 
   return (
     <>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <div
-            onClick={goBack}
-            className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
-          >
-            <Icon name="leftArrow" />
-            <p className="">Back</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-semibold">Parcel Type</p>
-          </div>
-          <div className="flex items-center text-base font-normal  h-10">
-            <p className="py-2 px-2 border-r border-r-gray text-gray">
-              Settings
-            </p>
-            <p className="py-2 px-2">Parcel Type</p>
-          </div>
-        </div>
-        <div className="w-full flex justify-between items-center pb-6">
-          <div className="flex items-center space-x-6">
-            <div className="">
-              <p className="text-xs md:text-sm xl:text-base leading-6">
-                Filter By Name
+      {data && (
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <div
+              onClick={goBack}
+              className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
+            >
+              <Icon name="leftArrow" />
+              <p className="">Back</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-semibold">Parcel Type</p>
+            </div>
+            <div className="flex items-center text-base font-normal  h-10">
+              <p className="py-2 px-2 border-r border-r-gray text-gray">
+                Settings
               </p>
-              <div className="w-[344px]">
-                <InputSelect
-                  label={"Select Counter Name"}
-                  name="counter"
-                  control={control}
-                  options={counterOptions}
-                  fullWidth
-                />
+              <p className="py-2 px-2">Parcel Type</p>
+            </div>
+          </div>
+          <div className="w-full flex justify-between items-center pb-6">
+            <div className="flex items-center space-x-6">
+              <div className="">
+                <p className="text-xs md:text-sm xl:text-base leading-6">
+                  Filter By Name
+                </p>
+                <div className="w-[344px]">
+                  <InputSelect
+                    label={"Select Counter Name"}
+                    name="counter"
+                    control={control}
+                    options={counterOptions}
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="">
+                <p className="text-xs md:text-sm xl:text-base leading-6">
+                  Filter By State
+                </p>
+                <div className="w-[344px]">
+                  <InputSelect
+                    label={"Select Branch Name"}
+                    name="role"
+                    control={control}
+                    options={counterOptions}
+                    fullWidth
+                  />
+                </div>
               </div>
             </div>
-            <div className="">
-              <p className="text-xs md:text-sm xl:text-base leading-6">
-                Filter By State
-              </p>
-              <div className="w-[344px]">
-                <InputSelect
-                  label={"Select Branch Name"}
-                  name="role"
-                  control={control}
-                  options={counterOptions}
-                  fullWidth
-                />
+            <Link to="create" className="self-end">
+              <div className="buttonPrimary space-x-2 h-12">
+                <Icon name="add" />
+                <span className="text-sm md:text-base xl:text-xl">
+                  {" "}
+                  Create Parcel Type
+                </span>
               </div>
-            </div>
+            </Link>
           </div>
-          <Link to="create" className="self-end">
-            <div className="buttonPrimary space-x-2 h-12">
-              <Icon name="add" />
-              <span className="text-sm md:text-base xl:text-xl">
-                {" "}
-                Create Parcel Type
-              </span>
-            </div>
-          </Link>
+          <Datatable
+            rows={data}
+            columns={amountColumns.concat(actionColumn)}
+            apiRef={apiRef}
+            editRowId={editRowId}
+            updateRow={handleProcessRowUpdate}
+          />
         </div>
-        <Datatable
-          rows={data}
-          columns={amountColumns.concat(actionColumn)}
-          apiRef={apiRef}
-          editRowId={editRowId}
-          updateRow={handleProcessRowUpdate}
-        />
-      </div>
+      )}
     </>
   );
 };

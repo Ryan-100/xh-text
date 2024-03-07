@@ -3,7 +3,6 @@ import { GridColDef } from "@mui/x-data-grid";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
-import { counterOptions } from "../../../layout/config";
 import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,7 +67,6 @@ const SettingAmount = () => {
       });
     } else {
       fetchAmounts();
-      setSearchParams();
       setSearchParams();
     }
   }, [dispatch, from_city_id, to_city_id]);

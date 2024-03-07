@@ -5,3 +5,6 @@ export * from './notification.action';
 export * from './version.action';
 export * from './amount.action';
 export * from './city.action';
+export * from './currency.action';
+export * from './weight.action';
+export * from './parcel.action';
