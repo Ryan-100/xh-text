@@ -22,6 +22,7 @@ const CounterList = () => {
     const fetchCounters = async () => {
       try {
         const res = await dispatch(counter.getAllCounters() as any);
+        console.log(res)
         setData(res?.data);
       } catch (error) {
         console.error("Error fetching counter:", error);

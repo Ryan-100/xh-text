@@ -24,6 +24,7 @@ const RiderReportDetail = () => {
 
   const sendNotification = async (data: SystemNotificationData) => {
     const res = await dispatch(notification.sendSytemNotification(data) as any);
+    console.log(res)
     if (res?.statusCode === 201) {
       setIsSuccess(true);
       setValue("title", "");

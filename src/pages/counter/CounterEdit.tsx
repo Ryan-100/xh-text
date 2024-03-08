@@ -23,6 +23,7 @@ const CounterEdit = () => {
     const fetchCounter = async () => {
       try {
         const res = await dispatch(counter.getCounterById(counterId) as any);
+        console.log( res)
         setCounterData(res?.data);
       } catch (error) {
         console.error("Error fetching counter:", error);
@@ -45,6 +46,7 @@ const CounterEdit = () => {
 
   const updateCounterHandler =async (data) =>{
     const res = await dispatch(counter.updateCounter(counterId,data) as any);
+    console.log(res)
     if(res.status === 201){
       setSuccess(true);
     }

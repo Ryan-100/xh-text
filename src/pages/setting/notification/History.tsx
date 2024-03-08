@@ -43,6 +43,8 @@ const History = () => {
         const res = await dispatch(
           notification.getSystemNotificationHistory() as any
         );
+        console.log(res,"noti")
+
         setData(res?.data);
       } catch (error) {
         console.error("Error fetching counter:", error);
@@ -53,6 +55,8 @@ const History = () => {
         const res = await dispatch(
           notification.getSystemNotificationHistoryByFilter(params) as any
         );
+        console.log(res,"noti")
+
         setData(res?.data);
       } catch (error) {
         console.error("Error fetching counter:", error);

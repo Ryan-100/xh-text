@@ -10,12 +10,13 @@ import { useDispatch } from "react-redux";
 import { parcel } from "../../../store/actions";
 
 const ParcelType = () => {
-  const [data, setData] = useState<any>();
   const [editRowId, setEditRowId] = useState(null);
   const [editedData, setEditedData] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const apiRef = useRef(null);
+  const [data, setData] = useState<any>();
+
   const dispatch = useDispatch();
 
   React.useEffect(() => {

@@ -101,6 +101,7 @@ import {
   Banner,
   Ads,
   CounterEdit,
+  MainCounterDetail,
 } from "../element";
 import Login from "../../pages/login";
 
@@ -190,6 +191,13 @@ const routes = [
       {
         path: "",
         element: <CounterList />,
+      },
+      {
+        path: ":id/?from_date=:fromDateValue&to_date=:toDateValue&skip=:skipValue&take=:takeValue&parcel_type=:parcelTypeValue",         
+        
+        
+        
+        element: <MainCounterDetail />,
       },
       {
         path: "create",

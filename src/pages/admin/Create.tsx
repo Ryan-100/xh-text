@@ -1,12 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Divider } from "@mui/material";
 import Icon from "../../icons";
 import InputField from "../../components/form/InputFiled";
 import MuiTextarea from "../../components/form/TextArea";
 import InputSelect from "../../components/form/InputSelect";
 import { counterOptions, roleOptions } from "../../layout/config";
+import { useDispatch } from "react-redux";
+import { counter } from "../../store/actions";
 
 const ProfileEditComponent = () => {
   const { control } = useForm({ mode: "onChange" });
@@ -14,6 +16,10 @@ const ProfileEditComponent = () => {
   const goBack = () => {
     navigate(-1);
   };
+ 
+
+
+
   return (
     <div className="flex flex-col space-y-6">
       <div className="flex justify-between items-center mb-[2px]">
