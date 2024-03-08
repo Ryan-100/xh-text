@@ -10,6 +10,8 @@ import { admin } from "../../store/actions/admin.action";
 import { Admin } from "../../store/reducers/admin.reducer";
 import { cn, formatDate, safeFormatString } from "../../utils";
 import { counter } from "../../store/actions/counter.action";
+import ModalComponent from "../../components/Modal";
+import AlertModal from "../../components/Modal/AlertModal";
 
 const AdminDetail = () => {
 	const { id: adminId } = useParams();
@@ -18,11 +20,14 @@ const AdminDetail = () => {
 	const [counters, setCounters] = useState([]);
 	const [adminData, setAdminData] = useState<Admin>();
 	const [isCopyClicked, setIsCopyClicked] = useState(false);
+	const [isAlert, setIsAlert] = useState(false);
+	const [alertMsg, setAlertMsg] = useState("");
+	const [isDelete, setIsDelete] = useState(false);
 	const goBack = () => {
 		navigate(-1);
 	};
 	const goToEdit = () => {
-		navigate("/admin/edit/123");
+		navigate(`/admin/edit/${adminId}`);
 	};
 	const goToEditPermission = () => {
 		navigate("/admin/edit/permissions/123");
@@ -59,6 +64,20 @@ const AdminDetail = () => {
 			setTimeout(() => {
 				setIsCopyClicked(false);
 			}, 100);
+		}
+	};
+
+	const handleDelete = async () => {
+		// setData(data.filter((item) => item.id !== id));
+		try {
+			const res = await dispatch(admin.deleteAdmin(adminId) as any);
+			setIsDelete(false);
+			setAlertMsg(res.message);
+			setIsAlert(true);
+			navigate("/admin");
+		} catch (error) {
+			setAlertMsg(error);
+			setIsAlert(true);
 		}
 	};
 
@@ -101,12 +120,12 @@ const AdminDetail = () => {
 							<div className="flex items-center space-x-6">
 								<div
 									onClick={goToEdit}
-									className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
+									className="cursor-pointer self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
 								>
 									<Icon name="edit1" width={24} height={24} />
 									<p className="text-[20px] text-white">Edit Information</p>
 								</div>
-								<div className="editButton h-12">
+								<div onClick={() => setIsDelete(true)} className="editButton h-12">
 									<Icon name="delete2" />
 								</div>
 							</div>
@@ -171,12 +190,12 @@ const AdminDetail = () => {
 										)}
 									</p>
 								</div>
-								<div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1">
+								{/* <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1">
 									<p className="text-gray">Password</p>
 									<p className="text-secondary w-[235px]">
 										{adminData.password}
 									</p>
-								</div>
+								</div> */}
 								<div className="h-fit w-[411px] py-3 px-4 flex items-start justify-between ">
 									<p className="text-gray">Address</p>
 									<p className="text-secondary w-[235px]">
@@ -211,6 +230,19 @@ const AdminDetail = () => {
 							</div>
 						</div>
 					</div>
+					<ModalComponent
+						title="Confirm"
+						body={"Are you sure to delete this Admin? Please confirm it."}
+						open={isDelete}
+						onClose={() => setIsDelete(false)}
+						onConfirm={handleDelete}
+					/>
+					<AlertModal
+						title="Alert"
+						body={alertMsg}
+						open={isAlert}
+						onClose={() => setIsAlert(false)}
+					/>
 				</div>
 			)}
 		</>

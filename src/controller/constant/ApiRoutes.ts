@@ -53,7 +53,9 @@ export const apiRoutes = {
 	// admin
 	all_admin: `get:admin-user`,
 	create_admin: `post:admin-user`,
+	update_admin: `patch:admin-user`,
 	get_admin: `get:admin-user`,
+	delete_admin: `delete:admin-user`,
 
 	// role
 	all_role: `get:role`,
