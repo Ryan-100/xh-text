@@ -158,7 +158,7 @@ const AdminDetail = () => {
 								<div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1">
 									<p className="text-gray">Branch</p>
 									<p className="text-secondary w-[235px]">
-										{safeFormatString(adminData.city.city_eng)}
+										{safeFormatString(adminData?.city?.city_eng)}
 									</p>
 								</div>
 								<div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between">

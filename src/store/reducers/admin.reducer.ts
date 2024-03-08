@@ -38,7 +38,8 @@ export interface AdminState {
 
 export type Action = {
 	type: string;
-	payload: any; // Adjust the type based on your actual actions
+	payload: any;
+	error: any;
 };
 
 const initialState = {
@@ -85,6 +86,23 @@ const admin = (state = initialState, action: Action) => {
 				...state,
 				isLoading: false,
 				error: action.payload,
+			};
+		case types.CREATE_ADMIN_REQUEST:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case types.CREATE_ADMIN_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				error: null,
+			};
+		case types.CREATE_ADMIN_ERROR:
+			return {
+				...state,
+				isLoading: false,
+				error: action.error,
 			};
 		default:
 			return state;
