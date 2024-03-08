@@ -6,6 +6,7 @@ import { parcel } from "../../../store/actions";
 import moment from "moment";
 import AlertModal from "../../../components/Modal/AlertModal";
 import ModalComponent from "../../../components/Modal";
+import { formatDate } from "../../../utils";
 
 const ParcelDetail = () => {
   const [parcelData, setParcelData] = React.useState<any>();
@@ -66,7 +67,7 @@ const ParcelDetail = () => {
         <div className="flex items-center justify-center space-x-[84px]">
           <div className="flex flex-col">
             <p className="text-gray leading-6">Created Date</p>
-            <p className="text-secondary leading-6">{moment(parcelData?.created_at).format("D MMM YYYY")}</p>
+            <p className="text-secondary leading-6">{formatDate(parcelData?.created_at)}</p>
           </div>
           <div className="flex flex-col">
             <p className="text-gray leading-6">Created By</p>

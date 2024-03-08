@@ -5,7 +5,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
 import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { parcel } from "../../../store/actions";
 import ModalComponent from "../../../components/Modal";
 import AlertModal from "../../../components/Modal/AlertModal";
@@ -36,6 +36,8 @@ const ParcelType = () => {
     mode: "onChange",
   });
 
+  const {all_parcel} = useSelector((state:any)=>state.parcel)
+
   const skip = searchParams.get("skip") || "0";
   const take = searchParams.get("take") || "10";
 
@@ -48,7 +50,6 @@ const ParcelType = () => {
     try {
       const res = await dispatch(parcel.getAllParcel() as any);
       setData(res?.data);
-      console.log(res, "no filter");
     } catch (error) {
       console.error("Error fetching counter:", error);
     }
@@ -57,13 +58,12 @@ const ParcelType = () => {
     try {
       const res = await dispatch(parcel.getAllParcelByFilter(params) as any);
       setData(res?.data?.data);
-      console.log(res, "res");
     } catch (error) {
       console.error("Error fetching counter:", error);
     }
   };
   React.useEffect(() => {
-    if (parcel_type || state) {
+    if (parcel_type || state === 0 || 1) {
       fetchParcelByFilter({
         skip,
         take,
@@ -82,7 +82,7 @@ const ParcelType = () => {
     }
   }, [parcel_type, state]);
 
-  const parcelTypeOptions = data?.map((parcel) => ({
+  const parcelTypeOptions = all_parcel?.data?.map((parcel) => ({
     value: parcel.parcel_type,
     label: parcel.parcel_type,
   }));

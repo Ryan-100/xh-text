@@ -26,21 +26,21 @@ export const apiRoutes = {
   all_city: `get:city`,
   get_city: `get:city`,
   create_city: `post:city`,
-  update_city: `put:city`,
+  update_city: `patch:city`,
   delete_city: `delete:city`,
 
   //currency
   all_currency: `get:currency`,
   get_currency: `get:currency`,
   create_currency: `post:currency`,
-  update_currency: `put:currency`,
+  update_currency: `patch:currency`,
   delete_currency: `delete:currency`,
 
   //weight
   all_weight: `get:weight`,
   get_weight: `get:weight`,
   create_weight: `post:weight`,
-  update_weight: `put:weight`,
+  update_weight: `patch:weight`,
   delete_weight: `delete:weight`,
 
   //parcel-type

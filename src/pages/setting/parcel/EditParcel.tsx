@@ -8,7 +8,7 @@ import {  parcel } from "../../../store/actions";
 import AlertModal from "../../../components/Modal/AlertModal";
 import { parcelStateOptions } from "./ParcelType";
 
-const AmountDetail = () => {
+const ParcelEdit = () => {
   const [parcelData, setParcelData] = React.useState<any>();
   const [isSuccess, setIsSuccess] = React.useState<boolean>();
   const [notFilled, setNotFilled] = React.useState(false);
@@ -20,7 +20,7 @@ const AmountDetail = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    const fetchCounter = async () => {
+    const fetchParcel = async () => {
       try {
         const res = await dispatch(parcel.getParcelById(parcelId) as any);
         setParcelData(res?.data);
@@ -28,7 +28,7 @@ const AmountDetail = () => {
         console.error("Error fetching counter:", error);
       }
     };
-    fetchCounter();
+    fetchParcel();
   }, [dispatch, parcelId]);
 
   const updateParcel = async (data) => {
@@ -42,7 +42,7 @@ const AmountDetail = () => {
 
 
   const onSubmit = (data) => {
-    if (data.state) {
+    if (data.state===0||1) {
       updateParcel(data);
     } else {
       setNotFilled(true);
@@ -111,7 +111,7 @@ const AmountDetail = () => {
         open={isSuccess}
         onClose={() => setIsSuccess(false)}
         title={"Success"}
-        body={"Amount Delivery Fee has been sent successfully."}
+        body={"Amount Delivery Fee has been edited successfully."}
       />
       <AlertModal
         open={notFilled}
@@ -123,4 +123,4 @@ const AmountDetail = () => {
   );
 };
 
-export default AmountDetail;
+export default ParcelEdit;

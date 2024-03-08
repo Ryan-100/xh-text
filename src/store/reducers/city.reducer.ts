@@ -3,6 +3,7 @@ export interface CityState {
   error: string,
   isLoading: boolean,
   all_cities: any,
+  all_cities_filter: any,
   city_by_id: any,
 }
 
@@ -15,6 +16,7 @@ const initialState = {
   error: null,
   isLoading: false,
   all_cities: null,
+  all_cities_filter: null,
   city_by_id:null,
 };
 
@@ -32,6 +34,23 @@ const city = (state = initialState, action:Action) => {
         all_cities: action.payload,
       };
     case types.GET_ALL_CITY_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case types.GET_ALL_CITY_FILTER_REQUEST: // typeName 
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case types.GET_ALL_CITY_FILTER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        all_cities_filter: action.payload,
+      };
+    case types.GET_ALL_CITY_FILTER_ERROR:
       return {
         ...state,
         isLoading: false,

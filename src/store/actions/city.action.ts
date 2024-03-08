@@ -5,9 +5,18 @@ import * as types from '../type';
 import { FetchFailure, FetchRequest, FetchSuccess } from './typehandle.action';
 import { routeFilter } from '../../utils';
 
-const createCity = () => async (dispatch:Dispatch) => {
+export interface CityDataInterface{
+  city_mm: string;
+  city_eng: string;
+  city_cha: string;
+  currency_id: string;
+  prefix: string;
+  active: number;
+}
+
+const createCity = (data:CityDataInterface) => async (dispatch:Dispatch) => {
   dispatch(FetchRequest(types.CREATE_CITY_REQUEST));
-  return await controller(apiRoutes.create_city)
+  return await controller(apiRoutes.create_city,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
@@ -35,17 +44,17 @@ const getAllCities = () => async (dispatch:Dispatch) => {
 
 
 const getAllCitiesByFilter = (params) => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.GET_ALL_CITY_REQUEST));
+  dispatch(FetchRequest(types.GET_ALL_CITY_FILTER_REQUEST));
   return await controller(`${apiRoutes.all_city}/pages?${routeFilter(params)}`)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.GET_ALL_CITY_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.GET_ALL_CITY_FILTER_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.GET_ALL_CITY_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.GET_ALL_CITY_FILTER_ERROR, error.message)));
 };
 
 const getCityById = (id:string) => async (dispatch:Dispatch) => {

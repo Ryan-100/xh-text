@@ -3,6 +3,7 @@ export interface ParcelState {
   error: string,
   isLoading: boolean,
   all_parcel: any,
+  all_parcel_filter: any,
   parcel_by_id: any,
 }
 
@@ -14,7 +15,7 @@ export type Action = {
 const initialState = {
   error: null,
   isLoading: false,
-  all_parcel: null,
+  all_parcel_filter: null,
   parcel_by_id:null,
 };
 
@@ -32,6 +33,23 @@ const parcel = (state = initialState, action:Action) => {
         all_parcel: action.payload,
       };
     case types.GET_ALL_PARCEL_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case types.GET_ALL_PARCEL_FILTER_REQUEST: // typeName 
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case types.GET_ALL_PARCEL_FILTER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        all_parcel_filter: action.payload,
+      };
+    case types.GET_ALL_PARCEL_FILTER_ERROR:
       return {
         ...state,
         isLoading: false,

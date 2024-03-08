@@ -2,33 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-
-::placeholder{
-    font-size: 13px;
+::placeholder {
+  font-size: 13px;
+  font-family: "Mukta", sans-serif;
 }
-body{
-    overflow: hidden;
-}
-
-p{
-  color:#444240;
+body {
+  overflow: hidden;
+  font-family: "Mukta", sans-serif;
 }
 
-
-li{
-  list-style-image: url('/list.svg');
+p {
+  color: #444240;
+  font-family: "Mukta", sans-serif;
 }
 
-.card{
-  @apply bg-white rounded-[20px] p-6 drop-shadow
+div{
+  font-family: "Mukta", sans-serif;
 }
-.dateRangeClass{
-  @apply h-12 w-full outline-none border border-gray-light rounded-[10px] pl-6
+
+li {
+  list-style-image: url("/list.svg");
+  font-family: "Mukta", sans-serif;
 }
-.buttonOutlined{
+
+.card {
+  @apply bg-white rounded-[20px] p-6 drop-shadow;
+}
+.dateRangeClass {
+  @apply h-12 w-full outline-none border border-gray-light rounded-[10px] pl-6;
+}
+.buttonOutlined {
   padding: 8px 16px 8px 16px;
   border-radius: 10px;
-  border: 1px solid #FFB381;
+  border: 1px solid #ffb381;
   height: 40px;
   display: flex;
   align-items: center;
@@ -36,10 +42,10 @@ li{
   cursor: pointer;
 }
 
-.buttonPrimary{
+.buttonPrimary {
   padding: 12px 16px;
   border-radius: 10px;
-  background-color: #FF6604;
+  background-color: #ff6604;
   color: white;
   display: flex;
   align-items: center;
@@ -48,58 +54,58 @@ li{
 }
 
 .viewButton {
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: green;
-    border: 1px dotted rgba(0, 139, 2, 0.596);
-    cursor: pointer;
-  }
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: green;
+  border: 1px dotted rgba(0, 139, 2, 0.596);
+  cursor: pointer;
+}
 
 .editButton {
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    background-color: #FFF7ED;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .cancelButton {
-    padding: 2px 5px;
-    border-radius: 5px;
-    border: 1px dotted rgba(32, 32, 37, 0.596);
-    cursor: pointer;
-  }
-  
-  .deleteButton {
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: crimson;
-    border: 1px dotted rgba(220, 20, 60, 0.6);
-    cursor: pointer;
-  }
-  
-  .onButton {
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: white;
-    background-color: rgb(20, 176, 61);
-    cursor: pointer;
-  }
-  
-  .offButton {
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: white;
-    background-color: rgb(210, 32, 32);
-    cursor: pointer;
-  }
-  
-  .defaultButton {
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: white;
-    background-color: rgb(71, 73, 76);
-    cursor: pointer;
-  }
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #fff7ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancelButton {
+  padding: 2px 5px;
+  border-radius: 5px;
+  border: 1px dotted rgba(32, 32, 37, 0.596);
+  cursor: pointer;
+}
+
+.deleteButton {
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: crimson;
+  border: 1px dotted rgba(220, 20, 60, 0.6);
+  cursor: pointer;
+}
+
+.onButton {
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;
+  background-color: rgb(20, 176, 61);
+  cursor: pointer;
+}
+
+.offButton {
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;
+  background-color: rgb(210, 32, 32);
+  cursor: pointer;
+}
+
+.defaultButton {
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;
+  background-color: rgb(71, 73, 76);
+  cursor: pointer;
+}
