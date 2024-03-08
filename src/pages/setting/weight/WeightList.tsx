@@ -7,11 +7,12 @@ import InputSelect from "../../../components/form/InputSelect";
 import { counterOptions, counterRows } from "../../../layout/config";
 import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
+import { useSelector } from "react-redux";
 
 const ParcelWeight = () => {
   const [data, setData] = useState(counterRows);
-  const [editRowId, setEditRowId] = useState(null);
-  const [editedData, setEditedData] = useState(null);
+  const { all_weight } = useSelector((state: any) => state.weight);
+
   const apiRef = useRef(null);
   const navigate = useNavigate();
   const goBack = () => {
@@ -20,13 +21,6 @@ const ParcelWeight = () => {
 
   const { control, handleSubmit, setValue } = useForm({
     mode: "onChange",
-    defaultValues: {
-      // Specify your default values here
-      counter: editedData?.counter,
-      city: editedData?.city,
-      block: editedData?.block,
-      region: editedData?.region,
-    },
   });
 
   const handleDelete = (id) => {
@@ -34,26 +28,11 @@ const ParcelWeight = () => {
   };
 
   const handleEdit = (id) => {
-    navigate("/counters/edit/" + id);
+    navigate("/setting/weight/" + id+"/edit");
   };
 
-  const handleSave = () => {
-    // Update the data with the edited data
-    const newData = data.map((row) =>
-      row.id === editRowId ? editedData : row
-    );
-    setData(newData);
+  console.log(all_weight,'all weight')
 
-    // Close the modal and reset edit states
-    setEditRowId(null);
-    setEditedData(null);
-  };
-
-  const handleProcessRowUpdate = (updatedRow, originalRow) => {
-    console.log(updatedRow, originalRow, "rows");
-    handleSave();
-    return updatedRow;
-  };
   const amountColumns: GridColDef[] = [
     { field: "no", headerName: "No.", width: 100 },
     {
@@ -149,8 +128,6 @@ const ParcelWeight = () => {
           rows={data}
           columns={amountColumns.concat(actionColumn)}
           apiRef={apiRef}
-          editRowId={editRowId}
-          updateRow={handleProcessRowUpdate}
         />
       </div>
     </>

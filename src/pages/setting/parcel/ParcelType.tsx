@@ -3,76 +3,107 @@ import { GridColDef } from "@mui/x-data-grid";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
-import { counterOptions, counterRows } from "../../../layout/config";
 import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
 import { useDispatch } from "react-redux";
 import { parcel } from "../../../store/actions";
+import ModalComponent from "../../../components/Modal";
+import AlertModal from "../../../components/Modal/AlertModal";
+
+export const parcelStateOptions = [
+  {
+    value: 1,
+    label: "Default",
+  },
+  {
+    value: 0,
+    label: "Other",
+  },
+];
 
 const ParcelType = () => {
   const [data, setData] = useState<any>();
-  const [editRowId, setEditRowId] = useState(null);
-  const [editedData, setEditedData] = useState(null);
+  const [isSuccess, setIsSuccess] = React.useState<boolean>();
+  const [isDelete, setIsDelete] = React.useState<boolean>();
+  const [deleteId, setDeleteId] = React.useState<string>();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const apiRef = useRef(null);
   const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    const fetchParcel = async () => {
-      try {
-        const res = await dispatch(parcel.getAllParcel() as any);
-        setData(res?.data);
-      } catch (error) {
-        console.error("Error fetching counter:", error);
-      }
-    };
-    fetchParcel();
-  }, [dispatch]);
-
-  console.log(data, "Parcel Type Data");
-
   const navigate = useNavigate();
+
+  const { control, watch } = useForm({
+    mode: "onChange",
+  });
+
+  const skip = searchParams.get("skip") || "0";
+  const take = searchParams.get("take") || "10";
+
+  const parcel_type = watch("parcel_type");
+  const state = watch("state");
+
+  console.log(parcel_type, state);
+
+  const fetchParcel = async () => {
+    try {
+      const res = await dispatch(parcel.getAllParcel() as any);
+      setData(res?.data);
+      console.log(res, "no filter");
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
+  const fetchParcelByFilter = async (params) => {
+    try {
+      const res = await dispatch(parcel.getAllParcelByFilter(params) as any);
+      setData(res?.data?.data);
+      console.log(res, "res");
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
+  React.useEffect(() => {
+    if (parcel_type || state) {
+      fetchParcelByFilter({
+        skip,
+        take,
+        "filter[parcel_type]": parcel_type,
+        "filter[state]": state,
+      });
+      setSearchParams({
+        skip,
+        take,
+        "filter[parcel_type]": parcel_type,
+        "filter[state]": state,
+      });
+    } else {
+      fetchParcel();
+      setSearchParams();
+    }
+  }, [parcel_type, state]);
+
+  const parcelTypeOptions = data?.map((parcel) => ({
+    value: parcel.parcel_type,
+    label: parcel.parcel_type,
+  }));
+
   const goBack = () => {
     navigate(-1);
   };
 
-  const { control, handleSubmit, setValue } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      // Specify your default values here
-      counter: editedData?.counter,
-      city: editedData?.city,
-      block: editedData?.block,
-      region: editedData?.region,
-    },
-  });
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const deleteHandler = async (id) => {
+    const res = await dispatch(parcel.deleteParcel(id) as any);
+    if (res?.statusCode === 200) {
+      setIsDelete(false);
+      setIsSuccess(true);
+      fetchParcel();
+    }
   };
 
   const handleEdit = (id) => {
-    navigate("/counters/edit/" + id);
+    navigate("/setting/parcel-type/" + id + "/edit");
   };
 
-  const handleSave = () => {
-    // Update the data with the edited data
-    const newData = data.map((row) =>
-      row.id === editRowId ? editedData : row
-    );
-    setData(newData);
-
-    // Close the modal and reset edit states
-    setEditRowId(null);
-    setEditedData(null);
-  };
-
-  const handleProcessRowUpdate = (updatedRow, originalRow) => {
-    console.log(updatedRow, originalRow, "rows");
-    handleSave();
-    return updatedRow;
-  };
   const amountColumns: GridColDef[] = [
     { field: "no", headerName: "No.", width: 100 },
     {
@@ -80,7 +111,16 @@ const ParcelType = () => {
       headerName: "Parcel Type Name",
       width: 371,
     },
-    { field: "state", headerName: "State", width: 341 },
+    {
+      field: "state",
+      headerName: "State",
+      width: 341,
+      renderCell: (params) => {
+        return (
+          <p className="">{params.row.state === 1 ? "Default" : "Other"}</p>
+        );
+      },
+    },
   ];
 
   const actionColumn: GridColDef[] = [
@@ -107,7 +147,10 @@ const ParcelType = () => {
             </div>
             <div
               className="editButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => {
+                setIsDelete(true);
+                setDeleteId(params.row.id);
+              }}
             >
               <Icon name="delete" color="#444240" fillColor="#444240" />
             </div>
@@ -119,7 +162,7 @@ const ParcelType = () => {
 
   return (
     <>
-      {data && (
+      {data && parcelStateOptions && parcelTypeOptions && (
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <div
@@ -147,10 +190,10 @@ const ParcelType = () => {
                 </p>
                 <div className="w-[344px]">
                   <InputSelect
-                    label={"Select Counter Name"}
-                    name="counter"
+                    label={"Select Parcel Type"}
+                    name="parcel_type"
                     control={control}
-                    options={counterOptions}
+                    options={parcelTypeOptions}
                     fullWidth
                   />
                 </div>
@@ -161,10 +204,10 @@ const ParcelType = () => {
                 </p>
                 <div className="w-[344px]">
                   <InputSelect
-                    label={"Select Branch Name"}
-                    name="role"
+                    label={"Select Parcel State"}
+                    name="state"
                     control={control}
-                    options={counterOptions}
+                    options={parcelStateOptions}
                     fullWidth
                   />
                 </div>
@@ -184,10 +227,29 @@ const ParcelType = () => {
             rows={data}
             columns={amountColumns.concat(actionColumn)}
             apiRef={apiRef}
-            editRowId={editRowId}
-            updateRow={handleProcessRowUpdate}
           />
         </div>
+      )}
+      {isDelete && (
+        <ModalComponent
+          title="Confirm"
+          body={
+            "Are you sure to delete this define parcel type? Please confirm it."
+          }
+          open={isDelete}
+          onClose={() => setIsDelete(false)}
+          onConfirm={() => deleteHandler(deleteId)}
+        />
+      )}
+      {isSuccess && (
+        <AlertModal
+          title="Success"
+          body={
+            "The parcel type is successfully deleted. Please check into list."
+          }
+          open={isSuccess}
+          onClose={() => setIsSuccess(false)}
+        />
       )}
     </>
   );

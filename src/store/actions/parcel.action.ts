@@ -5,9 +5,14 @@ import * as types from '../type';
 import { FetchFailure, FetchRequest, FetchSuccess } from './typehandle.action';
 import { routeFilter } from '../../utils';
 
-const createParcel = () => async (dispatch:Dispatch) => {
+export interface ParcelTypeInterface{
+  parcel_type:string;
+  state:number
+}
+
+const createParcel = (data:ParcelTypeInterface) => async (dispatch:Dispatch) => {
   dispatch(FetchRequest(types.CREATE_PARCEL_REQUEST));
-  return await controller(apiRoutes.create_parcel)
+  return await controller(apiRoutes.create_parcel,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);

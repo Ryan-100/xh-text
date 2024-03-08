@@ -1,13 +1,16 @@
 import React from "react";
-import { Divider } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import Icon from "../../../icons";
 import { useDispatch } from "react-redux";
 import { parcel } from "../../../store/actions";
 import moment from "moment";
+import AlertModal from "../../../components/Modal/AlertModal";
+import ModalComponent from "../../../components/Modal";
 
 const ParcelDetail = () => {
   const [parcelData, setParcelData] = React.useState<any>();
+  const [isSuccess, setIsSuccess] = React.useState<boolean>();
+  const [isDelete, setIsDelete] = React.useState<boolean>();
   const { id: parcelId } = useParams();
   const dispatch = useDispatch();
 
@@ -22,7 +25,15 @@ const ParcelDetail = () => {
     };
     fetchParcelDetail();
   }, [dispatch, parcelId]);
-  console.log(parcelData,'parcelData')
+
+  const deleteHandler = async () =>{
+    const res = await dispatch(parcel.deleteParcel(parcelId) as any);
+    if(res?.statusCode === 200){
+      setIsDelete(false)
+      setIsSuccess(true);
+      goBack();
+    }
+  }
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
@@ -70,7 +81,7 @@ const ParcelDetail = () => {
             <Icon name="edit1" width={24} height={24} />
             <p className="text-[20px] text-white">Edit Parcel Type</p>
           </div>
-          <div className="editButton h-12">
+          <div className="editButton h-12" onClick={()=>setIsDelete(true)}>
             <Icon name="delete2" />
           </div>
         </div>
@@ -84,7 +95,7 @@ const ParcelDetail = () => {
             </div>
             <div className="h-12 w-full py-3 px-4 flex items-center justify-between">
               <p className="text-gray">State</p>
-              <p className="text-secondary w-[252px]">{parcelData?.state}</p>
+              <p className="text-secondary w-[252px]">{parcelData?.state===1?"Default":"Other"}</p>
             </div>
           </div>
           <img
@@ -94,7 +105,25 @@ const ParcelDetail = () => {
           />
         </div>
       </div>
-    </div>}</>
+    </div>}
+    {isDelete && (
+        <ModalComponent
+          title="Confirm"
+          body={"Are you sure to delete this define amount? Please confirm it."}
+          open={isDelete}
+          onClose={() => setIsDelete(false)}
+          onConfirm={deleteHandler}
+        />
+      )}
+      {isSuccess && (
+        <AlertModal
+          title="Success"
+          body={"The amount is successfully deleted. Please check into list."}
+          open={isSuccess}
+          onClose={() => setIsSuccess(false)}
+        />
+      )}
+    </>
   );
 };
 

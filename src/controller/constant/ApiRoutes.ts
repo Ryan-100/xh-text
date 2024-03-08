@@ -47,7 +47,7 @@ export const apiRoutes = {
   all_parcel: `get:parcel-type`,
   get_parcel: `get:parcel-type`,
   create_parcel: `post:parcel-type`,
-  update_parcel: `put:parcel-type`,
+  update_parcel: `patch:parcel-type`,
   delete_parcel: `delete:parcel-type`,
 
   // admin
