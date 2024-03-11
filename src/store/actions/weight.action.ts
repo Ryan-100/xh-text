@@ -4,10 +4,13 @@ import controller, { apiRoutes } from '../../controller';
 import * as types from '../type';
 import { FetchFailure, FetchRequest, FetchSuccess } from './typehandle.action';
 import { routeFilter } from '../../utils';
-
-const createWeight = () => async (dispatch:Dispatch) => {
+export interface WeightInterface {
+  weight:number;
+  state:number;
+}
+const createWeight = (data:WeightInterface) => async (dispatch:Dispatch) => {
   dispatch(FetchRequest(types.CREATE_WEIGHT_REQUEST));
-  return await controller(apiRoutes.create_weight)
+  return await controller(apiRoutes.create_weight,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);

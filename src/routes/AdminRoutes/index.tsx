@@ -102,6 +102,7 @@ import {
   Ads,
   CounterEdit,
   MainCounterDetail,
+  AdminEdit
 } from "../element";
 import Login from "../../pages/login";
 
@@ -128,7 +129,7 @@ const routes = [
       },
       {
         path: "edit/:id",
-        element: <AdminCreate />,
+        element: <AdminEdit />,
       },
       {
         path: "edit/permissions/:id",

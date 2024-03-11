@@ -1,67 +1,113 @@
-import { useRef, useState } from "react";
-import { TextField } from "@mui/material";
+import React, { useRef } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
-import { counterOptions, counterRows } from "../../../layout/config";
 import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
+import { useDispatch } from "react-redux";
+import { parcelStateOptions } from "../parcel/ParcelType";
+import { weight } from "../../../store/actions";
+import ModalComponent from "../../../components/Modal";
+import AlertModal from "../../../components/Modal/AlertModal";
 
 const ParcelWeight = () => {
-  const [data, setData] = useState(counterRows);
-  const [editRowId, setEditRowId] = useState(null);
-  const [editedData, setEditedData] = useState(null);
+  const [data, setData] = React.useState<any>();
+  const [isSuccess, setIsSuccess] = React.useState<boolean>();
+  const [isDelete, setIsDelete] = React.useState<boolean>();
+  const [deleteId, setDeleteId] = React.useState<string>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  const fetchWeight = async () => {
+    try {
+      const res = await dispatch(weight.getAllWeight() as any);
+      setData(res?.data);
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
+  const fetchWeightByFilter = async (params) => {
+    try {
+      const res = await dispatch(weight.getAllWeightByFilter(params) as any);
+      setData(res?.data?.data);
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
+
+  const { control, watch } = useForm({
+    mode: "onChange",
+  });
+
+  const skip = searchParams.get("skip") || "0";
+  const take = searchParams.get("take") || "10";
+
+  const state = watch("state");
+
+
+  React.useEffect(() => {
+    if (state === 0||1) {
+      fetchWeightByFilter({
+        skip,
+        take,
+        "filter[state]": state,
+      });
+      setSearchParams({
+        skip,
+        take,
+        "filter[state]": state,
+      });
+    } else {
+      fetchWeight();
+      setSearchParams();
+    }
+  }, [state]);
+
   const apiRef = useRef(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const goBack = () => {
     navigate(-1);
   };
 
-  const { control, handleSubmit, setValue } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      // Specify your default values here
-      counter: editedData?.counter,
-      city: editedData?.city,
-      block: editedData?.block,
-      region: editedData?.region,
-    },
-  });
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const deleteHandler = async (id) => {
+    const res = await dispatch(weight.deleteWeight(id) as any);
+    if (res?.statusCode === 200) {
+      setIsDelete(false);
+      setIsSuccess(true);
+      fetchWeight();
+    }
   };
 
   const handleEdit = (id) => {
-    navigate("/counters/edit/" + id);
+    navigate("/setting/weight/" + id + "/edit");
   };
 
-  const handleSave = () => {
-    // Update the data with the edited data
-    const newData = data.map((row) =>
-      row.id === editRowId ? editedData : row
-    );
-    setData(newData);
 
-    // Close the modal and reset edit states
-    setEditRowId(null);
-    setEditedData(null);
-  };
-
-  const handleProcessRowUpdate = (updatedRow, originalRow) => {
-    console.log(updatedRow, originalRow, "rows");
-    handleSave();
-    return updatedRow;
-  };
   const amountColumns: GridColDef[] = [
     { field: "no", headerName: "No.", width: 100 },
     {
       field: "weight",
       headerName: "Weight",
       width: 371,
+      renderCell: (params) => {
+        return (
+          <p className="">{params.row.weight} KG</p>
+        );
+      },
     },
-    { field: "to", headerName: "State", width: 341 },
+    {
+      field: "state",
+      headerName: "State",
+      width: 341,
+      renderCell: (params) => {
+        return (
+          <p className="">{params.row.state === 1 ? "Default" : "Other"}</p>
+        );
+      },
+    },
   ];
 
   const actionColumn: GridColDef[] = [
@@ -88,7 +134,10 @@ const ParcelWeight = () => {
             </div>
             <div
               className="editButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => {
+                setIsDelete(true);
+                setDeleteId(params.row.id);
+              }}
             >
               <Icon name="delete" color="#444240" fillColor="#444240" />
             </div>
@@ -123,14 +172,14 @@ const ParcelWeight = () => {
           <div className="flex items-center space-x-6">
             <div className="">
               <p className="text-xs md:text-sm xl:text-base leading-6">
-              Filter By State
+                Filter By State
               </p>
               <div className="w-[344px]">
                 <InputSelect
-                  label={"Select Counter Name"}
-                  name="counter"
+                  label={"Select weight state"}
+                  name="state"
                   control={control}
-                  options={counterOptions}
+                  options={parcelStateOptions}
                   fullWidth
                 />
               </div>
@@ -140,19 +189,40 @@ const ParcelWeight = () => {
             <div className="buttonPrimary space-x-2 h-12">
               <Icon name="add" width={24} height={24} />
               <span className="text-sm md:text-base xl:text-xl">
-              Create Parcel Weight
+                Create Parcel Weight
               </span>
             </div>
           </Link>
         </div>
-        <Datatable
-          rows={data}
-          columns={amountColumns.concat(actionColumn)}
-          apiRef={apiRef}
-          editRowId={editRowId}
-          updateRow={handleProcessRowUpdate}
-        />
+        {data && (
+          <Datatable
+            rows={data}
+            columns={amountColumns.concat(actionColumn)}
+            apiRef={apiRef}
+          />
+        )}
       </div>
+      {isDelete && (
+        <ModalComponent
+          title="Confirm"
+          body={
+            "Are you sure to delete this define parcel weight? Please confirm it."
+          }
+          open={isDelete}
+          onClose={() => setIsDelete(false)}
+          onConfirm={() => deleteHandler(deleteId)}
+        />
+      )}
+      {isSuccess && (
+        <AlertModal
+          title="Success"
+          body={
+            "The parcel weight is successfully deleted. Please check into list."
+          }
+          open={isSuccess}
+          onClose={() => setIsSuccess(false)}
+        />
+      )}
     </>
   );
 };

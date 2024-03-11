@@ -57,7 +57,7 @@ const CounterEdit = () => {
     const fetchBlocks = async () => {
       if (selectedCity) {
         try {
-          const res = await dispatch(block.getAllBlock() as any);
+          const res = await dispatch(block.getAllblocks() as any);
           const filteredBlocks = res.data.filter((b) => b.city_id === selectedCity);
           const options = filteredBlocks.map((block) => ({
             label: block.block_eng, 
@@ -78,7 +78,7 @@ const CounterEdit = () => {
     const fetchRegions = async () => {
       if (selectedBlock) {
         try {
-          const res = await dispatch(region.getAllRegion() as any);
+          const res = await dispatch(region.getAllRegions() as any);
           const filteredRegions = res.data.filter((r) => r.block_id === selectedBlock);
           const options = filteredRegions.map((region) => ({
             label: region.region_eng, 

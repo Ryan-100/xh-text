@@ -12,6 +12,8 @@ import { Admin } from "../../store/reducers/admin.reducer";
 import { counter } from "../../store/actions/counter.action";
 import { role } from "../../store/actions/role.action";
 import { safeFormatString } from "../../utils";
+import ModalComponent from "../../components/Modal";
+import AlertModal from "../../components/Modal/AlertModal";
 
 const AdminList = () => {
 	const [data, setData] = useState<Admin[]>([]);
@@ -23,6 +25,10 @@ const AdminList = () => {
 	const dispatch = useDispatch();
 	const [roleId, setRoleId] = useState("");
 	const [counterId, setCounterId] = useState("");
+	const [isAlert, setIsAlert] = useState(false);
+	const [alertMsg, setAlertMsg] = useState("");
+	const [isDelete, setIsDelete] = useState(false);
+	const [selectedAdminId, setSelectedAdminId] = useState("");
 
 	const { control } = useForm({ mode: "onChange" });
 
@@ -68,8 +74,18 @@ const AdminList = () => {
 		fetchRoles();
 	}, [roleId, counterId]);
 
-	const handleDelete = (id) => {
-		setData(data.filter((item) => item.id !== id));
+	const handleDelete = async () => {
+		// setData(data.filter((item) => item.id !== id));
+		try {
+			const res = await dispatch(admin.deleteAdmin(selectedAdminId) as any);
+			fetchAdmins(roleId, counterId);
+			setIsDelete(false);
+			setAlertMsg(res.message);
+			setIsAlert(true);
+		} catch (error) {
+			setAlertMsg(error);
+			setIsAlert(true);
+		}
 	};
 
 	const handleEdit = (id) => {
@@ -157,15 +173,15 @@ const AdminList = () => {
 							<Icon name="details" />
 							<span>Detail</span>
 						</Link>
-						<div
-							className="editButton"
-							onClick={() => handleEdit(params.row.id)}
-						>
+						<Link to={"/admin/edit/" + params.row.id} className="editButton">
 							<Icon name="edit" color="#444240" fillColor="#444240" />
-						</div>
+						</Link>
 						<div
 							className="editButton"
-							onClick={() => handleDelete(params.row.id)}
+							onClick={() => {
+								setSelectedAdminId(params.row.id);
+								setIsDelete(true);
+							}}
 						>
 							<Icon name="delete" color="#444240" fillColor="#444240" />
 						</div>
@@ -232,6 +248,19 @@ const AdminList = () => {
 						apiRef={apiRef}
 						editRowId={editRowId}
 						updateRow={handleProcessRowUpdate}
+					/>
+					<ModalComponent
+						title="Confirm"
+						body={"Are you sure to delete this Admin? Please confirm it."}
+						open={isDelete}
+						onClose={() => setIsDelete(false)}
+						onConfirm={handleDelete}
+					/>
+					<AlertModal
+						title="Alert"
+						body={alertMsg}
+						open={isAlert}
+						onClose={() => setIsAlert(false)}
 					/>
 				</div>
 			)}

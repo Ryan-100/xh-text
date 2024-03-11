@@ -5,9 +5,14 @@ import * as types from '../type';
 import { FetchFailure, FetchRequest, FetchSuccess } from './typehandle.action';
 import { routeFilter } from '../../utils';
 
-const createParcel = () => async (dispatch:Dispatch) => {
+export interface ParcelTypeInterface{
+  parcel_type:string;
+  state:number
+}
+
+const createParcel = (data:ParcelTypeInterface) => async (dispatch:Dispatch) => {
   dispatch(FetchRequest(types.CREATE_PARCEL_REQUEST));
-  return await controller(apiRoutes.create_parcel)
+  return await controller(apiRoutes.create_parcel,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
@@ -35,17 +40,17 @@ const getAllParcel = () => async (dispatch:Dispatch) => {
 
 
 const getAllParcelByFilter = (params) => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.GET_ALL_PARCEL_REQUEST));
+  dispatch(FetchRequest(types.GET_ALL_PARCEL_FILTER_REQUEST));
   return await controller(`${apiRoutes.all_parcel}/pages?${routeFilter(params)}`)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.GET_ALL_PARCEL_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.GET_ALL_PARCEL_FILTER_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.GET_ALL_PARCEL_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.GET_ALL_PARCEL_FILTER_ERROR, error.message)));
 };
 
 const getParcelById = (id:string) => async (dispatch:Dispatch) => {

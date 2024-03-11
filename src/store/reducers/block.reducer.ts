@@ -1,11 +1,11 @@
 /* eslint-disable */
 
 import * as types from "../type";
-export interface RegionState {
+export interface BlockState {
 	error: string;
 	isLoading: boolean;
-	all_regions: any;
-	region_by_id: any;
+	all_blocks: any;
+	block_by_id: any;
 }
 
 export type Action = {
@@ -16,25 +16,25 @@ export type Action = {
 const initialState = {
 	error: null,
 	isLoading: false,
-	all_regions: null,
-	region_by_id: null,
+	all_blocks: null,
+	block_by_id: null,
 };
 
-const region = (state = initialState, action: Action) => {
+const block = (state = initialState, action: Action) => {
 	switch (action.type) {
-		case types.GET_ALL_REGIONS_REQUEST: // typeName
+		case types.GET_ALL_BLOCKS_REQUEST: // typeName
 			return {
 				...state,
 				isLoading: true,
 			};
-		case types.GET_ALL_REGIONS_SUCCESS:
+		case types.GET_ALL_BLOCKS_SUCCESS:
 			return {
 				...state,
 				isLoading: false,
 				error: null,
-				all_regions: action.payload,
+				all_blocks: action.payload,
 			};
-		case types.GET_ALL_REGIONS_ERROR:
+		case types.GET_ALL_BLOCKS_ERROR:
 			return {
 				...state,
 				isLoading: false,
@@ -45,4 +45,4 @@ const region = (state = initialState, action: Action) => {
 	}
 };
 
-export default region;
+export default block;

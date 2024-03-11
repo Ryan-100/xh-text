@@ -19,14 +19,14 @@ import {
 
 const CounterList = () => {
   const [data, setData] = useState([]);
-  const [editRowId, setEditRowId] = useState(null);
-  const [editedData, setEditedData] = useState(null);
+  // const [editRowId, setEditRowId] = useState(null);
+  // const [editedData, setEditedData] = useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [counterToDelete, setCounterToDelete] = useState(null);
   const apiRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [selectedCounter, setSelectedCounter] = useState("");
+  // const [selectedCounter, setSelectedCounter] = useState("");
   const { control, setValue, watch } = useForm({
     defaultValues: {
       counter: "",

@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 import ChevronDown from "../../icons/chevronDown";
 
 interface Option {
-  value: string;
+  value: string | number;
   label: string;
 }
 
