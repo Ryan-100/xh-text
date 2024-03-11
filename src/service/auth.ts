@@ -20,6 +20,24 @@ export const getToken = () => {
   }
 };
 
+export const setUserInfo = ({ user_data }) => {
+  const cipherUserInfo = CryptoJS.AES.encrypt(JSON.stringify(user_data), 'user_info');
+  const rememberMe = getRememberMe();
+  Cookies.set('user_info', cipherUserInfo.toString(), { expires: rememberMe ? 30 : 1 });
+};
+
+export const getUserInfo = () => {
+  const sessi = Cookies.get('user_info');
+  if (!sessi) return false;
+  const bytes = CryptoJS.AES.decrypt(sessi, 'user_info');
+  try {
+    const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    return decryptedData;
+  } catch (err) {
+    console.log('error', err);
+  }
+};
+
 export const setRememberMe = data => {
   localStorage.setItem('remember_me', JSON.stringify(data));
 };
@@ -43,5 +61,6 @@ export const removeLocalStorage = name => {
 export const logout = () => {
   setRememberMe(false);
   Cookies.remove('j_token');
+  Cookies.remove('user_info');
   localStorage.removeItem('j_token');
 };

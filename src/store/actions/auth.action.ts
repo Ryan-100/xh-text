@@ -1,12 +1,11 @@
 
 import { Dispatch } from 'redux';
 import controller, { apiRoutes } from '../../controller';
-import { setToken } from '../../service/auth';
 import * as types from '../type';
 import { FetchFailure, FetchRequest, FetchSuccess } from './typehandle.action';
 
 interface LoginData {
-  username: string;
+  adminID: string;
   password: string;
 }
 
@@ -18,10 +17,7 @@ const login = (data: LoginData) => async (dispatch:Dispatch) => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.POST_LOGIN_SUCCESS, res?.data));
-        setToken({
-          j_token: res?.data?.data?.access_token          ,
-        });
+        dispatch(FetchSuccess(types.POST_LOGIN_SUCCESS, res?.data?.data));
         return res?.data;
       }
     })

@@ -1,5 +1,5 @@
 export const apiRoutes = {
-	login: `post:auth/guard-user-signin`,
+	login: `post:auth/admin-user-signin`,
 
 	//counter
 	all_counter: `get:counter`,
@@ -45,6 +45,7 @@ export const apiRoutes = {
   create_parcel: `post:parcel-type`,
   update_parcel: `patch:parcel-type`,
   delete_parcel: `delete:parcel-type`,
+
 	//app-version
 	version_history: `get:version`,
 	send_version: `post:version`,
@@ -59,10 +60,22 @@ export const apiRoutes = {
 
 	// role
 	all_role: `get:role`,
+  get_role: `get:role`,
+  create_role: `post:role`,
+  update_role: `patch:role`,
+  delete_role: `delete:role`,
 
 	// region
 	all_region: `get:region`,
+  get_region: `get:region`,
+  create_region: `post:region`,
+  update_region: `patch:region`,
+  delete_region: `delete:region`,
 
 	// block
 	all_block: `get:block`,
+  get_block: `get:block`,
+  create_block: `post:block`,
+  update_block: `patch:block`,
+  delete_block: `delete:block`,
 };

@@ -1,9 +1,40 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Icon from "../../../icons";
+import { useDispatch } from "react-redux";
+import { block } from "../../../store/actions";
+import ModalComponent from "../../../components/Modal";
+import AlertModal from "../../../components/Modal/AlertModal";
+import { formatDate } from "../../../utils";
 
 const BlockDetaill = () => {
+  const [blockData, setBlockData] = React.useState<any>();
+  const [isSuccess, setIsSuccess] = React.useState<boolean>();
+  const [isDelete, setIsDelete] = React.useState<boolean>();
+  const { id: blockId } = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const fetchParcelDetail = async () => {
+      try {
+        const res = await dispatch(block.getBlockById(blockId) as any);
+        setBlockData(res?.data);
+      } catch (error) {
+        console.error("Error fetching:", error);
+      }
+    };
+    fetchParcelDetail();
+  }, [dispatch, blockId]);
+
+  const deleteHandler = async () => {
+    const res = await dispatch(block.deleteBlock(blockId) as any);
+    if (res?.statusCode === 200) {
+      setIsDelete(false);
+      setIsSuccess(true);
+      goBack();
+    }
+  };
   const goBack = () => {
     navigate(-1);
   };
@@ -12,7 +43,9 @@ const BlockDetaill = () => {
   };
 
   return (
-    <div className="flex flex-col space-y-6">
+    <>
+  
+  {blockData &&  <div className="flex flex-col space-y-6">
       <div className="flex justify-between items-center mb-[2px]">
         <div
           onClick={goBack}
@@ -31,11 +64,11 @@ const BlockDetaill = () => {
         <div className="flex items-center justify-center space-x-[84px]">
           <div className="flex flex-col">
             <p className="text-gray leading-6">Created Date</p>
-            <p className="text-secondary leading-6">9 Sep 2022</p>
+            <p className="text-secondary leading-6">{formatDate(blockData?.created_at)}</p>
           </div>
           <div className="flex flex-col">
             <p className="text-gray leading-6">Created By</p>
-            <p className="text-secondary leading-6">SuperAdmin_HHW</p>
+            <p className="text-secondary leading-6">{blockData?.created_by || "Unknown"}</p>
           </div>
         </div>
         <div className="flex items-center space-x-6">
@@ -56,11 +89,11 @@ const BlockDetaill = () => {
           <div className="flex flex-col space-y-4 w-[504px]">
             <div className="h-12 w-full py-3 px-4 flex items-center justify-between">
               <p className="text-gray">City Branch</p>
-              <p className="text-secondary w-[252px]">Lashio_Branch</p>
+              <p className="text-secondary w-[252px]">{blockData?.city?.city_eng}</p>
             </div>
             <div className="h-12 w-full py-3 px-4 flex items-center justify-between">
               <p className="text-gray">Block Name</p>
-              <p className="text-secondary w-[252px]">Block A</p>
+              <p className="text-secondary w-[252px]">{blockData?.block_eng}</p>
             </div>
           </div>
           <img
@@ -70,7 +103,25 @@ const BlockDetaill = () => {
           />
         </div>
       </div>
-    </div>
+    </div>}  
+    {isDelete && (
+        <ModalComponent
+          title="Confirm"
+          body={"Are you sure to delete this define block? Please confirm it."}
+          open={isDelete}
+          onClose={() => setIsDelete(false)}
+          onConfirm={deleteHandler}
+        />
+      )}
+      {isSuccess && (
+        <AlertModal
+          title="Success"
+          body={"The block is successfully deleted. Please check into list."}
+          open={isSuccess}
+          onClose={() => setIsSuccess(false)}
+        />
+      )}
+    </>
   );
 };
 

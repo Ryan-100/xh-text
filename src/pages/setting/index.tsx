@@ -76,10 +76,6 @@ const Setting: React.FC = () => {
             <Icon color="#FF6604" name='payment-method' width={40} height={40}/>
             <p className="">Payment Method</p>
           </Card>
-          <Card to='voucher'>
-            <Icon color="#FF6604" name='details' width={40} height={40}/>
-            <p className="">Voucher Information</p>
-          </Card>
         </div>
       </div>
       <div className="space-y-4 pb-10">
