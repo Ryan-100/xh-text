@@ -105,7 +105,7 @@ const DailyReport = () => {
 							align="center"
 							sx={{ color: i === 0 && "#FF6604" }}
 						>
-							{formatNumber(data?.count?._sum?.delivery_fee)}
+							{formatNumber(data?.count?._sum?.delivery_fee)} Ks
 						</TableCell>
 					</TableRow>
 				))}
