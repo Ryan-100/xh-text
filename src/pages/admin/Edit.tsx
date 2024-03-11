@@ -12,9 +12,7 @@ import { city } from "../../store/actions/city.action";
 import { block } from "../../store/actions/block.action";
 import { role } from "../../store/actions/role.action";
 import { counter } from "../../store/actions/counter.action";
-import {
-	UpdateAdminData,
-} from "../../store/actions/admin.action";
+import { UpdateAdminData } from "../../store/actions/admin.action";
 import AlertModal from "../../components/Modal/AlertModal";
 import { admin } from "../../store/actions/admin.action";
 
@@ -31,7 +29,7 @@ const defaultValues = {
 };
 
 const AdminEdit = () => {
-	const { control, handleSubmit, reset } = useForm({
+	const { control, handleSubmit, reset, watch } = useForm({
 		mode: "onChange",
 		defaultValues,
 	});
@@ -44,6 +42,8 @@ const AdminEdit = () => {
 	const [isAlert, setIsAlert] = useState(false);
 	const dispatch = useDispatch();
 	const [alertMsg, setAlertMsg] = useState("");
+	const selectedCityId = watch("branch");
+	const selectedBlockId = watch("block");
 
 	const navigate = useNavigate();
 	const goBack = () => {
@@ -53,7 +53,10 @@ const AdminEdit = () => {
 	const fetchRegions = async () => {
 		try {
 			const res = await dispatch(region.getAllRegions() as any);
-			const _region = res?.data?.map((region) => ({
+			const filteredRegions = res.data.filter((region) => {
+				return region?.block_id === selectedBlockId;
+			});
+			const _region = filteredRegions.map((region) => ({
 				value: region?.id,
 				label: region?.region_eng,
 			}));
@@ -79,7 +82,10 @@ const AdminEdit = () => {
 	const fetchBlocks = async () => {
 		try {
 			const res = await dispatch(block.getAllblocks() as any);
-			const _block = res?.data?.map((block) => ({
+			const filteredBlocks = res.data.filter((block) => {
+				return block?.city_id === selectedCityId;
+			});
+			const _block = filteredBlocks?.map((block) => ({
 				value: block?.id,
 				label: block?.block_eng,
 			}));
@@ -105,7 +111,10 @@ const AdminEdit = () => {
 	const fetchCounters = async () => {
 		try {
 			const res = await dispatch(counter.getAllCounters() as any);
-			const _counters = res?.data?.map((counter) => ({
+			const filteredCounters = res.data.filter((counter) => {
+				return counter?.city_id === selectedCityId;
+			});
+			const _counters = filteredCounters.map((counter) => ({
 				value: counter?.id,
 				label: counter?.name,
 			}));
@@ -134,12 +143,18 @@ const AdminEdit = () => {
 	};
 
 	useEffect(() => {
-		fetchRegions();
 		fetchCities();
-		fetchBlocks();
 		fetchRoles();
-		fetchCounters();
 	}, []);
+
+	useEffect(() => {
+		fetchRegions();
+	}, [selectedBlockId]);
+
+	useEffect(() => {
+		fetchBlocks();
+		fetchCounters();
+	}, [selectedCityId]);
 
 	useEffect(() => {
 		if (adminId) {
@@ -268,7 +283,7 @@ const AdminEdit = () => {
 									fullWidth
 									name="branch"
 									control={control}
-									label={""}
+									label={"Select Branch"}
 									options={cityOptions}
 								/>
 							</div>
@@ -282,7 +297,7 @@ const AdminEdit = () => {
 									fullWidth
 									name="counter"
 									control={control}
-									label={""}
+									label={"Select Counter"}
 									options={counterOptions}
 								/>
 							</div>
@@ -318,7 +333,7 @@ const AdminEdit = () => {
 									fullWidth
 									name="block"
 									control={control}
-									label={""}
+									label={"Select Block"}
 									options={blockOptions}
 								/>
 							</div>
@@ -332,7 +347,7 @@ const AdminEdit = () => {
 									fullWidth
 									name="region"
 									control={control}
-									label={""}
+									label={"Select Region Type"}
 									options={regionOptions}
 								/>
 							</div>
