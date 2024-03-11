@@ -57,13 +57,15 @@ const CounterDetail = () => {
     navigate(`/counters/edit/${counterId}`);
   };
 
-  const fromDate = moment("12-08-2022", "DD-MM-YYYY").format("YYYY-MM-DD");
-  const toDate = moment("12-08-2022", "DD-MM-YYYY").format("YYYY-MM-DD");
+  const fromDate = moment().startOf('month').format('YYYY-MM-DD'); // This will be the first day of the current month
+  const toDate = moment().format('YYYY-MM-DD'); // This will be the current date
   const skip = 0; 
   const take = 10; 
   const parcelType = "scan";
 
-  const detailPath = `from_date=${fromDate}&to_date=${toDate}&skip=${skip}&take=${take}&parcel_type=${parcelType}`;
+
+
+  const detailPath = `/counters/main-counter-parcel/detail?from_date=${fromDate}&to_date=${toDate}&skip=${skip}&take=${take}&parcel_type=${parcelType}`;
 
   const deleteHandler = () => {};
   console.log(counterData, "counter data");
@@ -179,13 +181,14 @@ const CounterDetail = () => {
                     </div>
                     <div className=" col-span-2 flex flex-col space-y-2">
                       <p className="h-[48px] text-primary">View All</p>
-                      <p className="h-[48px] text-primary">View All</p>
                       <Link
                         to={detailPath}
-                        className="text-primary hover:underline"
+                        className="text-primary h-[48px] hover:underline"
                       >
                         View All
                       </Link>
+                      <p className="h-[48px] text-primary">View All</p>
+
                     </div>
                   </>
                 )}

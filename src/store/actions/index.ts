@@ -9,3 +9,4 @@ export * from './currency.action';
 export * from './weight.action';
 export * from './parcel.action';
 export * from './region.action';
+export * from './block.action';

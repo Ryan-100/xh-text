@@ -193,10 +193,7 @@ const routes = [
         element: <CounterList />,
       },
       {
-        path: ":id/?from_date=:fromDateValue&to_date=:toDateValue&skip=:skipValue&take=:takeValue&parcel_type=:parcelTypeValue",         
-        
-        
-        
+        path: "main-counter-parcel/detail",
         element: <MainCounterDetail />,
       },
       {

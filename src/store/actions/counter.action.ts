@@ -3,20 +3,21 @@ import controller, { apiRoutes } from "../../controller";
 import * as types from "../type";
 import { FetchFailure, FetchRequest, FetchSuccess } from "./typehandle.action";
 
-const createCounter = () => async (dispatch: Dispatch) => {
+const createCounter = (data) => async (dispatch: Dispatch) => {
   dispatch(FetchRequest(types.CREATE_COUNTER_REQUEST));
-  return await controller(apiRoutes.create_counter)
-    .then((res) => {
-      if (res?.error) {
-        console.log(res.data);
-      } else {
-        dispatch(FetchSuccess(types.CREATE_COUNTER_SUCCESS, res?.data));
-        return res?.data;
-      }
-    })
-    .catch((error) =>
-      dispatch(FetchFailure(types.CREATE_COUNTER_ERROR, error.message))
-    );
+  try {
+    const res = await controller(apiRoutes.create_counter, data); // Ensure this matches your API call structure
+    if (res?.error) {
+      console.error(res.data);
+      dispatch(FetchFailure(types.CREATE_COUNTER_ERROR, res.data));
+    } else {
+      dispatch(FetchSuccess(types.CREATE_COUNTER_SUCCESS, res.data));
+      return res.data;
+    }
+  } catch (error) {
+    console.error(error);
+    dispatch(FetchFailure(types.CREATE_COUNTER_ERROR, error.message));
+  }
 };
 
 const getAllCounters = () => async (dispatch: Dispatch) => {
@@ -67,53 +68,39 @@ const getOtherCounterById = (id: string) => async (dispatch: Dispatch) => {
     );
 };
 
-const getMainCounterParcelDetail =
-  (counterId, fromDate, toDate, skip, take, parcelType) => async (dispatch) => {
-    dispatch(FetchRequest(types.GET_MAIN_COUNTER_PARCEL_DETAIL_REQUEST));
-    
+// const getMainCounterParcelDetail = (counterId, fromDate, toDate, skip, take, parcelType) => async (dispatch) => {
+//   dispatch(FetchRequest(types.GET_MAIN_COUNTER_PARCEL_DETAIL_REQUEST));
 
-    const queryString = `?counter_id=${counterId}&from_date=${fromDate}&to_date=${toDate}&skip=${skip}&take=${take}&parcel_type=${parcelType}`;
+//   const queryString = `?counter_id=${encodeURIComponent(counterId)}&from_date=${encodeURIComponent(fromDate)}&to_date=${encodeURIComponent(toDate)}&skip=${encodeURIComponent(skip)}&take=${encodeURIComponent(take)}&parcel_type=${encodeURIComponent(parcelType)}`;
+//   const fullUrl = `${apiRoutes.main_counter_parcel_detail}${queryString}`;
 
-    const fullUrl = `${apiRoutes.main_counter_parcel_detail}${queryString}`;
+//   try {
+//     const response = await fetch(fullUrl);
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+//     const data = await response.json();
+//     dispatch(FetchSuccess(types.GET_MAIN_COUNTER_PARCEL_DETAIL_SUCCESS, data));
+//     return data;
+//   } catch (error) {
+//     dispatch(FetchFailure(types.GET_MAIN_COUNTER_PARCEL_DETAIL_ERROR, error.message));
+//   }
+// };
 
-    return await controller(fullUrl)
-      .then((res) => {
-        if (res?.error) {
-          dispatch(
-            FetchFailure(types.GET_MAIN_COUNTER_PARCEL_DETAIL_ERROR, res.error)
-          );
-        } else {
-          dispatch(
-            FetchSuccess(types.GET_MAIN_COUNTER_PARCEL_DETAIL_SUCCESS, res)
-          );
-          return res;
-        }
-      })
-      .catch((error) =>
-        dispatch(
-          FetchFailure(
-            types.GET_MAIN_COUNTER_PARCEL_DETAIL_ERROR,
-            error.message
-          )
-        )
-      );
+
+
+
+  const updateCounter = (id, data) => async (dispatch) => {
+    dispatch(FetchRequest(types.UPDATE_COUNTER_REQUEST));
+    try {
+      const res = await controller(`${apiRoutes.update_counter}/${id}`, data, 'PATCH');
+      dispatch(FetchSuccess(types.UPDATE_COUNTER_SUCCESS, res.data));
+      return res.data;
+    } catch (error) {
+      dispatch(FetchFailure(types.UPDATE_COUNTER_ERROR, error.message));
+    }
   };
-
-const updateCounter = (id: string, data: any) => async (dispatch: Dispatch) => {
-  dispatch(FetchRequest(types.UPDATE_COUNTER_REQUEST));
-  return await controller(`${apiRoutes.update_counter}/${id}`, data)
-    .then((res) => {
-      if (res?.error) {
-        console.log(res.data);
-      } else {
-        dispatch(FetchSuccess(types.UPDATE_COUNTER_SUCCESS, res?.data));
-        return res?.data;
-      }
-    })
-    .catch((error) =>
-      dispatch(FetchFailure(types.UPDATE_COUNTER_ERROR, error.message))
-    );
-};
+  
 
 const deleteCounter = (id: string) => async (dispatch: Dispatch) => {
   dispatch(FetchRequest(types.DELETE_COUNTER_REQUEST));
@@ -138,5 +125,5 @@ export const counter = {
   getOtherCounterById,
   updateCounter,
   deleteCounter,
-  getMainCounterParcelDetail,
+  // getMainCounterParcelDetail,
 };
