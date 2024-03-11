@@ -50,7 +50,7 @@ const DailyReport = () => {
 			const totalIncome = {
 				id: new Date(),
 				name: "Total Income",
-				count: { _sum: { delivery_fee: data?.count?._sum?.delivery_fee } },
+				count: { _sum: { delivery_fee: data?.total_income?._sum?.delivery_fee } },
 			};
 			setIncomeData([totalIncome, ...data.total_income_counter]);
 			setParcelData([...data.total_parcel_counter]);

@@ -20,9 +20,9 @@ const App = () => {
 	}, [dispatch]);
 	return (
 		<div>
-			{/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
+			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<MaterRoutes />
-			{/* </LocalizationProvider> */}
+			</LocalizationProvider>
 		</div>
 	);
 };

@@ -6,8 +6,6 @@ import { counterOptions, dailyReportSheet } from "../../../layout/config";
 import { TableCell, TableRow } from "@mui/material";
 import InputSelect from "../../../components/form/InputSelect";
 import TableComponent from "../../../components/table/table";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import moment from "moment";
@@ -36,7 +34,7 @@ const MonthlyReport = () => {
 			const totalIncome = {
 				id: new Date(),
 				name: "Total Income",
-				count: { _sum: { delivery_fee: data?.count?._sum?.delivery_fee } },
+				count: { _sum: { delivery_fee: data?.total_income?._sum?.delivery_fee } },
 			};
 			setIncomeData([totalIncome, ...data.total_income_counter]);
 			setParcelData([...data.total_parcel_counter]);
@@ -153,35 +151,33 @@ const MonthlyReport = () => {
 	);
 
 	return (
-		<LocalizationProvider dateAdapter={AdapterDayjs}>
-			<div className="flex flex-col space-y-6">
-				<div className="flex items-center justify-between">
-					<p className="text-2xl">Monthly Report</p>
-					<div className="w-[300px]">
-						<DatePicker
-							sx={{
+		<div className="flex flex-col space-y-6">
+			<div className="flex items-center justify-between">
+				<p className="text-2xl">Monthly Report</p>
+				<div className="w-[300px]">
+					<DatePicker
+						sx={{
+							width: "100%",
+							"& .MuiFormControl-root": {
 								width: "100%",
-								"& .MuiFormControl-root": {
-									width: "100%",
-								},
-								backgroundColor: "white",
-							}}
-							value={selectedDate}
-							openTo="month"
-							views={["year", "month"]}
-							onChange={handleDateChange}
-						/>
-					</div>
+							},
+							backgroundColor: "white",
+						}}
+						value={selectedDate}
+						openTo="month"
+						views={["year", "month"]}
+						onChange={handleDateChange}
+					/>
 				</div>
-				<TableComponent
-					colSpan={2}
-					header={"Customers"}
-					data={customerBodyData}
-				/>
-				<TableComponent colSpan={2} header={"Income"} data={incomeBodyData} />
-				<TableComponent colSpan={3} header={"Parcels"} data={parcelBodyData} />
 			</div>
-		</LocalizationProvider>
+			<TableComponent
+				colSpan={2}
+				header={"Customers"}
+				data={customerBodyData}
+			/>
+			<TableComponent colSpan={2} header={"Income"} data={incomeBodyData} />
+			<TableComponent colSpan={3} header={"Parcels"} data={parcelBodyData} />
+		</div>
 	);
 };
 
