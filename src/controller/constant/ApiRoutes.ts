@@ -65,4 +65,7 @@ export const apiRoutes = {
 
 	// block
 	all_block: `get:block`,
+
+  // report
+  get_report: `get:admin-dashboard-report/daily-monthly-yearly-report`,
 };
