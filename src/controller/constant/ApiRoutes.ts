@@ -1,20 +1,16 @@
 export const apiRoutes = {
-  login: `post:auth/guard-user-signin`,
+	login: `post:auth/guard-user-signin`,
 
-  //counter
-  all_counter: `get:counter`,
-  get_counter: `get:counter`,
-  create_counter: `post:counter`,
-  update_counter: `put:counter`,
-  delete_counter: `delete:counter`,
+	//counter
+	all_counter: `get:counter`,
+	get_counter: `get:counter`,
+	create_counter: `post:counter`,
+	update_counter: `put:counter`,
+	delete_counter: `delete:counter`,
 
-  //system-noti
-  system_noti_history: `get:system-notification`,
-  send_system_noti: `post:system-notification`,
-  
-  //app-version
-  version_history: `get:version`,
-  send_version: `post:version`,
+	//system-noti
+	system_noti_history: `get:system-notification`,
+	send_system_noti: `post:system-notification`,
 
   //amount
   all_amount: `get:delivery-fee`,
@@ -49,11 +45,24 @@ export const apiRoutes = {
   create_parcel: `post:parcel-type`,
   update_parcel: `patch:parcel-type`,
   delete_parcel: `delete:parcel-type`,
+	//app-version
+	version_history: `get:version`,
+	send_version: `post:version`,
 
-  // admin
-  all_admin: `get:admin-user`,
-  get_admin: `get:admin-user`,
 
-  // role
-  all_role: `get:role`,
+	// admin
+	all_admin: `get:admin-user`,
+	create_admin: `post:admin-user`,
+	update_admin: `patch:admin-user`,
+	get_admin: `get:admin-user`,
+	delete_admin: `delete:admin-user`,
+
+	// role
+	all_role: `get:role`,
+
+	// region
+	all_region: `get:region`,
+
+	// block
+	all_block: `get:block`,
 };

@@ -4,6 +4,22 @@ import controller, { apiRoutes } from "../../controller";
 import * as types from "../type";
 import { FetchFailure, FetchRequest, FetchSuccess } from "./typehandle.action";
 
+export interface CreateAdminData {
+	phone: string;
+	username: string;
+	password?: string;
+	role_id: string;
+	city_id: string;
+	address_city_id: string;
+	address_block_id: string;
+	address_region_id: string;
+	address: string;
+	counter_id: string;
+	active: number;
+}
+
+export interface UpdateAdminData extends CreateAdminData {}
+
 const getAllAdmins =
 	(role_id?: string, counter_id?: string) => async (dispatch: Dispatch) => {
 		dispatch(FetchRequest(types.GET_ALL_ADMINS_REQUEST));
@@ -48,7 +64,62 @@ const getAdminById = (id: string) => async (dispatch: Dispatch) => {
 		);
 };
 
+const createAdmin = (data: CreateAdminData) => async (dispatch: Dispatch) => {
+	dispatch(FetchRequest(types.CREATE_ADMIN_REQUEST));
+	return await controller(apiRoutes.create_admin, data)
+		.then((res) => {
+			if (res?.error) {
+				console.log(res.data);
+			} else {
+				dispatch(FetchSuccess(types.CREATE_ADMIN_SUCCESS, res?.data));
+				return res?.data;
+			}
+		})
+		.catch((error) => {
+			dispatch(FetchFailure(types.CREATE_ADMIN_ERROR, error.message));
+			return Promise.reject(error.message);
+		});
+};
+
+const updateAdmin =
+	(data: UpdateAdminData, id: string) => async (dispatch: Dispatch) => {
+		dispatch(FetchRequest(types.UPDATE_ADMIN_REQUEST));
+		return await controller(`${apiRoutes.update_admin}/${id}`, data)
+			.then((res) => {
+				if (res?.error) {
+					console.log(res.data);
+				} else {
+					dispatch(FetchSuccess(types.UPDATE_ADMIN_SUCCESS, res?.data));
+					return res?.data;
+				}
+			})
+			.catch((error) => {
+				dispatch(FetchFailure(types.UPDATE_ADMIN_ERROR, error.message));
+				return Promise.reject(error.message);
+			});
+	};
+
+const deleteAdmin = (id: string) => async (dispatch: Dispatch) => {
+	dispatch(FetchRequest(types.DELETE_ADMIN_REQUEST));
+	return await controller(`${apiRoutes.delete_admin}/${id}`)
+		.then((res) => {
+			if (res?.error) {
+				console.log(res.data);
+			} else {
+				dispatch(FetchSuccess(types.DELETE_ADMIN_SUCCESS, res?.data));
+				return res?.data;
+			}
+		})
+		.catch((error) => {
+			dispatch(FetchFailure(types.DELETE_ADMIN_ERROR, error.message));
+			return Promise.reject(error.message);
+		});
+};
+
 export const admin = {
 	getAllAdmins,
 	getAdminById,
+	createAdmin,
+	updateAdmin,
+	deleteAdmin,
 };
