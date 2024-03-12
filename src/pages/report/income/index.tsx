@@ -22,6 +22,7 @@ import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 import { incomeReport } from "../../../store/actions/incomeReport.action";
 import { useDispatch } from "react-redux";
+import ServerDatatable from "../../../components/table/serverdatatable";
 
 const IncomeReport = () => {
 	const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -36,7 +37,7 @@ const IncomeReport = () => {
 	const navigate = useNavigate();
 	const [paginationModel, setPaginationModel] = React.useState({
 		page: 0,
-		pageSize: 5,
+		pageSize: 10,
 		totalRowCount: 0,
 	});
 
@@ -75,6 +76,11 @@ const IncomeReport = () => {
 	useEffect(() => {
 		fetchReport();
 	}, [selectedDate.format("YYYY-MM-DD")]);
+
+  useEffect(() => {
+    setData(null);
+    fetchReport();
+  }, [paginationModel.page])
 
 	const handleDateChange = (date) => {
 		setSelectedDate(date);
@@ -306,10 +312,12 @@ const IncomeReport = () => {
 						data={tableBodyData}
 					/>
 
-					<Datatable
+					<ServerDatatable
 						rows={data?.total_income_counter}
 						columns={amountColumns.concat(actionColumn)}
 						apiRef={apiRef}
+            paginationModel={paginationModel}
+            setPaginationModel={setPaginationModel}
 					/>
 				</>
 			)}
