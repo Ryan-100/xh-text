@@ -84,4 +84,8 @@ export const apiRoutes = {
 
   // report
   get_report: `get:admin-dashboard-report/daily-monthly-yearly-report`,
+
+  // income daily report
+  get_daily_income_report: `get:admin-dashboard-report/daily-income-report`,
+
 };

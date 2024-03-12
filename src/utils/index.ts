@@ -37,6 +37,7 @@ export const cn = (...inputs: ClassValue[]) => {
 };
 
 export const formatDates = (dateObj) => {
+	console.log(dateObj);
 	const formattedStartDate = moment
 		.utc(`${dateObj.startDate}T00:00:00Z`)
 		.format("YYYY-MM-DDTHH:mm:ss[Z]");
