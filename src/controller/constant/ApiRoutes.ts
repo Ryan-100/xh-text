@@ -78,4 +78,7 @@ export const apiRoutes = {
   create_block: `post:block`,
   update_block: `patch:block`,
   delete_block: `delete:block`,
+
+  // report
+  get_report: `get:admin-dashboard-report/daily-monthly-yearly-report`,
 };
