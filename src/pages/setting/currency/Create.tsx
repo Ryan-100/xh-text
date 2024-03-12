@@ -6,6 +6,7 @@ import Icon from "../../../icons";
 import InputField from "../../../components/form/InputFiled";
 import { CurrencyDataInterface, currency } from "../../../store/actions";
 import AlertModal from "../../../components/Modal/AlertModal";
+import { getLocalStorageData } from "../../../service/auth";
 
 const CurrencyCreate = () => {
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -14,6 +15,9 @@ const CurrencyCreate = () => {
   const { control, handleSubmit, setValue } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const user_id = getLocalStorageData("user_id")
+
 
   const createParcel = async (data: CurrencyDataInterface) => {
     const res = await dispatch(currency.createCurrency(data) as any);
@@ -32,6 +36,7 @@ const CurrencyCreate = () => {
       createParcel({
         name,
         active: 1,
+        created_by:user_id
       });
     } else {
       setNotFilled(true);

@@ -101,7 +101,6 @@ import {
   Banner,
   Ads,
   CounterEdit,
-  MainCounterDetail,
   AdminEdit
 } from "../element";
 import Login from "../../pages/login";
@@ -194,10 +193,6 @@ const routes = [
         element: <CounterList />,
       },
       {
-        path: "main-counter-parcel/detail",
-        element: <MainCounterDetail />,
-      },
-      {
         path: "create",
         element: <CounterCreate />,
       },
@@ -218,7 +213,7 @@ const routes = [
         element: <DeliveredHistory />,
       },
       {
-        path: "delivered-history/package/:id",
+        path: " ",
         element: <PackageDetail />,
       },
       {

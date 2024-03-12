@@ -49,7 +49,7 @@ const BlockCreate = () => {
         city_id,
         prefix,
         active: 1,
-        // created_by:user_id,
+        created_by:user_id,
       });
     } else {
       setNotFilled(true);

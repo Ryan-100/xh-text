@@ -62,6 +62,12 @@ export const POST_VERSION_REQUEST = 'POST_VERSION_REQUEST';
 export const POST_VERSION_SUCCESS = 'POST_VERSION_SUCCESS';
 export const POST_VERSION_ERROR = 'POST_VERSION_ERROR';
 
+//*Upload image
+//?Upload image
+export const CREATE_IMAGE_REQUEST = 'CREATE_IMAGE_REQUEST';
+export const CREATE_IMAGE_SUCCESS = 'CREATE_IMAGE_SUCCESS';
+export const CREATE_IMAGE_ERROR = 'CREATE_IMAGE_ERROR';
+
 //*Amount (Shipping fee)
 //?All Amount (Shipping fee) 
 export const GET_ALL_AMOUNTS_REQUEST = 'GET_ALL_AMOUNTS_REQUEST';

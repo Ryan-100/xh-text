@@ -12,6 +12,7 @@ export type AmountType = {
   to_city_id: string;
   currency_id: string;
   delivery_fee: number;
+  created_by:string;
 };
 
 

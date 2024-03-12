@@ -7,7 +7,8 @@ import { routeFilter } from '../../utils';
 
 export interface ParcelTypeInterface{
   parcel_type:string;
-  state:number
+  state:number;
+  created_by:string;
 }
 
 const createParcel = (data:ParcelTypeInterface) => async (dispatch:Dispatch) => {

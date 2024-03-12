@@ -70,7 +70,7 @@ const WeightDetail = () => {
               </div>
               <div className="flex flex-col">
                 <p className="text-gray leading-6">Created By</p>
-                <p className="text-secondary leading-6">{weightData?.created_by || "Unknown"}</p>
+                <p className="text-secondary leading-6">{weightData?.created_user?.username || "Unknown"}</p>
               </div>
             </div>
             <div className="flex items-center space-x-6">

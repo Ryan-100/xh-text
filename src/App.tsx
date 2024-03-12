@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import MaterRoutes from "./routes";
-import { block, city, currency, parcel, weight } from "./store/actions";
+import { block, city, counter, currency, parcel, weight } from "./store/actions";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -15,6 +15,7 @@ const App = () => {
 			dispatch(weight.getAllWeight() as any);
 			dispatch(parcel.getAllParcel() as any);
       dispatch(block.getAllblocks() as any);
+      dispatch(counter.getAllCounters() as any);
 		} catch (error) {
 			console.error("Error fetching:", error);
 		}

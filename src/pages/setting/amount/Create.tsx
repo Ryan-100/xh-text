@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { AmountType, amount } from "../../../store/actions";
 import AlertModal from "../../../components/Modal/AlertModal";
+import { getLocalStorageData } from "../../../service/auth";
 
 const AmountCreate = () => {
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -20,6 +21,7 @@ const AmountCreate = () => {
   const { all_cities } = useSelector((state: any) => state.city);
   const { all_currency } = useSelector((state: any) => state.currency);
   const { all_weight } = useSelector((state: any) => state.weight);
+  const user_id = getLocalStorageData("user_id")
 
   const cityOptions = all_cities?.data?.map((city) => ({
     value: city.id,
@@ -51,7 +53,8 @@ const AmountCreate = () => {
         currency_id,
         weight_id,
         delivery_fee:parseInt(delivery_fee),
-        parcel_type_id:"11ca9396-176a-47ef-b816-0565584f9c85"
+        parcel_type_id:"11ca9396-176a-47ef-b816-0565584f9c85",
+        created_by:user_id,
       })
     }else{
       setNotFilled(true);

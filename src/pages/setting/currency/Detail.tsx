@@ -74,7 +74,7 @@ const CurrencyDetail = () => {
               <div className="flex flex-col">
                 <p className="text-gray leading-6">Created By</p>
                 <p className="text-secondary leading-6">
-                  {currencyData?.created_by || "Unknown"}
+                  {currencyData?.created_user?.username || "Unknown"}
                 </p>
               </div>
             </div>

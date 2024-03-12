@@ -10,7 +10,7 @@ export interface BlockDataInterface {
   city_id: string;
   prefix: string;
   active: number;
-	// created_by:string;
+	created_by:string;
 }
 
 const createBlock = (data:BlockDataInterface) => async (dispatch:Dispatch) => {

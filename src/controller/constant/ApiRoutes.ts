@@ -11,6 +11,9 @@ export const apiRoutes = {
   update_counter: `patch:counter`,
   delete_counter: `delete:counter`,
 
+	//image upload
+	upload_image: `post:upload`,
+
 	//system-noti
 	system_noti_history: `get:system-notification`,
 	send_system_noti: `post:system-notification`,

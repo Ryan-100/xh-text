@@ -53,12 +53,12 @@ const RegionList = () => {
       fetchRegionByFilter({
         skip,
         take,
-        "filter[city_eng]": cityFilter,
+        city_id: cityFilter,
       });
       setSearchParams({
         skip,
         take,
-        "filter[city_eng]": cityFilter,
+        city_id: cityFilter,
       });
     } else {
       fetchRegion();
@@ -81,7 +81,7 @@ const RegionList = () => {
 
   const cityOptions = all_cities
     ? all_cities?.data?.map((city) => ({
-        value: city.city_eng,
+        value: city.id,
         label: city.city_eng,
       }))
     : [];
