@@ -29,6 +29,7 @@ const ParcelType = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const apiRef = useRef(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

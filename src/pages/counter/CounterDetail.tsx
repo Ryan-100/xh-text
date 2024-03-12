@@ -1,40 +1,73 @@
 import React from "react";
 import { Divider } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Icon from "../../icons";
 import { useDispatch } from "react-redux";
-import { counter } from "../../store/actions/counter.action";
 import moment from "moment";
 import Modal from "../../components/Modal";
+import { counter } from "../../store/actions";
 
 const CounterDetail = () => {
   const [counterData, setCounterData] = React.useState<any>();
   const [isDelete, setIsDelete] = React.useState<boolean>();
+  const [relevantCounter, setRelevantCounter] = React.useState<any>(); // Define relevantCounter state
 
   const navigate = useNavigate();
   const { id: counterId } = useParams();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    const fetchCounter = async () => {
+    const fetchCountersBasedOnPrefix = async () => {
       try {
-        const res = await dispatch(counter.getCounterById(counterId) as any);
-        setCounterData(res?.data);
+        const allCountersRes = await dispatch(counter.getAllCounters() as any);
+        const relevantCounter = allCountersRes.data.find(
+          (c) => c.id.toString() === counterId
+        );
+
+        if (relevantCounter) {
+          setRelevantCounter(relevantCounter); // Set relevantCounter state
+          try {
+            if (relevantCounter.prefix === "JIA") {
+              const detailRes = await dispatch(
+                counter.getCounterById(relevantCounter.id) as any
+              );
+              setCounterData(detailRes.data);
+            } else if (relevantCounter.prefix === "LA") {
+              const detailRes = await dispatch(
+                counter.getOtherCounterById(relevantCounter.id) as any
+              );
+              setCounterData(detailRes.data);
+            }
+          } catch (error) {
+            console.error("Error fetching counter details:", error);
+          }
+        }
       } catch (error) {
-        console.error("Error fetching counter:", error);
+        console.error("Error fetching counters:", error);
       }
     };
-    fetchCounter();
+    fetchCountersBasedOnPrefix();
   }, [dispatch, counterId]);
 
   const goBack = () => {
     navigate(-1);
   };
+
   const goToEdit = () => {
     navigate(`/counters/edit/${counterId}`);
   };
 
-  const deleteHandler = () =>{}
+  const fromDate = moment().startOf('month').format('YYYY-MM-DD'); // This will be the first day of the current month
+  const toDate = moment().format('YYYY-MM-DD'); // This will be the current date
+  const skip = 0; 
+  const take = 10; 
+  const parcelType = "scan";
+
+
+
+  const detailPath = `/counters/main-counter-parcel/detail?from_date=${fromDate}&to_date=${toDate}&skip=${skip}&take=${take}&parcel_type=${parcelType}`;
+
+  const deleteHandler = () => {};
   console.log(counterData, "counter data");
   return (
     <>
@@ -128,21 +161,63 @@ const CounterDetail = () => {
             </div>
           </div>
           <div className="bg-white rounded-[10px] shadow p-6 grid grid-cols-12 grid-rows-1">
-            <div className="w-[136px]   col-span-2 flex flex-col space-y-2">
-              <p className="h-[48px] text-gray">Total Admins</p>
-              <p className="h-[48px] text-gray">Total Riders</p>
-              <p className="h-[48px] text-gray">Total Scanned Packages</p>
-            </div>
-            <div className="w-[253px]   col-span-2 flex flex-col space-y-2">
-              <p className="h-[48px]">3</p>
-              <p className="h-[48px]">15</p>
-              <p className="h-[48px]">1532</p>
-            </div>
-            <div className=" col-span-2 flex flex-col space-y-2">
-              <p className="h-[48px] text-primary">View All</p>
-              <p className="h-[48px] text-primary">View All</p>
-              <p className="h-[48px] text-primary">View All</p>
-            </div>
+            {relevantCounter && (
+              <>
+                {relevantCounter.prefix === "JIA" && (
+                  <>
+                    <div className="w-[136px] col-span-2 flex flex-col space-y-2">
+                      <p className="h-[48px] text-gray">Total Admins</p>
+                      <p className="h-[48px] text-gray">Scan Parcels </p>
+                      <p className="h-[48px] text-gray">Customized Parcels</p>
+                    </div>
+                    <div className="w-[253px]   col-span-2 flex flex-col space-y-2">
+                      <p className="h-[48px]">{counterData?.total_admin}</p>
+                      <p className="h-[48px]">
+                        {counterData?.total_scan_parcels}
+                      </p>
+                      <p className="h-[48px]">
+                        {counterData?.total_customize_parcels}
+                      </p>
+                    </div>
+                    <div className=" col-span-2 flex flex-col space-y-2">
+                      <p className="h-[48px] text-primary">View All</p>
+                      <Link
+                        to={detailPath}
+                        className="text-primary h-[48px] hover:underline"
+                      >
+                        View All
+                      </Link>
+                      <p className="h-[48px] text-primary">View All</p>
+
+                    </div>
+                  </>
+                )}
+
+                {relevantCounter.prefix === "LA" && (
+                  <>
+                    <div className="w-[136px] col-span-2 flex flex-col space-y-2">
+                      <p className="h-[48px] text-gray">Total Admins</p>
+                      <p className="h-[48px] text-gray">Total Riders</p>
+                      <p className="h-[48px] text-gray">
+                        Total Scanned Packages
+                      </p>
+                    </div>
+                    <div className="w-[253px] col-span-2 flex flex-col space-y-2">
+                      <p className="h-[48px]">{counterData?.total_admin}</p>
+                      <p className="h-[48px]">{counterData?.total_riders}</p>
+                      <p className="h-[48px]">
+                        {counterData?.total_scan_parcels}
+                      </p>
+                    </div>
+                    <div className=" col-span-2 flex flex-col space-y-2">
+                      <p className="h-[48px] text-primary">View All</p>
+                      <p className="h-[48px] text-primary">View All</p>
+                      <p className="h-[48px] text-primary">View All</p>
+                    </div>
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
       )}
