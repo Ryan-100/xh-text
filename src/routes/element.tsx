@@ -73,9 +73,17 @@ export const CounterList = Loadable(
 	lazy(() => import("../pages/counter/CounterList"))
 );
 
-export const MainCounterDetail = Loadable(
-  lazy(() => import("../pages/counter/MainCounterDetail"))
+export const MainCounterScan = Loadable(
+  lazy(() => import("../pages/counter/MainCounterScan"))
 );
+
+export const MainCounterCustom = Loadable(
+	lazy(() => import("../pages/counter/MainCounterCustom"))
+  );
+
+  export const MainCounterDetailScan = Loadable(
+	lazy(() => import("../pages/counter/MainCounterDetailScan"))
+  );
 
 export const CounterCreate = Loadable(
 	lazy(() => import("../pages/counter/CounterCreate"))

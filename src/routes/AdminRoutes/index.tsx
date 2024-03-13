@@ -101,8 +101,10 @@ import {
   Banner,
   Ads,
   CounterEdit,
-  MainCounterDetail,
-  AdminEdit
+  MainCounterScan,
+  AdminEdit,
+  MainCounterCustom,
+  MainCounterDetailScan
 } from "../element";
 import Login from "../../pages/login";
 
@@ -194,8 +196,16 @@ const routes = [
         element: <CounterList />,
       },
       {
-        path: "main-counter-parcel/detail",
-        element: <MainCounterDetail />,
+        path: "/counters/main-counter-scan-parcel/:counterId",
+        element: <MainCounterScan />,
+      },
+      {
+        path: "/counters/main-counter-parcel/:counterId",
+        element: <MainCounterCustom />,
+      },
+      {
+        path: "/counters/main-counter-parcel/scan-detail/:counterId",
+        element: <MainCounterDetailScan />,
       },
       {
         path: "create",

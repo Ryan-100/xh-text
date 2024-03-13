@@ -57,15 +57,25 @@ const CounterDetail = () => {
     navigate(`/counters/edit/${counterId}`);
   };
 
-  const fromDate = moment().startOf('month').format('YYYY-MM-DD'); // This will be the first day of the current month
-  const toDate = moment().format('YYYY-MM-DD'); // This will be the current date
-  const skip = 0; 
-  const take = 10; 
-  const parcelType = "scan";
+  const queryParams = new URLSearchParams({
+    counter_id: counterId, 
+    from_date: moment().startOf('month').format('YYYY-MM-DD'),
+    to_date: moment().format('YYYY-MM-DD'),
+    skip: '0',
+    take: '10',
+    parcel_type: 'scan',
+  });
+  const queryCustomParams = new URLSearchParams({
+    counter_id: counterId, 
+    from_date: moment().startOf('month').format('YYYY-MM-DD'),
+    to_date: moment().format('YYYY-MM-DD'),
+    skip: '0',
+    take: '10',
+    parcel_type: 'customize',
+  });
 
-
-
-  const detailPath = `/counters/main-counter-parcel/detail?from_date=${fromDate}&to_date=${toDate}&skip=${skip}&take=${take}&parcel_type=${parcelType}`;
+  const detailPath = `/counters/main-counter-scan-parcel/detail?${queryParams.toString()}`;  
+  const customDetailPath = `/counters/main-counter-parcel/detail?${queryCustomParams.toString()}`;
 
   const deleteHandler = () => {};
   console.log(counterData, "counter data");
@@ -187,8 +197,12 @@ const CounterDetail = () => {
                       >
                         View All
                       </Link>
-                      <p className="h-[48px] text-primary">View All</p>
-
+                      <Link
+                        to={customDetailPath}
+                        className="text-primary h-[48px] hover:underline"
+                      >
+                        View All
+                      </Link>
                     </div>
                   </>
                 )}
