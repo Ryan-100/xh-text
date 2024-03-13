@@ -30,10 +30,14 @@ const CounterList = () => {
   const { control, setValue, watch } = useForm({
     defaultValues: {
       counter: "",
+      city: "",
+      counterName: "",
     },
   });
-  const selectedCity = watch("city", "");
-  const selectedCounterName = watch("counterName", "");
+
+  const selectedCity = watch("city");
+  const selectedCounterName = watch("counterName");
+
   useEffect(() => {
     const fetchCounters = async () => {
       try {
@@ -180,7 +184,7 @@ const CounterList = () => {
                     control={control}
                     options={counterOptions}
                     fullWidth
-                    onChange={(e) => setValue("counterName", e.target.value)}
+                    onChange={(selectedValue) => console.log(selectedValue)}
                   />
                 </div>
               </div>
@@ -195,7 +199,7 @@ const CounterList = () => {
                     control={control}
                     options={cityOptions}
                     fullWidth
-                    onChange={(e) => setValue("city", e.target.value)}
+                    onChange={(selectedValue) => console.log(selectedValue)}
                   />
                 </div>
               </div>
@@ -211,6 +215,7 @@ const CounterList = () => {
             </Link>
           </div>
           <Datatable
+            apiRef={apiRef}
             rows={getFilteredData()}
             columns={[...amountColumns, ...actionColumn]}
           />

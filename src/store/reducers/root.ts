@@ -10,6 +10,7 @@ import role, { RoleState } from "./role.reducer";
 import currency, { CurrencyState } from "./currency.reducer";
 import weight, { WeightState } from "./weight.reducer";
 import parcel, { ParcelState } from "./parcel.reducer";
+import report, { ReportState } from "./report.reducer";
 
 type ActionType = {
 	type: string;
@@ -23,24 +24,25 @@ export interface RootState {
 	admin: AdminState;
 	role: RoleState;
 	version: VersionState;
-  city:CityState;
-  currency:CurrencyState;
-  weight:WeightState;
-  parcel:ParcelState
-
+	city: CityState;
+	currency: CurrencyState;
+	weight: WeightState;
+	parcel: ParcelState;
+	report: ReportState;
 }
 export type RootAction = ActionType;
 
 export default combineReducers({
-  emit,
-  auth,
-  counter,
-  notification,
-  version,
-  city,
-  admin,
-  role,
-  currency,
-  weight,
-  parcel
+	emit,
+	auth,
+	counter,
+	notification,
+	version,
+	city,
+	admin,
+	role,
+	currency,
+	weight,
+	parcel,
+	report,
 });

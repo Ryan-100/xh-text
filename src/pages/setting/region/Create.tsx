@@ -31,25 +31,68 @@ const RegionCreate = () => {
       </div>
       <div className="bg-white p-6 w-full flex flex-col space-y-4 rounded-[10px] drop-shadow">
         <div className="flex items-center justify-between w-[780px]">
-          <p className="text-sm md:text-base xl:text-xl text-gray">City Branch</p>
+          <p className="text-sm md:text-base xl:text-xl text-gray">
+            City Branch
+          </p>
           <div className="w-[528px]">
             <InputSelect
               fullWidth
               name="branch"
               control={control}
-              label={""}
+              label={"Choose city/branch"}
               options={counterOptions}
             />
           </div>
         </div>
 
         <div className="flex items-start justify-between w-[780px]">
-          <p className="text-sm md:text-base xl:text-xl text-gray">Region Name</p>
+          <p className="text-sm md:text-base xl:text-xl text-gray">
+            Region Name (mm)
+          </p>
           <div className="w-[528px]">
             <InputField
-              name="region"
+              name="region_mm"
               control={control}
-              placeholder="Enter Region"
+              placeholder="Enter Region (Burmese)"
+              label={""}
+            />
+          </div>
+        </div>
+        <div className="flex items-start justify-between w-[780px]">
+          <p className="text-sm md:text-base xl:text-xl text-gray">
+            Region Name (cha)
+          </p>
+          <div className="w-[528px]">
+            <InputField
+              name="region_cha"
+              control={control}
+              placeholder="Enter Region (Chinese)"
+              label={""}
+            />
+          </div>
+        </div>
+        <div className="flex items-start justify-between w-[780px]">
+          <p className="text-sm md:text-base xl:text-xl text-gray">
+            Region Name (eng)
+          </p>
+          <div className="w-[528px]">
+            <InputField
+              name="region_eng"
+              control={control}
+              placeholder="Enter Region (English)"
+              label={""}
+            />
+          </div>
+        </div>
+        <div className="flex items-start justify-between w-[780px]">
+          <p className="text-sm md:text-base xl:text-xl text-gray">
+            Prefix
+          </p>
+          <div className="w-[528px]">
+            <InputField
+              name="prefix"
+              control={control}
+              placeholder="Enter prefix"
               label={""}
             />
           </div>

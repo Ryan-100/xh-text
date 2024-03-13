@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { auth } from "../../store/actions";
-import { logout } from "../../service/auth";
+import { logout, setLocalStorage, setToken, setUserInfo } from "../../service/auth";
 
 export type LoginFormValue = {
-  username: string;
+  adminID: string;
   password: string;
 };
 
@@ -17,7 +17,7 @@ const Login = () => {
     mode: "onChange",
     defaultValues: {
       password: "",
-      username: "",
+      adminID: "",
     },
   });
   React.useEffect(()=>{
@@ -28,15 +28,20 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    if (data.username && data.password) {
+    if (data.adminID && data.password) {
       const res = await dispatch(
         auth.login({
-          username: "*&%$#@@#$%&**&%$#@@#$%&*",
-          password: "3c6c237547b4668aece99321e387d9f0",
+          adminID: "superadmin",
+          password: "P@ssw0rd",
         }) as any
       );
       if (res.statusCode === 201) {
-        console.log(res, "res");
+        console.log(res,'res')
+        setUserInfo({user_data:res?.data})
+        setLocalStorage("user_id",res?.data?.id)
+        setToken({
+          j_token: res?.data?.access_token          ,
+        });
         navigate("/dashboard");
       }
     }
@@ -68,7 +73,7 @@ const Login = () => {
             <InputField
               label="Admin ID"
               placeholder="Enter Admin ID"
-              name={"username"}
+              name={"adminID"}
               control={control}
             />
             <InputField

@@ -10,3 +10,4 @@ export * from './weight.action';
 export * from './parcel.action';
 export * from './region.action';
 export * from './block.action';
+export * from './role.action';

@@ -55,7 +55,7 @@ const InputField = ({
           <input
             {...field}
             type={(password && showPassword) ? "text" : (type === 'number' ? 'number' : (password ? 'password' : 'text'))}
-            max={type === "number" ? 100000 : undefined}
+            max={type === "number" ? 99999999999 : undefined}
             className="outline-none w-full bg-white text-secondary placeholder:text-gray-light leading-4 md:leading-6 xl:leading-8 text-base xl:text-xl placeholder:text-base placeholder:xl:text-xl"
             {...props}
           />

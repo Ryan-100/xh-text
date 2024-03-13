@@ -30,7 +30,7 @@ const defaultValues = {
 };
 
 const ProfileEditComponent = () => {
-	const { control, handleSubmit, reset } = useForm({
+	const { control, handleSubmit, reset, watch } = useForm({
 		mode: "onChange",
 		defaultValues,
 	});
@@ -42,6 +42,10 @@ const ProfileEditComponent = () => {
 	const [isAlert, setIsAlert] = useState(false);
 	const dispatch = useDispatch();
 	const [alertMsg, setAlertMsg] = useState("");
+	const selectedCityId = watch("branch");
+	const selectedBlockId = watch("block");
+
+	console.log(selectedCityId);
 
 	const navigate = useNavigate();
 	const goBack = () => {
@@ -51,7 +55,10 @@ const ProfileEditComponent = () => {
 	const fetchRegions = async () => {
 		try {
 			const res = await dispatch(region.getAllRegions() as any);
-			const _region = res?.data?.map((region) => ({
+			const filteredRegions = res.data.filter((region) => {
+				return region?.block_id === selectedBlockId;
+			});
+			const _region = filteredRegions.map((region) => ({
 				value: region?.id,
 				label: region?.region_eng,
 			}));
@@ -77,7 +84,10 @@ const ProfileEditComponent = () => {
 	const fetchBlocks = async () => {
 		try {
 			const res = await dispatch(block.getAllblocks() as any);
-			const _block = res?.data?.map((block) => ({
+			const filteredBlocks = res.data.filter((block) => {
+				return block?.city_id === selectedCityId;
+			});
+			const _block = filteredBlocks?.map((block) => ({
 				value: block?.id,
 				label: block?.block_eng,
 			}));
@@ -103,7 +113,10 @@ const ProfileEditComponent = () => {
 	const fetchCounters = async () => {
 		try {
 			const res = await dispatch(counter.getAllCounters() as any);
-			const _counters = res?.data?.map((counter) => ({
+			const filteredCounters = res.data.filter((counter) => {
+				return counter?.city_id === selectedCityId;
+			});
+			const _counters = filteredCounters.map((counter) => ({
 				value: counter?.id,
 				label: counter?.name,
 			}));
@@ -114,12 +127,18 @@ const ProfileEditComponent = () => {
 	};
 
 	useEffect(() => {
-		fetchRegions();
 		fetchCities();
-		fetchBlocks();
 		fetchRoles();
-		fetchCounters();
 	}, []);
+
+	useEffect(() => {
+		fetchRegions();
+	}, [selectedBlockId]);
+
+	useEffect(() => {
+		fetchBlocks();
+		fetchCounters();
+	}, [selectedCityId]);
 
 	const onSubmit = async (data) => {
 		try {
@@ -229,7 +248,7 @@ const ProfileEditComponent = () => {
 									fullWidth
 									name="role"
 									control={control}
-									label={""}
+									label={"Select Role"}
 									options={roleOptions}
 								/>
 							</div>
@@ -243,7 +262,7 @@ const ProfileEditComponent = () => {
 									fullWidth
 									name="branch"
 									control={control}
-									label={""}
+									label={"Select Branch"}
 									options={cityOptions}
 								/>
 							</div>
@@ -257,7 +276,7 @@ const ProfileEditComponent = () => {
 									fullWidth
 									name="counter"
 									control={control}
-									label={""}
+									label={"Select Counter"}
 									options={counterOptions}
 								/>
 							</div>
@@ -307,7 +326,7 @@ const ProfileEditComponent = () => {
 									fullWidth
 									name="block"
 									control={control}
-									label={""}
+									label={"Select Block"}
 									options={blockOptions}
 								/>
 							</div>
@@ -321,7 +340,7 @@ const ProfileEditComponent = () => {
 									fullWidth
 									name="region"
 									control={control}
-									label={""}
+									label={"Select Region Type"}
 									options={regionOptions}
 								/>
 							</div>

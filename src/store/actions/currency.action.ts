@@ -4,10 +4,14 @@ import controller, { apiRoutes } from '../../controller';
 import * as types from '../type';
 import { FetchFailure, FetchRequest, FetchSuccess } from './typehandle.action';
 import { routeFilter } from '../../utils';
+export interface CurrencyDataInterface {
+  name:string;
+  active:number;
+}
 
-const createCurrency = () => async (dispatch:Dispatch) => {
+const createCurrency = (data:CurrencyDataInterface) => async (dispatch:Dispatch) => {
   dispatch(FetchRequest(types.CREATE_CURRENCY_REQUEST));
-  return await controller(apiRoutes.create_currency)
+  return await controller(apiRoutes.create_currency,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
