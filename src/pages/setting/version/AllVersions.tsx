@@ -138,7 +138,7 @@ const RiderReportDetail = () => {
                       <p className="text-primary">Copy Link</p>
                     </div>
                   </TableCell>
-                  <TableCell align="center">{version?.created_by}</TableCell>
+                  <TableCell align="center">{version?.created_user?.username}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

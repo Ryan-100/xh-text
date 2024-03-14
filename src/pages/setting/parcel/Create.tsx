@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { ParcelTypeInterface, parcel } from "../../../store/actions";
 import AlertModal from "../../../components/Modal/AlertModal";
 import { parcelStateOptions } from "./ParcelType";
+import { getLocalStorageData } from "../../../service/auth";
 
 const AmountCreate = () => {
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -15,6 +16,7 @@ const AmountCreate = () => {
   const { control, handleSubmit, setValue } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user_id = getLocalStorageData("user_id")
 
   const createParcel = async (data: ParcelTypeInterface) => {
     const res = await dispatch(parcel.createParcel(data) as any);
@@ -30,6 +32,7 @@ const AmountCreate = () => {
       createParcel({
         parcel_type,
         state,
+        created_by:user_id,
       });
     } else {
       setNotFilled(true);

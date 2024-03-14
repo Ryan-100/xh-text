@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Tooltip } from "@mui/material";
 
 const Banner = () => {
-  const [fileData, setFileData] = useState<any | null>(null);
+  const [screens, setScreens] = React.useState([]);
   const { control, watch, register } = useForm({
     defaultValues: {
       type: "advertising-ads",
@@ -33,6 +33,7 @@ const Banner = () => {
         alert("File size exceeds the limit of 500 KB.");
         return;
       }
+
       // Get file name
       const fileSize = file.size / 1024;
 
@@ -43,19 +44,22 @@ const Banner = () => {
         if (e.target && e.target.result) {
           const img = new Image();
           img.src = e.target.result.toString();
-          setFileData({
-            img: e.target.result.toString(),
-            width: img.width,
-            height: img.height,
-            fileSize,
-          });
+          const newScreen = {
+            id: e.target.result.toString(),
+            img: e.target.result.toString(), // Set initial image source if needed
+            file: { fileSize, width: img.width, height: img.height },
+            title: "",
+            description: "",
+          };
+          setScreens((prevScreens) => [...prevScreens, newScreen]);
         }
       };
     }
   };
-
-  const handleRemoveImage = () => {
-    setFileData(null);
+  const removeScreen = (id) => {
+    // Filter out the screen with the specified id
+    const updatedScreens = screens.filter((screen) => screen.id !== id);
+    setScreens(updatedScreens);
   };
   return (
     <div className="flex flex-col space-y-6">
@@ -86,7 +90,9 @@ const Banner = () => {
         />
       </div>
       <div className="w-full h-fit flex flex-col items-center justify-center space-y-6 p-6 bg-white rounded-[10px] drop-shadow">
-        <p className="text-xl">Change Design for Advertising Ads Screen of User App</p>
+        <p className="text-xl">
+          Change Design for Advertising Ads Screen of User App
+        </p>
         <label htmlFor="file-input" className="cursor-pointer">
           <input
             id="file-input"
@@ -106,38 +112,64 @@ const Banner = () => {
           <p className="text-gray">Recommend : 1:1 (Ratio Size)</p>
         </div>
       </div>
-      {fileData && (
-        <div className="w-[344px] h-fit flex flex-col items-center justify-center space-y-6 p-16 bg-white rounded-[10px] drop-shadow relative group">
-          <Tooltip
-            title={`${fileData.fileSize.toFixed()} KB | ${fileData.width} x ${
-              fileData.height
-            } px`}
-            arrow
-            placement="top"
-          >
-            <img
-              src={fileData.img}
-              alt="screen"
-              className="w-[232px] h-[502px] "
-            />
-          </Tooltip>
-          <button
-            className="absolute !z-10 -top-2 right-6 bg-primary text-white w-8 h-8 text-center rounded-full px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={handleRemoveImage}
-          >
-            x
-          </button>
-          <input
-            type="text"
-            placeholder="Enter Ad Link"
-            className="placeholder:font-bold placeholder:text-gray-light placeholder:text-base p-3  text-base outline-none border border-gray-light rounded-[10px] text-center w-full"
-          />
-          <div className="rounded-[10px] bg-primary py-3 px-[29px] flex items-center space-x-3 ">
-            <Icon name="success" width={24} height={24} />
-            <p className="text-[20px] text-white">Apply</p>
+      <div className="grid grid-cols-3 gap-6">
+        {screens &&
+          screens.map((data, i) => (
+            <div
+              key={i}
+              className="w-[350px] h-[300px] flex flex-col items-center justify-center space-y-6 p-8 bg-white rounded-[10px] drop-shadow relative group"
+            >
+              <Tooltip
+                title={`${data.file.fileSize.toFixed()} KB | ${
+                  data.file.width
+                } x ${data.file.height} px`}
+                arrow
+                placement="top"
+              >
+                <img
+                  src={data.img}
+                  alt="screen"
+                  className="w-[400px] h-[120px] object-fill "
+                />
+              </Tooltip>
+              <button
+                className="absolute !z-10 -top-2 right-6 bg-primary text-white w-8 h-8 text-center rounded-full px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={() => removeScreen(data.id)}
+              >
+                x
+              </button>
+              <input
+                type="text"
+                placeholder="Enter Ad Link"
+                className="placeholder:font-bold placeholder:text-gray-light placeholder:text-base p-3  text-base outline-none border border-gray-light rounded-[10px] text-center w-full"
+              />
+              <div className="rounded-[10px] bg-primary py-3 px-[29px] flex items-center space-x-3 ">
+                <Icon name="success" width={24} height={24} />
+                <p className="text-[20px] text-white">Apply</p>
+              </div>
+            </div>
+          ))}
+        {screens && screens.length > 0 && (
+          <div className="w-[350px] h-fit flex flex-col items-center justify-center space-y-6 p-8 bg-white rounded-[10px] drop-shadow relative group">
+            <div className="flex space-x-4 items-center justify-center">
+              <label htmlFor="file-input" className="cursor-pointer">
+                <input
+                  id="file-input"
+                  type="file"
+                  accept=".png,.jpg"
+                  onChange={updateFile}
+                  hidden
+                />
+                <div className="bg-bright-ascent-1 rounded-md w-12 h-12  flex items-center justify-center">
+                  <Icon name="add" width={40} height={40} color="#FF6604" />
+                </div>
+              </label>
+
+              <p className="text-black">Add New</p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

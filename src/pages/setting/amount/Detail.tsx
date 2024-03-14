@@ -71,7 +71,7 @@ const AmountDetail = () => {
               </div>
               <div className="flex flex-col">
                 <p className="text-gray leading-6">Created By</p>
-                <p className="text-secondary leading-6">{amountData?.created_by?.name || "Unknown"}</p>
+                <p className="text-secondary leading-6">{amountData?.created_user?.username?.name || "Unknown"}</p>
               </div>
             </div>
             <div className="flex items-center space-x-6">

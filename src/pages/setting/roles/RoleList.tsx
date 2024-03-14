@@ -1,66 +1,111 @@
-import { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
 import { counterOptions, counterRows } from "../../../layout/config";
 import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
+import { role } from "../../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import ModalComponent from "../../../components/Modal";
+import AlertModal from "../../../components/Modal/AlertModal";
 
 const AdminRoles = () => {
-  const [data, setData] = useState(counterRows);
-  const [editRowId, setEditRowId] = useState(null);
-  const [editedData, setEditedData] = useState(null);
+  const [data, setData] = React.useState<any>();
+  const [isSuccess, setIsSuccess] = React.useState<boolean>();
+  const [isDelete, setIsDelete] = React.useState<boolean>();
+  const [deleteId, setDeleteId] = React.useState<string>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const apiRef = useRef(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const fetchRoles = async () => {
+    try {
+      const res = await dispatch(role.getAllRoles() as any);
+      setData(res?.data);
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
+  const fetchRolesByFilter = async (params) => {
+    try {
+      const res = await dispatch(role.getAllRolesByFilter(params) as any);
+      setData(res?.data?.data);
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
+
+  const { control, watch } = useForm({
+    mode: "onChange",
+  });
+
+  const { all_counters } = useSelector((state: any) => state.counter);
+
+  const skip = searchParams.get("skip") || "0";
+  const take = searchParams.get("take") || "10";
+
+  const counterFilter = watch("counter");
+
+  React.useEffect(() => {
+    if (counterFilter) {
+      fetchRolesByFilter({
+        skip,
+        take,
+        "filter[counter_id]": counterFilter,
+      });
+      setSearchParams({
+        skip,
+        take,
+        "filter[counter_id]": counterFilter,
+      });
+    } else {
+      fetchRoles();
+      setSearchParams();
+    }
+  }, [dispatch, counterFilter]);
+
   const goBack = () => {
     navigate(-1);
   };
 
-  const { control, handleSubmit, setValue } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      // Specify your default values here
-      counter: editedData?.counter,
-      city: editedData?.city,
-      block: editedData?.block,
-      region: editedData?.region,
-    },
-  });
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const deleteHandler = async (id) => {
+    const res = await dispatch(role.deleteRole(id) as any);
+    if (res?.statusCode === 200) {
+      setIsDelete(false);
+      setIsSuccess(true);
+      fetchRoles();
+    }
   };
+
+  const counterOptions = all_counters
+    ? all_counters?.data?.map((counter) => ({
+        value: counter.id,
+        label: counter.name,
+      }))
+    : [];
 
   const handleEdit = (id) => {
-    navigate("/counters/edit/" + id);
+    navigate("/setting/admin-role/" + id + "/edit");
   };
 
-  const handleSave = () => {
-    // Update the data with the edited data
-    const newData = data.map((row) =>
-      row.id === editRowId ? editedData : row
-    );
-    setData(newData);
-
-    // Close the modal and reset edit states
-    setEditRowId(null);
-    setEditedData(null);
-  };
-
-  const handleProcessRowUpdate = (updatedRow, originalRow) => {
-    console.log(updatedRow, originalRow, "rows");
-    handleSave();
-    return updatedRow;
-  };
   const amountColumns: GridColDef[] = [
     { field: "no", headerName: "No.", width: 123 },
     {
-      field: "role",
+      field: "name",
       headerName: "Role Name",
       width: 361,
     },
-    { field: "counter", headerName: "Counter", width: 341 },
+    {
+      field: "counter",
+      headerName: "Counter",
+      width: 341,
+      renderCell: (params) => {
+        return <p className="">{params.row.counter.name}</p>;
+      },
+    },
   ];
 
   const actionColumn: GridColDef[] = [
@@ -87,7 +132,10 @@ const AdminRoles = () => {
             </div>
             <div
               className="editButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => {
+                setIsDelete(true);
+                setDeleteId(params.row.id);
+              }}
             >
               <Icon name="delete" color="#444240" fillColor="#444240" />
             </div>
@@ -144,14 +192,31 @@ const AdminRoles = () => {
             </div>
           </Link>
         </div>
-        <Datatable
-          rows={data}
-          columns={amountColumns.concat(actionColumn)}
-          apiRef={apiRef}
-          editRowId={editRowId}
-          updateRow={handleProcessRowUpdate}
-        />
+        {data && (
+          <Datatable
+            rows={data}
+            columns={amountColumns.concat(actionColumn)}
+            apiRef={apiRef}
+          />
+        )}
       </div>
+      {isDelete && (
+        <ModalComponent
+          title="Confirm"
+          body={"Are you sure to delete this define role? Please confirm it."}
+          open={isDelete}
+          onClose={() => setIsDelete(false)}
+          onConfirm={() => deleteHandler(deleteId)}
+        />
+      )}
+      {isSuccess && (
+        <AlertModal
+          title="Success"
+          body={"The role is successfully deleted. Please check into list."}
+          open={isSuccess}
+          onClose={() => setIsSuccess(false)}
+        />
+      )}
     </>
   );
 };

@@ -12,6 +12,7 @@ export interface CityDataInterface{
   currency_id: string;
   prefix: string;
   active: number;
+  created_by:string;
 }
 
 const createCity = (data:CityDataInterface) => async (dispatch:Dispatch) => {

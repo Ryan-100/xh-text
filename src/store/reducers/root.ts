@@ -11,6 +11,13 @@ import currency, { CurrencyState } from "./currency.reducer";
 import weight, { WeightState } from "./weight.reducer";
 import parcel, { ParcelState } from "./parcel.reducer";
 import report, { ReportState } from "./report.reducer";
+import block, { BlockState } from "./block.reducer";
+import region, { RegionState } from "./region.reducer";
+import image, { ImageState } from "./image.reducer";
+import payment, { PaymentState } from "./payment.reducer";
+import userguide, { UserGuideState } from "./userguide.reducer";
+import terms, { TermsAndPolicyState } from "./terms.reducer";
+import help, { HelpCenterState } from "./help.reducer";
 
 type ActionType = {
 	type: string;
@@ -19,14 +26,21 @@ type ActionType = {
 export interface RootState {
 	emit: EmitState;
 	auth: AuthState;
+	image:ImageState;
 	counter: CounterState;
 	notification: NotificationState;
 	admin: AdminState;
 	role: RoleState;
 	version: VersionState;
 	city: CityState;
+	userguide: UserGuideState;
+	terms:TermsAndPolicyState;
+	payment: PaymentState;
+	block: BlockState;
+	region: RegionState;
 	currency: CurrencyState;
 	weight: WeightState;
+	help:HelpCenterState;
 	parcel: ParcelState;
 	report: ReportState;
 }
@@ -35,10 +49,17 @@ export type RootAction = ActionType;
 export default combineReducers({
 	emit,
 	auth,
+	image,
 	counter,
 	notification,
 	version,
 	city,
+	userguide,
+	terms,
+	payment,
+	help,
+	block,
+	region,
 	admin,
 	role,
 	currency,

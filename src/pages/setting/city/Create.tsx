@@ -7,6 +7,7 @@ import InputField from "../../../components/form/InputFiled";
 import AlertModal from "../../../components/Modal/AlertModal";
 import { useDispatch, useSelector } from "react-redux";
 import { CityDataInterface, city } from "../../../store/actions";
+import { getLocalStorageData } from "../../../service/auth";
 
 const CreateCity = () => {
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -16,6 +17,7 @@ const CreateCity = () => {
   const dispatch = useDispatch();
 
   const {all_currency}= useSelector((state:any)=>state.currency)
+  const user_id = getLocalStorageData("user_id")
 
   const createParcel = async (data: CityDataInterface) => {
     const res = await dispatch(city.createCity(data) as any);
@@ -43,6 +45,7 @@ const CreateCity = () => {
         currency_id,
         prefix,
         active: 1,
+        created_by:user_id,
       });
     } else {
       setNotFilled(true);

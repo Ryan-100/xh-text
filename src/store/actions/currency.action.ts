@@ -7,6 +7,7 @@ import { routeFilter } from '../../utils';
 export interface CurrencyDataInterface {
   name:string;
   active:number;
+  created_by:string;
 }
 
 const createCurrency = (data:CurrencyDataInterface) => async (dispatch:Dispatch) => {

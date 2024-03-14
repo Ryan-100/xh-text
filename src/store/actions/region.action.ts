@@ -45,7 +45,7 @@ const getAllRegions = () => async (dispatch: Dispatch) => {
 
 const getAllRegionsByFilter = (params) => async (dispatch:Dispatch) => {
   dispatch(FetchRequest(types.GET_ALL_REGION_REQUEST));
-  return await controller(`${apiRoutes.all_region}/pages?${routeFilter(params)}`)
+  return await controller(`${apiRoutes.all_region}/pages/filter-by-city?${routeFilter(params)}`)
     .then(res => {
       if (res?.error) {
         console.log(res.data);

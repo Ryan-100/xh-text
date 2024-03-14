@@ -166,7 +166,7 @@ const CounterDetail = () => {
                 <div className="h-12 w-[411px] py-3 px-4 flex items-center justify-between bg-gray-light-1 mb-6">
                   <p className="text-gray">Created By</p>
                   <p className="text-secondary w-[235px]">
-                    {counterData?.created_by}
+                    {counterData?.created_user?.username}
                   </p>
                 </div>
               </div>
