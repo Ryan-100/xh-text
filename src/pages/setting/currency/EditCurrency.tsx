@@ -103,7 +103,7 @@ const CurrencyEdit = () => {
         open={isSuccess}
         onClose={() => setIsSuccess(false)}
         title={"Success"}
-        body={"New Currency has been created successfully."}
+        body={"This Currency has been edited successfully."}
       />
       <AlertModal
         open={notFilled}
