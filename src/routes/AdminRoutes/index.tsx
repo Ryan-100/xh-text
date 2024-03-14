@@ -235,7 +235,7 @@ const routes = [
         element: <DeliveredHistory />,
       },
       {
-        path: " ",
+        path: "delivered-history/package/:id",
         element: <PackageDetail />,
       },
       {

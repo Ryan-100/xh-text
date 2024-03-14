@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import { GridColDef } from "@mui/x-data-grid";
@@ -15,7 +15,7 @@ const MainCounterCustom = () => {
   const dispatch = useDispatch();
   const [cityName, setCityName] = useState("");
   const [counterId, setCounterId] = useState(null);
-
+  const apiRef = useRef(null);
   const location = useLocation();
   const [value, setValue] = useState({
     startDate: null,
@@ -185,7 +185,7 @@ const MainCounterCustom = () => {
           />
         </div>
       </div>
-      <Datatable rows={data} columns={columns} />
+      <Datatable apiRef={apiRef} rows={data} columns={columns} />
     </>
   );
 };

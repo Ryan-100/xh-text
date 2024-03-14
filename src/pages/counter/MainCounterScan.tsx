@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import { GridColDef } from "@mui/x-data-grid";
@@ -13,6 +13,7 @@ import client from "../../controller/constant/HttpClient";
 const MainCounterScan = () => {
   const [data, setData] = useState([]);
   const [counterId, setCounterId] = useState(null);
+  const apiRef = useRef(null);
   const navigate = useNavigate();
   const [cityName, setCityName] = useState("");
   const location = useLocation();
@@ -190,7 +191,7 @@ const MainCounterScan = () => {
           />
         </div>
       </div>
-      <Datatable rows={data} columns={columns} />
+      <Datatable  apiRef={apiRef} rows={data} columns={columns} />
     </>
   );
 };
