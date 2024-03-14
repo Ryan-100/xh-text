@@ -14,6 +14,12 @@ export const apiRoutes = {
 	//image upload
 	upload_image: `post:upload`,
 
+	//user guide
+	create_userguide: `post:user-guide`,
+
+	//terms-and-policy
+	create_terms: `post:term-and-policy`,
+
 	//system-noti
 	system_noti_history: `get:system-notification`,
 	send_system_noti: `post:system-notification`,
@@ -38,12 +44,26 @@ export const apiRoutes = {
   update_currency: `patch:currency`,
   delete_currency: `delete:currency`,
 
+  //payment-type
+  all_payment: `get:payment-type`,
+  get_payment: `get:payment-type`,
+  create_payment: `post:payment-type`,
+  update_payment: `patch:payment-type`,
+  delete_payment: `delete:payment-type`,
+
   //weight
   all_weight: `get:weight`,
   get_weight: `get:weight`,
   create_weight: `post:weight`,
   update_weight: `patch:weight`,
   delete_weight: `delete:weight`,
+
+  //help-center
+  all_help_center: `get:help-sender`,
+  get_help_center: `get:help-sender`,
+  create_help_center: `post:help-sender`,
+  update_help_center: `patch:help-sender`,
+  delete_help_center: `delete:help-sender`,
 
   //parcel-type
   all_parcel: `get:parcel-type`,

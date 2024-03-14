@@ -39,6 +39,7 @@ const Login = () => {
         console.log(res,'res')
         setUserInfo({user_data:res?.data})
         setLocalStorage("user_id",res?.data?.id)
+        // setLocalStorage("token",res?.data?.access_token)
         setToken({
           j_token: res?.data?.access_token          ,
         });

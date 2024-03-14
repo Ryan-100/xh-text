@@ -14,6 +14,10 @@ import report, { ReportState } from "./report.reducer";
 import block, { BlockState } from "./block.reducer";
 import region, { RegionState } from "./region.reducer";
 import image, { ImageState } from "./image.reducer";
+import payment, { PaymentState } from "./payment.reducer";
+import userguide, { UserGuideState } from "./userguide.reducer";
+import terms, { TermsAndPolicyState } from "./terms.reducer";
+import help, { HelpCenterState } from "./help.reducer";
 
 type ActionType = {
 	type: string;
@@ -29,10 +33,14 @@ export interface RootState {
 	role: RoleState;
 	version: VersionState;
 	city: CityState;
+	userguide: UserGuideState;
+	terms:TermsAndPolicyState;
+	payment: PaymentState;
 	block: BlockState;
 	region: RegionState;
 	currency: CurrencyState;
 	weight: WeightState;
+	help:HelpCenterState;
 	parcel: ParcelState;
 	report: ReportState;
 }
@@ -46,6 +54,10 @@ export default combineReducers({
 	notification,
 	version,
 	city,
+	userguide,
+	terms,
+	payment,
+	help,
 	block,
 	region,
 	admin,

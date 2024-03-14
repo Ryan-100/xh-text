@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Icon from "../../../icons";
 import InputField from "../../../components/form/InputFiled";
-import { CurrencyDataInterface, currency } from "../../../store/actions";
+import { currency } from "../../../store/actions";
 import AlertModal from "../../../components/Modal/AlertModal";
 
 const CurrencyEdit = () => {
@@ -29,7 +29,7 @@ const CurrencyEdit = () => {
     fetchCurrencyDetail();
   }, [dispatch, currencyId]);
 
-  const createParcel = async (data: CurrencyDataInterface) => {
+  const updateCurrency = async (data) => {
     const res = await dispatch(currency.updateCurrency(currencyId,data) as any);
     console.log(res)
     if (res?.statusCode === 200) {
@@ -42,7 +42,7 @@ const CurrencyEdit = () => {
 
   const onSubmit = ({ name }) => {
     if (name) {
-      createParcel({
+      updateCurrency({
         name,
         active: 1,
       });

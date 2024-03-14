@@ -197,7 +197,7 @@ const BlockList = () => {
       {isDelete && (
         <ModalComponent
           title="Confirm"
-          body={"Are you sure to delete this define city? Please confirm it."}
+          body={"Are you sure to delete this define block? Please confirm it."}
           open={isDelete}
           onClose={() => setIsDelete(false)}
           onConfirm={() => deleteHandler(deleteId)}
@@ -207,7 +207,7 @@ const BlockList = () => {
         <AlertModal
           title="Success"
           body={
-            "The city/branch is successfully deleted. Please check into list."
+            "The block is successfully deleted. Please check into list."
           }
           open={isSuccess}
           onClose={() => setIsSuccess(false)}
