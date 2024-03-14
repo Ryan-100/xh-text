@@ -6,10 +6,16 @@ import Icon from "../../icons";
 import Datatable from "../../components/table/datatable";
 import moment from "moment";
 import Datepicker from "react-tailwindcss-datepicker";
+import { counter } from "../../store/actions";
+import { useDispatch } from "react-redux";
 
 const MainCounterCustom = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [cityName, setCityName] = useState("");
+  const [counterId, setCounterId] = useState(null);
+
   const location = useLocation();
   const [value, setValue] = useState({
     startDate: null,
@@ -46,8 +52,12 @@ const MainCounterCustom = () => {
         const response = await axios.get(apiUrl, {
           params: {
             counter_id: counterId,
-            from_date: (value.startDate ? moment(value.startDate).format("YYYY-MM-DD")  || fromDate : null),
-            to_date: (value.endDate ? moment(value.endDate).format("YYYY-MM-DD")|| toDate : null),
+            from_date: value.startDate
+              ? moment(value.startDate).format("YYYY-MM-DD") || fromDate
+              : null,
+            to_date: value.endDate
+              ? moment(value.endDate).format("YYYY-MM-DD") || toDate
+              : null,
             skip,
             take,
             parcel_type: parcelType,
@@ -69,13 +79,40 @@ const MainCounterCustom = () => {
     }
   }, [location.search, value.startDate, value.endDate]);
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const counterIdParam = searchParams.get("counter_id");
+    if (counterIdParam) {
+      setCounterId(counterIdParam);
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    const fetchParcel = async () => {
+      if (counterId) {
+        try {
+          const res = await dispatch(
+            counter.getOtherCounterById(counterId) as any
+          );
+          if (res?.data) {
+            setCityName(res.data.city?.city_eng); // Set city name from response
+            // Assume setData should update parcels, adjust according to your data structure
+          }
+        } catch (error) {
+          console.error("Error fetching counter:", error);
+        }
+      }
+    };
+    fetchParcel();
+  }, [dispatch, counterId]);
+
   const goBack = () => navigate(-1);
   const formatDate = (dateString) => {
     return moment(dateString).format("D MMM YYYY");
   };
 
   const formatNumber = (num) => `${num.toLocaleString()} Ks`;
-  
+
   const handleValueChange = (newValue) => {
     console.log("newValue:", newValue);
     setValue(newValue);
@@ -88,7 +125,11 @@ const MainCounterCustom = () => {
       width: 400,
       valueGetter: ({ row }) => formatDate(row.formatted_date),
     },
-    { field: "total_parcel_count", headerName: "Customized Parcels", width: 400 },
+    {
+      field: "total_parcel_count",
+      headerName: "Customized Parcels",
+      width: 400,
+    },
     {
       field: "total_amount",
       headerName: "Total Amount",
@@ -99,7 +140,7 @@ const MainCounterCustom = () => {
       field: "action",
       headerName: "Action",
       width: 300,
-      headerAlign: "start",
+      headerAlign: "left",
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -121,15 +162,17 @@ const MainCounterCustom = () => {
       <div className="flex justify-between items-center mb-2">
         <div
           onClick={goBack}
-          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"        >
+          className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
+        >
           <Icon name="leftArrow" />
           <p>Back</p>
         </div>
-        <p className="text-2xl font-semibold">Customized Detail</p>
+        <div className="flex">
+          <p className="text-2xl font-semibold">Customized Parcel</p>
+          <p className="text-2xl font-semibold text-gray">({cityName})</p>
+        </div>
         <div className="flex items-center text-base font-normal h-10">
-          <p className="py-2 px-4 border-r border-gray text-gray">
-            Counter
-          </p>
+          <p className="py-2 px-4 border-r border-gray text-gray">Counter</p>
           <p className="py-2 px-4">Counter Detail</p>
         </div>
       </div>
@@ -138,7 +181,8 @@ const MainCounterCustom = () => {
           <Datepicker
             value={value}
             onChange={handleValueChange}
-            inputClassName="h-12 w-full placeholder:text-base outline-none border border-gray-light rounded-[10px] pl-6"          />
+            inputClassName="h-12 w-full placeholder:text-base outline-none border border-gray-light rounded-[10px] pl-6"
+          />
         </div>
       </div>
       <Datatable rows={data} columns={columns} />

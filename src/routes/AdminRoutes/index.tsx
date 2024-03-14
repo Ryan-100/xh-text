@@ -104,7 +104,8 @@ import {
   MainCounterScan,
   AdminEdit,
   MainCounterCustom,
-  MainCounterDetailScan
+  MainCounterDetailScan,
+  OtherCounterRider
 } from "../element";
 import Login from "../../pages/login";
 
@@ -203,10 +204,16 @@ const routes = [
         path: "/counters/main-counter-parcel/:counterId",
         element: <MainCounterCustom />,
       },
+     {
+        path: "/counters/other-counter-parcel/:counterId",
+        element: <OtherCounterRider />,
+      },
+
       {
         path: "/counters/main-counter-parcel/scan-detail/:counterId",
         element: <MainCounterDetailScan />,
       },
+      
       {
         path: "create",
         element: <CounterCreate />,

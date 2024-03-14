@@ -10,28 +10,30 @@ import { useDispatch } from "react-redux";
 import { block, city, counter, region } from "../../store/actions";
 
 const CounterEdit = () => {
-  const [counterData, setCounterData] = React.useState<any>();
-  const [success, setSuccess] = React.useState<boolean>(false);
-  const [notFilled, setNotFilled] = React.useState(false);
+  const [counterData, setCounterData] = useState<any>();
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [notFilled, setNotFilled] = useState(false);
   const [cityOptions, setCityOptions] = useState([]);
   const [blockOptions, setBlockOptions] = useState([]);
   const [regionOptions, setRegionOptions] = useState([]);
- 
-  const { control, handleSubmit,setValue, watch  } = useForm({ mode: "onChange" });
+  const [error, setError] = useState<string | null>(null);
+  const { control, handleSubmit, setValue, watch } = useForm({
+    mode: "onChange",
+  });
   const selectedCity = watch("address_city_id");
   const selectedBlock = watch("address_block_id");
   const navigate = useNavigate();
   const { id: counterId } = useParams();
   const dispatch = useDispatch();
 
-    React.useEffect(() => {
+  useEffect(() => {
     const fetchCounter = async () => {
       try {
         const res = await dispatch(counter.getCounterById(counterId) as any);
-        console.log( res)
         setCounterData(res?.data);
       } catch (error) {
         console.error("Error fetching counter:", error);
+        setError("Unauthorized error . Please Logout and Login Again.");
       }
     };
     fetchCounter();
@@ -42,12 +44,13 @@ const CounterEdit = () => {
       try {
         const res = await dispatch(city.getAllCities() as any);
         const options = res.data.map((item) => ({
-          label: item.city_eng, 
-          value: item.id, 
+          label: item.city_eng,
+          value: item.id,
         }));
         setCityOptions(options);
       } catch (error) {
         console.error("Error fetching cities:", error);
+        setError("Unauthorized error . Please Logout and Login Again.");
       }
     };
     fetchCities();
@@ -58,14 +61,17 @@ const CounterEdit = () => {
       if (selectedCity) {
         try {
           const res = await dispatch(block.getAllblocks() as any);
-          const filteredBlocks = res.data.filter((b) => b.city_id === selectedCity);
+          const filteredBlocks = res.data.filter(
+            (b) => b.city_id === selectedCity
+          );
           const options = filteredBlocks.map((block) => ({
-            label: block.block_eng, 
-            value: block.id, 
+            label: block.block_eng,
+            value: block.id,
           }));
           setBlockOptions(options);
         } catch (error) {
           console.error("Error fetching blocks:", error);
+          setError("Unauthorized error . Please Logout and Login Again..");
         }
       } else {
         setBlockOptions([]);
@@ -79,14 +85,17 @@ const CounterEdit = () => {
       if (selectedBlock) {
         try {
           const res = await dispatch(region.getAllRegions() as any);
-          const filteredRegions = res.data.filter((r) => r.block_id === selectedBlock);
+          const filteredRegions = res.data.filter(
+            (r) => r.block_id === selectedBlock
+          );
           const options = filteredRegions.map((region) => ({
-            label: region.region_eng, 
-            value: region.id, 
+            label: region.region_eng,
+            value: region.id,
           }));
           setRegionOptions(options);
         } catch (error) {
           console.error("Error fetching regions:", error);
+          setError("Unauthorized error . Please Logout and Login Again.");
         }
       } else {
         setRegionOptions([]);
@@ -99,33 +108,45 @@ const CounterEdit = () => {
     // Fetch initial counter data and set up the form
     const fetchCounter = async () => {
       try {
-        const response = await dispatch(counter.getCounterById(counterId) as any);
+        const response = await dispatch(
+          counter.getCounterById(counterId) as any
+        );
         const data = response.data;
         setCounterData(data);
         // Set form values
-        setValue('name', data.name);
-        setValue('phone', data.phone);
-        setValue('city_id', data.city_id);
-        setValue('prefix', data.prefix);
-        setValue('address_city_id', data.address_city_id);
-        setValue('address_block_id', data.address_block_id);
-        setValue('address_region_id', data.address_region_id);
-        setValue('address', data.address);
-        setValue('active', data.active);
+        setValue("name", data.name);
+        setValue("phone", data.phone);
+        setValue("city_id", data.city_id);
+        setValue("prefix", data.prefix);
+        setValue("address_city_id", data.address_city_id);
+        setValue("address_block_id", data.address_block_id);
+        setValue("address_region_id", data.address_region_id);
+        setValue("address", data.address);
+        setValue("active", data.active);
       } catch (error) {
         console.error("Error fetching counter:", error);
+        setError("Unauthorized error . Please Logout and Login Again.");
       }
     };
 
     fetchCounter();
   }, [dispatch, setValue, counterId]);
 
-  // Fetch cities, blocks, and regions as needed
-  // ...
-
-  // The form submission handler
   const onSubmit = (formData) => {
-    // Construct the request body from the form data
+    // Check if all fields are filled
+    if (
+      !formData.name ||
+      !formData.phone ||
+      !formData.city_id ||
+      !formData.address_city_id ||
+      !formData.address_block_id ||
+      !formData.address_region_id ||
+      !formData.address
+    ) {
+      setNotFilled(true);
+      return;
+    }
+
     const updatedData = {
       name: formData.name,
       phone: formData.phone,
@@ -135,28 +156,24 @@ const CounterEdit = () => {
       address_block_id: formData.address_block_id,
       address_region_id: formData.address_region_id,
       address: formData.address,
-      active: formData.active ?? 1, // Use formData.active if it exists, otherwise default to 1
+      active: formData.active ?? 1,
     };
 
-    // Dispatch the update counter action
     dispatch(counter.updateCounter(counterId, updatedData) as any)
-    .then((response) => {
-      // Handle successful counter creation
-      console.log("Counter created successfully:", response);
-      navigate("/counters");
-    })
-    .catch((error) => {
-        console.error('Error updating counter:', error);
-        // Handle the error scenario
+      .then(() => {
+        setIsSuccess(true); 
+        setTimeout(() => navigate("/counters"), 2000);  
+          })
+      .catch((error) => {
+        setError("Error updating counter. Please try again.");
+        console.error("Error updating counter:", error);
       });
   };
-
-  
 
   const goBack = () => {
     navigate(-1);
   };
- 
+
   return (
     <>
       <form
@@ -193,7 +210,7 @@ const CounterEdit = () => {
                   control={control}
                   label={""}
                   placeholder="Enter Counter Name"
-                  />
+                />
               </div>
             </div>
             <div className="flex items-center justify-between w-[780px]">
@@ -306,10 +323,22 @@ const CounterEdit = () => {
         </button>
       </form>
       <AlertModal
+        open={isSuccess}
+        onClose={() => setIsSuccess(false)}
+        title={"Success"}
+        body={"New Counter has been edit successfully."}
+      />
+      <AlertModal
         title="Alert"
         body="Kindly fill all fields with the necessary information."
         open={notFilled}
         onClose={() => setNotFilled(false)}
+      />
+      <AlertModal
+        title="Error"
+        body={error}
+        open={!!error}
+        onClose={() => setError(null)}
       />
     </>
   );

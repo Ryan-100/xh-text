@@ -11,6 +11,9 @@ import { block, city, counter, region } from "../../store/actions";
 
 const CreateCounter = () => {
   const [notFilled, setNotFilled] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const { control, handleSubmit, watch } = useForm({ mode: "onChange" });
   const [cityOptions, setCityOptions] = useState([]);
   const [regionOptions, setRegionOptions] = useState([]);
@@ -77,6 +80,7 @@ const CreateCounter = () => {
           setRegionOptions(options);
         } catch (error) {
           console.error("Error fetching regions:", error);
+          setError("Unauthorized error . Please Logout and Login Again.");
         }
       } else {
         setRegionOptions([]);
@@ -86,7 +90,19 @@ const CreateCounter = () => {
   }, [dispatch, selectedBlock]);
 
   const onSubmit = (data) => {
-    // Construct the body from form data as needed
+    if (
+      !data.name ||
+      !data.phone ||
+      !data.city_id ||
+      !data.address_city_id ||
+      !data.address_block_id ||
+      !data.address_region_id ||
+      !data.address
+    ) {
+      setNotFilled(true);
+      return;
+    }
+
     const requestBody = {
       name: data.name,
       phone: data.phone,
@@ -104,14 +120,17 @@ const CreateCounter = () => {
       .then((response) => {
         // Handle successful counter creation
         console.log("Counter created successfully:", response);
-        navigate("/counters");
+        setIsSuccess(true);
+        setTimeout(() => navigate("/counters"), 2000);
       })
       .catch((error) => {
-        // Handle error scenario
+        setError("Unauthorized error . Please Logout and Login Again.");
         console.error("Error creating counter:", error);
       });
   };
-
+  const goBack = () => {
+    navigate(-1);
+  };
   return (
     <>
       <form
@@ -120,7 +139,7 @@ const CreateCounter = () => {
       >
         <div className="flex justify-between items-center mb-[2px]">
           <div
-            // onClick={goBack}
+            onClick={goBack}
             className="rounded-[10px] border border-primary py-2 px-4 flex items-center space-x-3 cursor-pointer"
           >
             <Icon name="leftArrow" />
@@ -261,10 +280,23 @@ const CreateCounter = () => {
         </button>
       </form>
       <AlertModal
-        title="Alert"
-        body="Kindly fill all fields with the necessary information."
+        open={isSuccess}
+        onClose={() => setIsSuccess(false)}
+        title={"Success"}
+        body={"New Counter has been created successfully."}
+      />
+
+      <AlertModal
         open={notFilled}
         onClose={() => setNotFilled(false)}
+        title={"Alert"}
+        body={"Kindly fill all fields with the necessary information."}
+      />
+      <AlertModal
+        title="Error"
+        body={error}
+        open={!!error}
+        onClose={() => setError(null)}
       />
     </>
   );

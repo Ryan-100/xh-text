@@ -58,24 +58,31 @@ const CounterDetail = () => {
   };
 
   const queryParams = new URLSearchParams({
-    counter_id: counterId, 
-    from_date: moment().startOf('month').format('YYYY-MM-DD'),
-    to_date: moment().format('YYYY-MM-DD'),
-    skip: '0',
-    take: '10',
-    parcel_type: 'scan',
+    counter_id: counterId,
+    from_date: moment().startOf("month").format("YYYY-MM-DD"),
+    to_date: moment().format("YYYY-MM-DD"),
+    skip: "0",
+    take: "10",
+    parcel_type: "scan",
   });
   const queryCustomParams = new URLSearchParams({
-    counter_id: counterId, 
-    from_date: moment().startOf('month').format('YYYY-MM-DD'),
-    to_date: moment().format('YYYY-MM-DD'),
-    skip: '0',
-    take: '10',
-    parcel_type: 'customize',
+    counter_id: counterId,
+    from_date: moment().startOf("month").format("YYYY-MM-DD"),
+    to_date: moment().format("YYYY-MM-DD"),
+    skip: "0",
+    take: "10",
+    parcel_type: "customize",
   });
 
-  const detailPath = `/counters/main-counter-scan-parcel/detail?${queryParams.toString()}`;  
+  const queryRider = new URLSearchParams({
+    counter_id: counterId,
+    skip: "0",
+    take: "10",
+  });
+
+  const detailPath = `/counters/main-counter-scan-parcel/detail?${queryParams.toString()}`;
   const customDetailPath = `/counters/main-counter-parcel/detail?${queryCustomParams.toString()}`;
+  const queryRiderPath = `/counters/other-counter-parcel/detail?${queryRider.toString()}`;
 
   const deleteHandler = () => {};
   console.log(counterData, "counter data");
@@ -123,12 +130,12 @@ const CounterDetail = () => {
                   <Icon name="edit1" width={24} height={24} />
                   <p className="text-[20px] text-white">Edit Information</p>
                 </div>
-                <div
+                {/* <div
                   className="editButton h-12"
                   onClick={() => setIsDelete(true)}
                 >
                   <Icon name="delete2" />
-                </div>
+                </div> */}
               </div>
             </div>
             <Divider className="w-full" />
@@ -225,7 +232,12 @@ const CounterDetail = () => {
                     </div>
                     <div className=" col-span-2 flex flex-col space-y-2">
                       <p className="h-[48px] text-primary">View All</p>
-                      <p className="h-[48px] text-primary">View All</p>
+                      <Link
+                        to={queryRiderPath}
+                        className="text-primary h-[48px] hover:underline"
+                      >
+                        View All
+                      </Link>
                       <p className="h-[48px] text-primary">View All</p>
                     </div>
                   </>

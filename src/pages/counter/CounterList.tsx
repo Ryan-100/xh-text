@@ -8,26 +8,22 @@ import { useForm } from "react-hook-form";
 import Icon from "../../icons";
 import { useDispatch } from "react-redux";
 import { counter } from "../../store/actions/counter.action";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Button,
-} from "@mui/material";
+
+import ModalComponent from "../../components/Modal";
+import AlertModal from "../../components/Modal/AlertModal";
 
 const CounterList = () => {
   const [data, setData] = useState([]);
-  // const [editRowId, setEditRowId] = useState(null);
-  // const [editedData, setEditedData] = useState(null);
+  
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [counterToDelete, setCounterToDelete] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
   const apiRef = useRef(null);
   const navigate = useNavigate();
+  const [alertMsg, setAlertMsg] = useState("");
+  const [isAlert, setIsAlert] = useState(false);
+
   const dispatch = useDispatch();
-  // const [selectedCounter, setSelectedCounter] = useState("");
-  const { control, setValue, watch } = useForm({
+  const { control, watch } = useForm({
     defaultValues: {
       counter: "",
       city: "",
@@ -91,22 +87,29 @@ const CounterList = () => {
 
   const openDeleteConfirmation = (id) => {
     setOpenDeleteDialog(true);
-    setCounterToDelete(id);
+    setDeleteId(id); // corrected function to set the deleteId
   };
 
   const closeDeleteDialog = () => {
     setOpenDeleteDialog(false);
-    setCounterToDelete(null);
+    setDeleteId(null);
   };
 
-  const confirmDeleteCounter = async () => {
-    if (counterToDelete) {
+  const deleteHandler = async (id) => {
+    if (id) {
       try {
-        await dispatch(counter.deleteCounter(counterToDelete) as any);
-        setData(data.filter((counter) => counter.id !== counterToDelete));
+        await dispatch(counter.deleteCounter(id) as any);
+        setData(data.filter((counter) => counter.id !== id));
+        // Show a success message
+        setAlertMsg("Counter deleted successfully.");
+        setIsAlert(true);
         closeDeleteDialog();
+        setTimeout(() => navigate("/counters"), 2000);
       } catch (error) {
         console.error("Error deleting counter:", error);
+        // Show an error message
+        setAlertMsg("Error deleting counter. Please try again.");
+        setIsAlert(true);
         closeDeleteDialog();
       }
     }
@@ -221,34 +224,19 @@ const CounterList = () => {
           />
         </div>
       )}
-      <Dialog
+      <ModalComponent
+        title="Confirm Delete"
+        body="Are you sure you want to delete this counter?"
         open={openDeleteDialog}
         onClose={closeDeleteDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this counter?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={closeDeleteDialog}
-            className="bg-black text-gray-800 text-sm py-2 px-4 rounded shadow hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-75"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={confirmDeleteCounter}
-            className="bg-red text-white text-sm py-2 px-4 rounded shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-opacity-75"
-            autoFocus
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        onConfirm={() => deleteHandler(deleteId)}
+      />
+      <AlertModal
+        title="Alert"
+        body={alertMsg}
+        open={isAlert}
+        onClose={() => setIsAlert(false)}
+      />
     </>
   );
 };
