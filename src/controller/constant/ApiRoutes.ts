@@ -17,6 +17,9 @@ export const apiRoutes = {
 	//user guide
 	create_userguide: `post:user-guide`,
 
+	//MODULE
+	get_module: `get:module`,
+
 	//terms-and-policy
 	create_terms: `post:term-and-policy`,
 
@@ -37,12 +40,40 @@ export const apiRoutes = {
   update_city: `patch:city`,
   delete_city: `delete:city`,
 
+  //permission
+  all_permission: `get:role-item`,
+  get_permission: `get:role-item`,
+  create_permission: `post:role-item`,
+  update_permission: `post:role-item`,
+  delete_permission: `delete:role-item`,
+
   //currency
   all_currency: `get:currency`,
   get_currency: `get:currency`,
   create_currency: `post:currency`,
   update_currency: `patch:currency`,
   delete_currency: `delete:currency`,
+
+  //app-banner
+  all_app_banner: `get:app-banner`,
+  get_app_banner: `get:app-banner`,
+  create_app_banner: `post:app-banner`,
+  update_app_banner: `patch:app-banner`,
+  delete_app_banner: `delete:app-banner`,
+
+  //app-just-banner
+  all_app_just_banner: `get:app-just-banner`,
+  get_app_just_banner: `get:app-just-banner`,
+  create_app_just_banner: `post:app-just-banner`,
+  update_app_just_banner: `patch:app-just-banner`,
+  delete_app_just_banner: `delete:app-just-banner`,
+
+  //ads-banner
+  all_ads_banner: `get:ads-banner`,
+  get_ads_banner: `get:ads-banner`,
+  create_ads_banner: `post:ads-banner`,
+  update_ads_banner: `patch:ads-banner`,
+  delete_ads_banner: `delete:ads-banner`,
 
   //payment-type
   all_payment: `get:payment-type`,

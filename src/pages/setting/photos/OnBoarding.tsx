@@ -1,69 +1,113 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../../icons";
 import MUIRadioGroup from "../../../components/form/InputRadio";
 import { useForm } from "react-hook-form";
 import OnboardingDetail from "./OnBoardingDetail";
+import { getToken } from "../../../service/auth";
+import axios from "axios";
+import AlertModal from "../../../components/Modal/AlertModal";
+import { useDispatch } from "react-redux";
+import { banner } from "../../../store/actions";
 
 const PhotoSettings = () => {
-  const [source, setSource] = useState<string | undefined>(undefined);
-  const [file, setFile] = useState<File | null>(null);
-  const [fileData, setFileData] = useState<any>(null)
-  const { control,watch } = useForm({
-    defaultValues:{
-      type:'onboarding'
-    }
+  const token = getToken();
+  const [data, setData] = React.useState<any>(null);
+  const [source, setSource] = React.useState<string | undefined>(undefined);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [fileData, setFileData] = React.useState<any>(null);
+  const { control, watch } = useForm({
+    defaultValues: {
+      type: "onboarding",
+    },
   });
   const navigate = useNavigate();
-  const goBack = () => {
-    navigate(-1);
+  const dispatch = useDispatch();
+
+  const type = watch("type");
+
+  const uploadImage = async (file) => {
+    const res = await axios.post("http://64.23.137.248:2850/api/upload", file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res?.status === 201) {
+      setSource(res?.data?.data?.data[0]);
+      setIsLoading(false);
+      return res?.data?.data?.data[0];
+    }
+    console.log(res, "res");
   };
 
-  const type = watch('type');
-
-  React.useEffect(()=>{
-    if(type!== 'onboarding'){
-      navigate('/setting/'+type)
+  const fetchAppBanner = async () => {
+    try {
+      const res = await dispatch(banner.getAllAppBanners() as any);
+      setData(res?.data);
+    } catch (error) {
+      console.error("Error fetching counter:", error);
     }
-  },[type])
+  };
+
+  React.useEffect(() => {
+    fetchAppBanner();
+  }, []);
+
+  console.log(data, "data");
+
+  React.useEffect(() => {
+    if (type !== "onboarding") {
+      navigate("/setting/" + type);
+    }
+  }, [type]);
 
   const updateFile = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       const file: File = event.target.files[0];
-      setFile(file);
 
       if (file.size > 500 * 1024) {
         alert("File size exceeds the limit of 500 KB.");
         return;
       }
-
-      setFile(file);
-
       // Get file name
-      const fileSize = file.size/1024
+      const fileSize = file.size / 1024;
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
       reader.onloadend = (e: ProgressEvent<FileReader>) => {
         if (e.target && e.target.result) {
-          setSource(e.target.result.toString());
           const img = new Image();
           img.src = e.target.result.toString();
 
-            setFileData({
-              width:img.width,
-              height:img.height,
-              fileSize
-            })
+          setFileData({
+            width: img.width,
+            height: img.height,
+            fileSize,
+          });
         }
       };
+      setIsLoading(true);
+      uploadImage({ file: file });
     }
+  };
+
+  const goBack = () => {
+    navigate(-1);
   };
 
   return (
     <>
-      {!source && (
+      {source  ? (
+        <OnboardingDetail
+          source={source}
+          data={data}
+          updateData={setData}
+          uploadImage={uploadImage}
+          setSource={setSource}
+        />
+      ) : (
         <div className="flex flex-col space-y-6">
           <div className="flex justify-between items-center mb-[2px]">
             <div
@@ -118,9 +162,12 @@ const PhotoSettings = () => {
           </div>
         </div>
       )}
-      {source && (
-        <OnboardingDetail source={source} file={fileData} setSource={setSource} />
-      )}
+      <AlertModal
+        open={isLoading}
+        onClose={() => {}}
+        title={"Loading"}
+        body={"Please wait while image is uplading..."}
+      />
     </>
   );
 };

@@ -14,5 +14,8 @@ export * from './block.action';
 export * from './help.action';
 export * from './userguide.action';
 export * from './terms.action';
+export * from './banner.action';
+export * from './module.action';
+export * from './permission.action';
 export * from './role.action';
 export * from './image.action';

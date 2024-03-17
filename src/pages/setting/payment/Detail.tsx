@@ -87,7 +87,7 @@ const PaymentMethodDetail = () => {
                 <Icon name="edit1" width={24} height={24} />
                 <p className="text-[20px] text-white">Edit Payment</p>
               </button>
-              <div className="editButton h-12">
+              <div className="editButton h-12" onClick={()=>setIsDelete(true)}>
                 <Icon name="delete2" />
               </div>
             </div>

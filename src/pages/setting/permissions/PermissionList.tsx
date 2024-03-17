@@ -1,81 +1,135 @@
-import { useRef, useState } from "react";
+import React, { useRef} from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import InputSelect from "../../../components/form/InputSelect";
-import {
-  counterOptions,
-  permissionRows,
-  roleOptions,
-} from "../../../layout/config";
 import Icon from "../../../icons";
 import Datatable from "../../../components/table/datatable";
+import ModalComponent from "../../../components/Modal";
+import AlertModal from "../../../components/Modal/AlertModal";
+import { useDispatch, useSelector } from "react-redux";
+import { permission } from "../../../store/actions";
 
 const AdminPermissions = () => {
-  const [data, setData] = useState(permissionRows);
-  const [editRowId, setEditRowId] = useState(null);
-  const [editedData, setEditedData] = useState(null);
+  const [data, setData] = React.useState<any>();
+  const [isSuccess, setIsSuccess] = React.useState<boolean>();
+  const [isDelete, setIsDelete] = React.useState<boolean>();
+  const [deleteId, setDeleteId] = React.useState<string>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const apiRef = useRef(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const fetchPermission = async () => {
+    try {
+      const res = await dispatch(permission.getAllPermission() as any);
+      setData(res?.data);
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
+  const fetchPermissionByFilter = async (params) => {
+    try {
+      const res = await dispatch(permission.getAllPermissionByFilter(params) as any);
+      setData(res?.data?.data);
+    } catch (error) {
+      console.error("Error fetching counter:", error);
+    }
+  };
+
+  const { control, watch } = useForm({
+    mode: "onChange",
+  });
+
+  const { all_counters } = useSelector((state: any) => state.counter);
+  const { all_roles } = useSelector((state: any) => state.role);
+
+  const skip = searchParams.get("skip") || "0";
+  const take = searchParams.get("take") || "10";
+
+  const counterFilter = watch("counter_id");
+  const roleFilter = watch("role_id");
+
+  React.useEffect(() => {
+    if (counterFilter || roleFilter) {
+      fetchPermissionByFilter({
+        skip,
+        take,
+        "filter[counter_id]": counterFilter,
+        "filter[role_id]": roleFilter,
+      });
+      setSearchParams({
+        skip,
+        take,
+        "filter[counter_id]": counterFilter,
+        "filter[role_id]": roleFilter,
+      });
+    } else {
+      fetchPermission();
+      setSearchParams();
+    }
+  }, [dispatch, counterFilter, roleFilter]);
+
   const goBack = () => {
     navigate(-1);
   };
 
-  const { control, handleSubmit, setValue } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      // Specify your default values here
-      counter: editedData?.counter,
-      city: editedData?.city,
-      block: editedData?.block,
-      region: editedData?.region,
-    },
-  });
-
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const deleteHandler = async (id) => {
+    const res = await dispatch(permission.deletePermission(id) as any);
+    if (res?.statusCode === 200) {
+      setIsDelete(false);
+      setIsSuccess(true);
+      fetchPermission();
+    }
   };
+
+  const counterOptions = all_counters
+    ? all_counters?.data?.map((counter) => ({
+        value: counter.id,
+        label: counter.name,
+      }))
+    : [];
+  const roleOptions = all_roles
+    ? all_roles?.data?.map((role) => ({
+        value: role.id,
+        label: role.name,
+      }))
+    : [];
 
   const handleEdit = (id) => {
-    navigate("/counters/edit/" + id);
-  };
-
-  const handleSave = () => {
-    // Update the data with the edited data
-    const newData = data.map((row) =>
-      row.id === editRowId ? editedData : row
-    );
-    setData(newData);
-
-    // Close the modal and reset edit states
-    setEditRowId(null);
-    setEditedData(null);
-  };
-
-  const handleProcessRowUpdate = (updatedRow, originalRow) => {
-    console.log(updatedRow, originalRow, "rows");
-    handleSave();
-    return updatedRow;
+    navigate("/setting/admin-permission/" + id + "/edit");
   };
   const amountColumns: GridColDef[] = [
     { field: "no", headerName: "No.", width: 87 },
     {
-      field: "branch",
-      headerName: "Branch",
+      field: "city",
+      headerName: "City",
       width: 120,
+      renderCell:params=>{
+        return <p className="">{params.row.city.city_eng}</p>
+      }
     },
-    { field: "counter", headerName: "Counter", width: 197 },
-    { field: "role", headerName: "Role", width: 240 },
+    { field: "counter", headerName: "Counter", width: 197,
+    renderCell:params=>{
+      return <p className="">{params.row.counter.name}</p>
+    }
+  },
+    { field: "role", headerName: "Role", width: 240,
+    renderCell:params=>{
+      return <p className="">{params.row.role.name}</p>
+    }
+  },
     {
-      field: "permission",
+      field: "role_item_detail",
       headerName: "Permission",
       width: 169,
       renderCell: (params) => {
+        const filteredData = params.row.role_item_detail.filter(item => item.is_access === 1);
         return (
           <div className="flex flex-col space-y-1">
-          {params.row.permission.map((data, i) => (
-            (i <= 2 && <p key={i} className="">{data}</p>) ||
-            (i === 3 && <p key={i} className="text-gray font-normal">{params.row.permission.length - 3}+ more permissions</p>)
+          {params.row.role_item_detail.map((data, i) => (
+            (i <= 2 && <p key={i} className="">{data.module.module}</p>) ||
+            (i === 3 && <p key={i} className="text-gray font-normal">{filteredData.length - 3}+ more permissions</p>)
           ))}
         </div>
         
@@ -108,7 +162,10 @@ const AdminPermissions = () => {
             </div>
             <div
               className="editButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => {
+                setIsDelete(true);
+                setDeleteId(params.row.id);
+              }}
             >
               <Icon name="delete" color="#444240" fillColor="#444240" />
             </div>
@@ -148,7 +205,7 @@ const AdminPermissions = () => {
               <div className="w-[344px]">
                 <InputSelect
                   label={"Choose Counter Name"}
-                  name="counter"
+                  name="counter_id"
                   control={control}
                   options={counterOptions}
                   fullWidth
@@ -161,8 +218,8 @@ const AdminPermissions = () => {
               </p>
               <div className="w-[344px]">
                 <InputSelect
-                  label={"Choose Counter Name"}
-                  name="counter"
+                  label={"Choose Role Name"}
+                  name="counter_id"
                   control={control}
                   options={roleOptions}
                   fullWidth
@@ -179,15 +236,32 @@ const AdminPermissions = () => {
             </div>
           </Link>
         </div>
-        <Datatable
+       {data && <Datatable
           rows={data}
           columns={amountColumns.concat(actionColumn)}
           apiRef={apiRef}
-          editRowId={editRowId}
           rowHeight={136}
-          updateRow={handleProcessRowUpdate}
-        />
+        />}
       </div>
+      {isDelete && (
+        <ModalComponent
+          title="Confirm"
+          body={"Are you sure to delete this define permission? Please confirm it."}
+          open={isDelete}
+          onClose={() => setIsDelete(false)}
+          onConfirm={() => deleteHandler(deleteId)}
+        />
+      )}
+      {isSuccess && (
+        <AlertModal
+          title="Success"
+          body={
+            "The permission is successfully deleted. Please check into list."
+          }
+          open={isSuccess}
+          onClose={() => setIsSuccess(false)}
+        />
+      )}
     </>
   );
 };
