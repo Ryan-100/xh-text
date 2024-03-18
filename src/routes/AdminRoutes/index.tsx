@@ -109,7 +109,8 @@ import {
   MainCounterAdmin,
   OtherCounterScanPackage,
   OtherCounterRiderDetail,
-  OtherCounterAdmin
+  OtherCounterAdmin,
+  HelpCenterDetail
 } from "../element";
 import Login from "../../pages/login";
 
@@ -523,6 +524,10 @@ const routes = [
       {
         path: "help-center/create",
         element: <HelpCenterCreate />,
+      },
+      {
+        path: "help-center/:id",
+        element: <HelpCenterDetail />,
       },
       {
         path: "help-center/:id/edit",

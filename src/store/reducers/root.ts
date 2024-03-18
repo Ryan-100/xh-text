@@ -18,6 +18,9 @@ import payment, { PaymentState } from "./payment.reducer";
 import userguide, { UserGuideState } from "./userguide.reducer";
 import terms, { TermsAndPolicyState } from "./terms.reducer";
 import help, { HelpCenterState } from "./help.reducer";
+import permission, { PermissionState } from "./permission.reducer";
+import module, { ModuleState } from "./module.reducer";
+import banner, { BannerState } from "./banner.reducer";
 
 type ActionType = {
 	type: string;
@@ -27,6 +30,8 @@ export interface RootState {
 	emit: EmitState;
 	auth: AuthState;
 	image:ImageState;
+	permission:PermissionState;
+	module:ModuleState;
 	counter: CounterState;
 	notification: NotificationState;
 	admin: AdminState;
@@ -40,6 +45,7 @@ export interface RootState {
 	region: RegionState;
 	currency: CurrencyState;
 	weight: WeightState;
+	banner: BannerState;
 	help:HelpCenterState;
 	parcel: ParcelState;
 	report: ReportState;
@@ -51,6 +57,8 @@ export default combineReducers({
 	auth,
 	image,
 	counter,
+	permission,
+	module,
 	notification,
 	version,
 	city,
@@ -63,6 +71,7 @@ export default combineReducers({
 	admin,
 	role,
 	currency,
+	banner,
 	weight,
 	parcel,
 	report,

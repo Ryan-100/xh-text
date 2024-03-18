@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../../icons";
 import MUIRadioGroup from "../../../components/form/InputRadio";
 import { useForm } from "react-hook-form";
 import { Tooltip } from "@mui/material";
+import axios from "axios";
+import { getToken } from "../../../service/auth";
 
 const AdvertisingAds = () => {
-  const [fileData, setFileData] = useState<any | null>(null);
+  const token = getToken();
+  const [data, setData] = React.useState<any>(null);
+  const [screens, setScreens] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
   const { control, watch, register } = useForm({
     defaultValues: {
       type: "ads",
@@ -19,13 +24,28 @@ const AdvertisingAds = () => {
 
   const type = watch("type");
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (type !== "ads") {
       navigate("/setting/" + type);
     }
   }, [type]);
 
-  const updateFile = (event) => {
+  const uploadImage = async (file) => {
+    const res = await axios.post("http://64.23.137.248:2850/api/upload", file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res?.status === 201) {
+      setIsLoading(false);
+      return res?.data?.data?.data[0];
+    }
+    console.log(res, "res");
+  };
+
+  const updateFile = async (event) => {
+    setIsLoading(true);
     if (event.target.files && event.target.files.length > 0) {
       const file: File = event.target.files[0];
 
@@ -33,6 +53,7 @@ const AdvertisingAds = () => {
         alert("File size exceeds the limit of 500 KB.");
         return;
       }
+
       // Get file name
       const fileSize = file.size / 1024;
 
@@ -43,19 +64,23 @@ const AdvertisingAds = () => {
         if (e.target && e.target.result) {
           const img = new Image();
           img.src = e.target.result.toString();
-          setFileData({
-            img: e.target.result.toString(),
-            width: img.width,
-            height: img.height,
-            fileSize,
-          });
         }
       };
+      const isImage = await uploadImage({ file: file });
+      if (isImage) {
+        const newScreen = {
+          id: new Date().toString(),
+          image_url: isImage, // Set initial image source if needed
+          // file: { fileSize, width: img.width, height: img.height },
+          link: "",
+        };
+        setScreens((prevScreens) => [...prevScreens, newScreen]);
+      }
     }
   };
 
   const handleRemoveImage = () => {
-    setFileData(null);
+    setScreens([]);
   };
   return (
     <div className="flex flex-col space-y-6">
@@ -106,17 +131,17 @@ const AdvertisingAds = () => {
           <p className="text-gray">Recommend : 1:1 (Ratio Size)</p>
         </div>
       </div>
-      {fileData && (
+      {data && (
         <div className="w-[344px] h-fit flex flex-col items-center justify-center space-y-6 p-16 bg-white rounded-[10px] drop-shadow relative group">
           <Tooltip
-            title={`${fileData.fileSize.toFixed()} KB | ${fileData.width} x ${
-              fileData.height
+            title={`${data.fileSize.toFixed()} KB | ${data.width} x ${
+              data.height
             } px`}
             arrow
             placement="top"
           >
             <img
-              src={fileData.img}
+              src={data.img}
               alt="screen"
               className="w-[232px] h-[502px] "
             />

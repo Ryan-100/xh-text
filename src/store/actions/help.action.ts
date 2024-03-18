@@ -5,13 +5,16 @@ import { FetchFailure, FetchRequest, FetchSuccess } from "./typehandle.action";
 import { routeFilter } from "../../utils";
 
 export interface HelpCenterInterface {
-	block_mm: string;
-  block_eng: string;
-  block_cha: string;
   city_id: string;
-  prefix: string;
-  active: number;
-	created_by:string;
+  hotline_phone: string;
+  address: string;
+  email: string;
+  time: string;
+  facebook: string;
+  youtube: string;
+  viber_phone: string;
+  telegram_phone: string;
+  // created_by:string;
 }
 
 const createHelpCenter = (data:HelpCenterInterface) => async (dispatch:Dispatch) => {

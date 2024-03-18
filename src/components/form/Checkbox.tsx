@@ -12,6 +12,7 @@ interface MUICheckboxProps {
   name: string;
   control: Control<any>;
   label?: string;
+  defaultChecked?: boolean;
   checkboxProps?: React.ComponentProps<typeof Checkbox>;
   formControlLabelProps?: FormControlLabelProps;
 }
@@ -20,6 +21,7 @@ const MUICheckbox: React.FC<MUICheckboxProps> = ({
   name,
   control,
   label,
+  defaultChecked,
   checkboxProps,
   formControlLabelProps,
 }) => {
@@ -33,6 +35,7 @@ const MUICheckbox: React.FC<MUICheckboxProps> = ({
             <Checkbox
               {...field}
               {...checkboxProps}
+              defaultChecked={defaultChecked?defaultChecked:false}
               checkedIcon={<Icon name="checked" width={32} height={32} />}
               icon={<CheckBorder width="32" height="32" />}
             />

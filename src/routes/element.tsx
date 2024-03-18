@@ -432,6 +432,10 @@ export const HelpCenterEdit = Loadable(
   lazy(() => import("../pages/setting/helpcenter/Edit"))
 );
 
+export const HelpCenterDetail = Loadable(
+  lazy(() => import("../pages/setting/helpcenter/Detail"))
+);
+
 export const TermsAndPolicy = Loadable(
   lazy(() => import("../pages/setting/terms"))
 );
