@@ -197,88 +197,88 @@ const deleteAppBanner = (id:string) => async (dispatch:Dispatch) => {
 //*------------------- App Just Banner ---------------------
 
 const createAppJustBanner = (data:AppJustBannerInteface) => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.CREATE_CITY_REQUEST));
-  return await controller(apiRoutes.create_city,data)
+  dispatch(FetchRequest(types.CREATE_JUST_BANNER_REQUEST));
+  return await controller(apiRoutes.create_app_just_banner,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.CREATE_CITY_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.CREATE_JUST_BANNER_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.CREATE_CITY_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.CREATE_JUST_BANNER_ERROR, error.message)));
 };
 
 const getAllAppJustBanners = () => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.GET_ALL_CITY_REQUEST));
-  return await controller(apiRoutes.all_city)
+  dispatch(FetchRequest(types.GET_ALL_JUST_BANNER_REQUEST));
+  return await controller(apiRoutes.all_app_just_banner)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.GET_ALL_CITY_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.GET_ALL_JUST_BANNER_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.GET_ALL_CITY_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.GET_ALL_JUST_BANNER_ERROR, error.message)));
 };
 
 
 const getAllAppJustBannersByFilter = (params) => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.GET_ALL_CITY_FILTER_REQUEST));
-  return await controller(`${apiRoutes.all_city}/pages?${routeFilter(params)}`)
+  dispatch(FetchRequest(types.GET_ALL_JUST_BANNER_FILTER_REQUEST));
+  return await controller(`${apiRoutes.all_app_just_banner}/pages?${routeFilter(params)}`)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.GET_ALL_CITY_FILTER_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.GET_ALL_JUST_BANNER_FILTER_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.GET_ALL_CITY_FILTER_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.GET_ALL_JUST_BANNER_FILTER_ERROR, error.message)));
 };
 
 const getAppJustBannerById = (id:string) => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.GET_CITY_BY_ID_REQUEST));
-  return await controller(`${apiRoutes.get_city}/${id}`)
+  dispatch(FetchRequest(types.GET_JUST_BANNER_BY_ID_REQUEST));
+  return await controller(`${apiRoutes.get_app_just_banner}/${id}`)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.GET_CITY_BY_ID_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.GET_JUST_BANNER_BY_ID_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.GET_CITY_BY_ID_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.GET_JUST_BANNER_BY_ID_ERROR, error.message)));
 };
 
 const updateAppJustBanner = (id:string,data:any) => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.UPDATE_CITY_REQUEST));
-  return await controller(`${apiRoutes.update_city}/${id}`,data)
+  dispatch(FetchRequest(types.UPDATE_JUST_BANNER_REQUEST));
+  return await controller(`${apiRoutes.update_app_just_banner}/${id}`,data)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.UPDATE_CITY_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.UPDATE_JUST_BANNER_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.UPDATE_CITY_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.UPDATE_JUST_BANNER_ERROR, error.message)));
 };
 
 const deleteAppJustBanner = (id:string) => async (dispatch:Dispatch) => {
-  dispatch(FetchRequest(types.DELETE_CITY_REQUEST));
-  return await controller(`${apiRoutes.delete_city}/${id}`,id)
+  dispatch(FetchRequest(types.DELETE_JUST_BANNER_REQUEST));
+  return await controller(`${apiRoutes.delete_app_just_banner}/${id}`,id)
     .then(res => {
       if (res?.error) {
         console.log(res.data);
       } else {
-        dispatch(FetchSuccess(types.DELETE_CITY_SUCCESS, res?.data));
+        dispatch(FetchSuccess(types.DELETE_JUST_BANNER_SUCCESS, res?.data));
         return res?.data;
       }
     })
-    .catch(error => dispatch(FetchFailure(types.DELETE_CITY_ERROR, error.message)));
+    .catch(error => dispatch(FetchFailure(types.DELETE_JUST_BANNER_ERROR, error.message)));
 };
 
 export const banner = {

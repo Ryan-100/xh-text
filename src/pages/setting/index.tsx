@@ -59,11 +59,11 @@ const Setting: React.FC = () => {
             <Icon color="#FF6604" name='region' width={40} height={40}/>
             <p className="">Region</p>
           </Card>
-          <Card to='admin-role'>
+          <Card to='role'>
             <Icon color="#FF6604" name='admin-role' width={40} height={40}/>
             <p className="">Admin Role</p>
           </Card>
-          <Card to='admin-permission'>
+          <Card to='permission'>
             <Icon color="#FF6604" name='admin-permission' width={40} height={40}/>
             <p className="">Admin Permission</p>
           </Card>

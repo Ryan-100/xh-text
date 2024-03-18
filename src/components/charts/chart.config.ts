@@ -125,13 +125,60 @@ export const CustomerParcelOptions: ApexOptions = {
          },
   },
   legend: {
+    show:false,
     position: 'top',
     horizontalAlign: 'left',
-    offsetX:-30,
     offsetY:-4
   }
 };
 
+export const TotalEarningOptions: ApexOptions = {
+  chart: {
+    type: "area",
+    height: 374,
+    zoom: {
+      enabled: false,
+    },
+    toolbar: {
+      show: false,
+    },
+  },
+  colors: ["#FFB381"],
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+    width: 3,
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+    },
+  },
+  grid:{
+    show:false,
+  },
+  xaxis: {
+
+    labels: {
+      show: false, // Set to false to hide x-axis labels
+    },
+    axisBorder: {
+      show: false,
+  },
+    axisTicks: {
+      show: false,
+  },
+  },
+  yaxis: {
+    labels: {
+      show: false, // Set to false to hide y-axis labels
+    },
+    
+  },
+
+};
 export const TotalIncomeOptions: ApexOptions = {
   chart: {
     type: "line",
@@ -184,5 +231,45 @@ export const TotalIncomeOptions: ApexOptions = {
         return value;
       },
     },
+  },
+};
+export const ScannedParcelOptions: ApexOptions = {
+  chart: {
+    type: "line",
+    height: 374,
+    zoom: {
+      enabled: false,
+    },
+    toolbar: {
+      show: false,
+    },
+  },
+  colors: ["#FF6604"],
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+    width: 3,
+  },
+  grid: {
+    row: {
+      colors: ["transparent"], // takes an array which will be repeated on columns
+      opacity: 0.5,
+    },
+    strokeDashArray: 7,
+    padding: {
+      left: 0,
+      right: 0,
+    },
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+    },
+  },
+  xaxis: {
+    type: "category",
+    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
   },
 };

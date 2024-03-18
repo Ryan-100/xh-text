@@ -110,7 +110,11 @@ import {
   OtherCounterScanPackage,
   OtherCounterRiderDetail,
   OtherCounterAdmin,
-  HelpCenterDetail
+  HelpCenterDetail,
+  ParcelDashboard,
+  CustomerDashboard,
+  CounterDashboard,
+  RiderDashboard
 } from "../element";
 import Login from "../../pages/login";
 
@@ -462,35 +466,35 @@ const routes = [
         element: <PaymentEdit />,
       },
       {
-        path: "admin-role",
+        path: "role",
         element: <RoleList />,
       },
       {
-        path: "admin-role/create",
+        path: "role/create",
         element: <RoleCreate />,
       },
       {
-        path: "admin-role/:id",
+        path: "role/:id",
         element: <RoleDetail />,
       },
       {
-        path: "admin-role/:id/edit",
+        path: "role/:id/edit",
         element: <AdminRoleEdit />,
       },
       {
-        path: "admin-permission",
+        path: "permission",
         element: <PermissionLists />,
       },
       {
-        path: "admin-permission/create",
+        path: "permission/create",
         element: <PermissionCreate />,
       },
       {
-        path: "admin-permission/:id",
+        path: "permission/:id",
         element: <PermissionDetail />,
       },
       {
-        path: "admin-permission/:id/edit",
+        path: "permission/:id/edit",
         element: <PermissionEdit />,
       },
       {
@@ -626,8 +630,24 @@ const routes = [
     element: <DashboardLayout />,
     children: [
       {
-        path: "",
+        path: "main",
         element: <Dashboard />,
+      },
+      {
+        path: "parcel",
+        element: <ParcelDashboard />,
+      },
+      {
+        path: "customer",
+        element: <CustomerDashboard />,
+      },
+      {
+        path: "counter",
+        element: <CounterDashboard />,
+      },
+      {
+        path: "rider",
+        element: <RiderDashboard />,
       },
       {
         path: "profile",

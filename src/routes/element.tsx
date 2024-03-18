@@ -17,6 +17,20 @@ export const DashboardLayout = Loadable(lazy(() => import("../layout")));
 
 export const Dashboard = Loadable(lazy(() => import("../pages/dashboard")));
 
+export const ParcelDashboard = Loadable(
+  lazy(() => import("../pages/dashboard/parcel"))
+);
+
+export const CustomerDashboard = Loadable(
+  lazy(() => import("../pages/dashboard/customer"))
+);
+export const CounterDashboard = Loadable(
+  lazy(() => import("../pages/dashboard/counter"))
+);
+export const RiderDashboard = Loadable(
+  lazy(() => import("../pages/dashboard/rider"))
+);
+
 export const UserProfile = Loadable(lazy(() => import("../pages/profilePage")));
 
 export const ProfileEdit = Loadable(

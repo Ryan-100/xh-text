@@ -2,7 +2,7 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { CustomerParcelOptions, CustomerParcelSeries } from "./chart.config";
 
-const CustomerParcel = () => {
+const TotalParcel = () => {
   const [daily, setDaily] = React.useState(true);
   const [monthly, setMonthly] = React.useState(false);
   const [yearly, setYearly] = React.useState(false);
@@ -28,8 +28,21 @@ const CustomerParcel = () => {
     setYearly(true);
   };
   return (
-    <div className="card flex-1">
-      <div className="w-full flex items-center justify-end">
+    <div className="card overflow-hidden w-full">
+      <div className="w-full flex items-center justify-between">
+        <div className="flex items-center space-x-6">
+          <p className="font-medium text-2xl">
+            No. of Parcels <span className="text-base text-gray"> (Max : <span className='text-secondary'> 100 </span>/ day)</span>
+          </p>
+          <div className="flex space-x-2 items-center">
+            <div className="w-4 h-4 rounded-full bg-blue-light" />
+            <p className="text-2xl font-medium">Riders</p>
+          </div>
+          <div className="flex space-x-2 items-center">
+            <div className="w-4 h-4 rounded-full bg-green" />
+            <p className="text-2xl font-medium">Delivered Parcels</p>
+          </div>
+        </div>
         <div className="bg-gray-light-1 flex items-center w-[335px] h-10 rounded-[10px] overflow-hidden">
           <div
             className={daily ? activeButton : inactiveButton}
@@ -62,4 +75,4 @@ const CustomerParcel = () => {
   );
 };
 
-export default CustomerParcel;
+export default TotalParcel;

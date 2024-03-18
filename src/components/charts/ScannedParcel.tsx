@@ -1,8 +1,8 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import { TotalIncomeOptions, TotalIncomeSeries } from "./chart.config";
+import { ScannedParcelOptions, TotalIncomeSeries } from "./chart.config";
 
-const TotalIncome = () => {
+const ScannedParcel = () => {
   const [daily, setDaily] = React.useState(true);
   const [monthly, setMonthly] = React.useState(false);
   const [yearly, setYearly] = React.useState(false);
@@ -31,7 +31,7 @@ const TotalIncome = () => {
     <div className="card flex-1">
       <div className="w-full flex items-center justify-between">
         <p className="font-medium text-2xl">
-          Total Income <span className="text-base text-gray"> (Max : <span className='text-secondary'> 20,000 </span>/day)</span>
+          Scanned Parcels <span className="text-base text-gray"> (Max : <span className='text-secondary'> 20,000 </span>/day)</span>
         </p>
         <div className="bg-gray-light-1 flex items-center w-[335px] h-10 rounded-[10px] overflow-hidden">
           <div
@@ -59,10 +59,10 @@ const TotalIncome = () => {
         series={TotalIncomeSeries}
         type="line"
         height={300}
-        options={TotalIncomeOptions}
+        options={ScannedParcelOptions}
       />
     </div>
   );
 };
 
-export default TotalIncome;
+export default ScannedParcel;

@@ -1,26 +1,23 @@
 import TotalIncome from "../../components/charts/TotalIncome";
-import Widget from "../../components/widget";
-import { useDispatch, useSelector } from "react-redux";
-import { emit } from "../../store/actions";
-import { useEffect } from "react";
-import { RootState } from "../../store/reducers/root";
-import { getToken } from "../../service/auth";
-import CustomerParcel from "../../components/charts/CustomerParcel";
+import { useDispatch } from "react-redux";
+
+import CustomerParcel from "../../components/charts/TotalParcel";
+import Progress from "../../components/charts/Progress";
+import TotalEarning from "../../components/charts/TotalEarning";
 const Dashbaord = () => {
-  const token = getToken();
-  console.log(token, "dashbboard token");
-  const { page } = useSelector((state: RootState) => state.emit);
-  console.log(page, "page");
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(emit("PAGE_NAME_CHANGE", "dashboard"));
-  }, []);
   return (
-    <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 p-5">
-        <Widget type="admin" />
-        <Widget type="order" />
-        <Widget type="earning" />
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <TotalEarning />
+        <div className="bg-white col-span-1  w-[344px] h-[272px] p-6 flex flex-col justify-start space-y-6 rounded-[20px]">
+          <Progress color="#9DE3C0" name={"Total Customers"} progress={10} />
+          <Progress color="#FFA8FC" name={"Total Admins"} progress={60} />
+        </div>
+        <div className="bg-white w-[344px] h-[272px] p-6 flex flex-col justify-start space-y-6 rounded-[20px]">
+          <Progress color="#78C5FC" name={"Total Parcels"} progress={20} />
+          <Progress color="#F69C9C" name={"Total Riders"} progress={90} />
+        </div>
       </div>
       <div className="grid grid-cols-1 gap-6 ">
         <TotalIncome />

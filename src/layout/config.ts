@@ -11,11 +11,11 @@ export const items: ISide[] = [
     name: "Main Dashboard",
     icon: "dashboard",
     children: [
-      { name: "Main Dashboard", link: "/dashboard" },
-      { name: "Parcels", link: "/dashboard-parcels" },
-      { name: "Customers", link: "/dashboard-customers" },
-      { name: "Counters", link: "/dashboard-counters" },
-      { name: "Riders", link: "/dashboard-riders" },
+      { name: "Main Dashboard", link: "/dashboard/main" },
+      { name: "Parcels", link: "/dashboard/parcel" },
+      { name: "Customers", link: "/dashboard/customer" },
+      { name: "Counters", link: "/dashboard/counter" },
+      { name: "Riders", link: "/dashboard/rider" },
     ],
   },
   {

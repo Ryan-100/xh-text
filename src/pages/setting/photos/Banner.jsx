@@ -133,7 +133,7 @@ const Banner = () => {
   const removeScreen = async (id) => {
     const hasId = data.some((item) => item.id === id);
     if (hasId) {
-      const res = await dispatch(banner.deleteAppBanner(id));
+      const res = await dispatch(banner.deleteBanner(id));
       if (res?.statusCode === 200) {
         const updatedScreens = screens.filter((screen) => screen.id !== id);
         setScreens(updatedScreens);
@@ -250,7 +250,10 @@ const Banner = () => {
                 </Tooltip>
                 <button
                   className="absolute !z-10 -top-2 right-6 bg-primary text-white w-8 h-8 text-center rounded-full px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => removeScreen(data?.id)}
+                  onClick={() => {
+                    setIsDelete(true);
+                    setDeleteId(data.id);
+                  }}
                 >
                   x
                 </button>

@@ -1,8 +1,8 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import { TotalIncomeOptions, TotalIncomeSeries } from "./chart.config";
+import { CustomerParcelOptions, CustomerParcelSeries } from "./chart.config";
 
-const TotalIncome = () => {
+const TotalCustomer = () => {
   const [daily, setDaily] = React.useState(true);
   const [monthly, setMonthly] = React.useState(false);
   const [yearly, setYearly] = React.useState(false);
@@ -28,11 +28,21 @@ const TotalIncome = () => {
     setYearly(true);
   };
   return (
-    <div className="card flex-1">
+    <div className="card overflow-hidden w-full">
       <div className="w-full flex items-center justify-between">
-        <p className="font-medium text-2xl">
-          Total Income <span className="text-base text-gray"> (Max : <span className='text-secondary'> 20,000 </span>/day)</span>
-        </p>
+        <div className="flex items-center space-x-6">
+          <p className="font-medium text-2xl">
+            Total Customers <span className="text-base text-gray"> (Max : <span className='text-secondary'> 20,000 </span>/day)</span>
+          </p>
+          <div className="flex space-x-2 items-center">
+            <div className="w-4 h-4 rounded-full bg-blue-light" />
+            <p className="text-2xl font-medium">Pickup</p>
+          </div>
+          <div className="flex space-x-2 items-center">
+            <div className="w-4 h-4 rounded-full bg-green" />
+            <p className="text-2xl font-medium">Delivery</p>
+          </div>
+        </div>
         <div className="bg-gray-light-1 flex items-center w-[335px] h-10 rounded-[10px] overflow-hidden">
           <div
             className={daily ? activeButton : inactiveButton}
@@ -56,13 +66,13 @@ const TotalIncome = () => {
         </div>
       </div>
       <ReactApexChart
-        series={TotalIncomeSeries}
+        series={CustomerParcelSeries}
         type="line"
         height={300}
-        options={TotalIncomeOptions}
+        options={CustomerParcelOptions}
       />
     </div>
   );
 };
 
-export default TotalIncome;
+export default TotalCustomer;
