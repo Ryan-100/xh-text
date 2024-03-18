@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import client from "../../controller/constant/HttpClient";
 import Icon from "../../icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Datatable from "../../components/table/datatable";
 import { useDispatch } from "react-redux";
@@ -12,13 +12,12 @@ const OtherCounterRider = () => {
   const navigate = useNavigate();
   const apiRef = useRef(null);
   const [counterId, setCounterId] = useState(null);
-    const dispatch = useDispatch();
-    const [cityName, setCityName] = useState("");
-
+  const dispatch = useDispatch();
+  const [cityName, setCityName] = useState("");
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const counterId = searchParams.get("counter_id");
-  
+
     const skip = searchParams.get("skip");
     const take = searchParams.get("take");
 
@@ -64,7 +63,9 @@ const OtherCounterRider = () => {
     const fetchParcel = async () => {
       if (counterId) {
         try {
-          const res = await dispatch(counter.getOtherCounterById(counterId) as any);
+          const res = await dispatch(
+            counter.getOtherCounterById(counterId) as any
+          );
           if (res?.data) {
             setCityName(res.data.city?.city_eng);
           }
@@ -127,7 +128,7 @@ const OtherCounterRider = () => {
         return (
           <div className="cellAction">
             <Link
-              to={"" + params.row.id}
+              to={`/counters/other-counter-rider-detail/${params.row.riderID}`}
               className="buttonPrimary space-x-2 h-10"
             >
               <Icon name="details" />
@@ -154,10 +155,11 @@ const OtherCounterRider = () => {
         <div className="flex">
           <p className="text-2xl font-semibold">Rider List</p>
           <p className="text-2xl font-semibold text-gray">({cityName})</p>
-
         </div>
         <div className="flex items-center text-base font-normal h-10">
-          <p className="py-2 px-4 border-r border-gray text-gray">Counter Detail</p>
+          <p className="py-2 px-4 border-r border-gray text-gray">
+            Counter Detail
+          </p>
           <p className="py-2 px-4">Rider List</p>
         </div>
       </div>

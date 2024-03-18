@@ -10,7 +10,7 @@ import { counter } from "../../store/actions";
 import { useDispatch } from "react-redux";
 import client from "../../controller/constant/HttpClient";
 
-const MainCounterScan = () => {
+const OtherCounterScanPackage = () => {
   const [data, setData] = useState([]);
   const [counterId, setCounterId] = useState(null);
   const apiRef = useRef(null);
@@ -47,7 +47,7 @@ const MainCounterScan = () => {
     const take = searchParams.get("take");
     const parcelType = searchParams.get("parcel_type");
 
-    const apiUrl = `counter/main-counter/parcel`;
+    const apiUrl = `counter/other-counter/scan-package`;
 
     const fetchData = async () => {
       try {
@@ -62,10 +62,9 @@ const MainCounterScan = () => {
               : null,
             skip,
             take,
-            parcel_type: parcelType,
           },
         });
-        console.log(response ,"scanlist")
+        console.log(response ,"othercounterpackage")
         const mappedData = response.data.data.data.map((item, index) => ({
           id: index,
           ...item,
@@ -93,7 +92,7 @@ const MainCounterScan = () => {
     const fetchParcel = async () => {
       if (counterId) {
         try {
-          const res = await dispatch(counter.getCounterById(counterId) as any);
+          const res = await dispatch(counter.getOtherCounterById(counterId) as any);
           if (res?.data) {
             setCityName(res.data.city?.city_eng);
           }
@@ -115,7 +114,6 @@ const MainCounterScan = () => {
   const handleValueChange = (newValue) => {
     console.log("newValue:", newValue);
     setValue(newValue);
-    
   };
 
   const handleDetailClick = (formattedDate) => {
@@ -145,7 +143,7 @@ const MainCounterScan = () => {
       width: 400,
       valueGetter: ({ row }) => formatDate(row.formatted_date),
     },
-    { field: "total_parcel_count", headerName: "Scanned Parcels", width: 400 },
+    { field: "total_parcel_count", headerName: "Scanned Package", width: 400 },
     {
       field: "total_amount",
       headerName: "Total Amount",
@@ -170,6 +168,9 @@ const MainCounterScan = () => {
 
   return (
     <>
+
+
+    
       <div className="flex justify-between items-center mb-2">
         <div
           onClick={goBack}
@@ -179,7 +180,7 @@ const MainCounterScan = () => {
           <p>Back</p>
         </div>
         <div className="flex">
-          <p className="text-2xl font-semibold">Scanned Parcel List</p>
+          <p className="text-2xl font-semibold">Scanned Package List</p>
           <p className="text-2xl font-semibold text-gray">({cityName})</p>
         </div>
         <div className="flex items-center text-base font-normal h-10">
@@ -201,4 +202,4 @@ const MainCounterScan = () => {
   );
 };
 
-export default MainCounterScan;
+export default OtherCounterScanPackage;

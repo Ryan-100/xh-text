@@ -105,7 +105,11 @@ import {
   AdminEdit,
   MainCounterCustom,
   MainCounterDetailScan,
-  OtherCounterRider
+  OtherCounterRider,
+  MainCounterAdmin,
+  OtherCounterScanPackage,
+  OtherCounterRiderDetail,
+  OtherCounterAdmin
 } from "../element";
 import Login from "../../pages/login";
 
@@ -204,16 +208,34 @@ const routes = [
         path: "/counters/main-counter-parcel/:counterId",
         element: <MainCounterCustom />,
       },
-     {
+      {
+        path: "/counters/other-counter-scan-package/:counterId",
+        element: <OtherCounterScanPackage />,
+      },
+      {
         path: "/counters/other-counter-parcel/:counterId",
         element: <OtherCounterRider />,
+      },
+
+      {
+        path: "/counters/main-counter-admin/:counterId",
+        element: <MainCounterAdmin />,
+      },
+
+      {
+        path: "/counters/other-counter-admin/:counterId",
+        element: <OtherCounterAdmin />,
+      },
+      {
+        path: "/counters/other-counter-rider-detail/:riderID",
+        element: <OtherCounterRiderDetail />,
       },
 
       {
         path: "/counters/main-counter-parcel/scan-detail/:counterId",
         element: <MainCounterDetailScan />,
       },
-      
+
       {
         path: "create",
         element: <CounterCreate />,
@@ -510,7 +532,6 @@ const routes = [
         path: "terms-and-policy",
         element: <TermsAndPolicy />,
       },
-      
     ],
   },
   {

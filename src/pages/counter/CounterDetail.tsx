@@ -65,6 +65,7 @@ const CounterDetail = () => {
     take: "10",
     parcel_type: "scan",
   });
+
   const queryCustomParams = new URLSearchParams({
     counter_id: counterId,
     from_date: moment().startOf("month").format("YYYY-MM-DD"),
@@ -80,9 +81,24 @@ const CounterDetail = () => {
     take: "10",
   });
 
+  const MainAdmin = new URLSearchParams({
+    counter_id: counterId,
+  });
+
+  const OtherCounterScanPackage = new URLSearchParams({
+    counter_id: counterId,
+    from_date: moment().startOf("month").format("YYYY-MM-DD"),
+    to_date: moment().format("YYYY-MM-DD"),
+    skip: "0",
+    take: "10",
+  });
+
   const detailPath = `/counters/main-counter-scan-parcel/detail?${queryParams.toString()}`;
   const customDetailPath = `/counters/main-counter-parcel/detail?${queryCustomParams.toString()}`;
   const queryRiderPath = `/counters/other-counter-parcel/detail?${queryRider.toString()}`;
+  const MainCounterAdminPath = `/counters/main-counter-admin/detail?${MainAdmin.toString()}`;
+  const OtherCounterAdminPath = `/counters/other-counter-admin/detail?${MainAdmin.toString()}`;
+  const OtherCounterScanPackagePath = `/counters/other-counter-scan-package/detail?${OtherCounterScanPackage.toString()}`;
 
   const deleteHandler = () => {};
   console.log(counterData, "counter data");
@@ -197,7 +213,12 @@ const CounterDetail = () => {
                       </p>
                     </div>
                     <div className=" col-span-2 flex flex-col space-y-2">
-                      <p className="h-[48px] text-primary">View All</p>
+                      <Link
+                        to={MainCounterAdminPath}
+                        className="text-primary h-[48px] hover:underline"
+                      >
+                        View All
+                      </Link>{" "}
                       <Link
                         to={detailPath}
                         className="text-primary h-[48px] hover:underline"
@@ -231,14 +252,24 @@ const CounterDetail = () => {
                       </p>
                     </div>
                     <div className=" col-span-2 flex flex-col space-y-2">
-                      <p className="h-[48px] text-primary">View All</p>
+                      <Link
+                        to={OtherCounterAdminPath}
+                        className="text-primary h-[48px] hover:underline"
+                      >
+                        View All
+                      </Link>{" "}
                       <Link
                         to={queryRiderPath}
                         className="text-primary h-[48px] hover:underline"
                       >
                         View All
                       </Link>
-                      <p className="h-[48px] text-primary">View All</p>
+                      <Link
+                        to={OtherCounterScanPackagePath}
+                        className="text-primary h-[48px] hover:underline"
+                      >
+                        View All
+                      </Link>{" "}
                     </div>
                   </>
                 )}

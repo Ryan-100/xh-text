@@ -48,21 +48,23 @@ const getAllAdmins =
 			);
 	};
 
+// Adjusting the action creator to use query parameters
 const getAdminById = (id: string) => async (dispatch: Dispatch) => {
 	dispatch(FetchRequest(types.GET_ADMIN_BY_ID_REQUEST));
-	return await controller(`${apiRoutes.get_admin}/${id}`)
-		.then((res) => {
-			if (res?.error) {
-				console.log(res.data);
-			} else {
-				dispatch(FetchSuccess(types.GET_ADMIN_BY_ID_SUCCESS, res?.data));
-				return res?.data;
-			}
-		})
-		.catch((error) =>
-			dispatch(FetchFailure(types.GET_ADMIN_BY_ID_ERROR, error.message))
-		);
-};
+	return await controller(`${apiRoutes.get_admin}?counter_id=${id}`) // Using a query parameter
+	  .then((res) => {
+		if (res?.error) {
+		  console.log(res.data);
+		} else {
+		  dispatch(FetchSuccess(types.GET_ADMIN_BY_ID_SUCCESS, res?.data));
+		  return res?.data;
+		}
+	  })
+	  .catch((error) =>
+		dispatch(FetchFailure(types.GET_ADMIN_BY_ID_ERROR, error.message))
+	  );
+  };
+  
 
 const createAdmin = (data: CreateAdminData) => async (dispatch: Dispatch) => {
 	dispatch(FetchRequest(types.CREATE_ADMIN_REQUEST));

@@ -197,7 +197,7 @@ const CounterList = () => {
                 </p>
                 <div className="w-[344px]">
                   <InputSelect
-                    label="Filter By City"
+                    label="Filter By Branch Name"
                     name="city"
                     control={control}
                     options={cityOptions}

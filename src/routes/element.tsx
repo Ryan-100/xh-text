@@ -77,6 +77,10 @@ export const MainCounterScan = Loadable(
   lazy(() => import("../pages/counter/MainCounterScan"))
 );
 
+export const OtherCounterScanPackage = Loadable(
+  lazy(() => import("../pages/counter/OtherCounterScanPackage"))
+);
+
 export const MainCounterCustom = Loadable(
   lazy(() => import("../pages/counter/MainCounterCustom"))
 );
@@ -87,6 +91,17 @@ export const MainCounterDetailScan = Loadable(
 
 export const OtherCounterRider = Loadable(
   lazy(() => import("../pages/counter/OtherCounterRider"))
+);
+export const OtherCounterRiderDetail = Loadable(
+  lazy(() => import("../pages/counter/OtherCounterRiderDetail"))
+);
+
+export const MainCounterAdmin = Loadable(
+  lazy(() => import("../pages/counter/MainCounterAdmin"))
+);
+
+export const OtherCounterAdmin = Loadable(
+  lazy(() => import("../pages/counter/OtherCounterAdmin"))
 );
 
 export const CounterCreate = Loadable(
