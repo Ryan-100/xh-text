@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken} from '../../service/auth'
+import { getLocalStorageData, getRefreshToken, getToken, setRefreshToken, setToken} from '../../service/auth'
 
 const client = axios.create();
 
@@ -27,6 +27,30 @@ client.interceptors.response.use(
   },
   error => {
     console.log('error => ', error);
+    if(error.response.status){
+      const refreshToken = async () => {
+        const user_id = await getLocalStorageData("user_id");
+        let refresh_token = await getRefreshToken();
+          
+        const res = await axios.get(
+          `http://64.23.137.248:2850/api/auth/refresh-token?id=${user_id}&refresh_token=${refresh_token}&app_type=adminUser`,
+          {
+            headers: {
+              Authorization: `Bearer ${refresh_token}`,
+            },
+          }
+        );
+        if (res?.status === 200) {
+          setToken({
+            j_token: res?.data?.data?.accessToken,
+          });
+          setRefreshToken({
+            r_token: res?.data?.data?.refreshToken,
+          });
+        }
+      };
+        refreshToken();
+    }
     return Promise.reject(error);
   }
 );

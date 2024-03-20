@@ -12,6 +12,7 @@ export * from './region.action';
 export * from './payment.action';
 export * from './block.action';
 export * from './help.action';
+export * from './admin.action';
 export * from './userguide.action';
 export * from './terms.action';
 export * from './banner.action';

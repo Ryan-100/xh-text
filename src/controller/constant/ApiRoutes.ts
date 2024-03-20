@@ -1,6 +1,8 @@
 export const apiRoutes = {
 	login: `post:auth/admin-user-signin`,
 
+	refresh_token: `get:auth/refresh-token`,
+
   //counter
   all_counter: `get:counter`,
   get_counter: `get:counter`,

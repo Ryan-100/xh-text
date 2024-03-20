@@ -1,15 +1,11 @@
 import React from "react";
-import { useRef, useState } from "react";
-import ChevronDown from "../../../icons/chevronDown";
-import { useSize } from "ahooks";
-import { usePageName } from "../../../machine/usePageName";
-import { Link } from "react-router-dom";
-import { useOwnData } from "../../../machine/useOwner";
 import { styled } from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Icon from "../../../icons";
+import { useDispatch } from "react-redux";
+import { emit } from "../../../store/actions";
 ``
 
 const drawerWidth = 312;
@@ -42,16 +38,13 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const Header = ({ open, setOpen }) => {
-  const ref = useRef(null);
-  const size = useSize(ref);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { page } = usePageName((store) => store);
-  const { userData } = useOwnData((store) => store);
-
+  const dispatch = useDispatch();
 
   const handleDrawerOpen = () => {
+    dispatch(emit("DRAWER_HANDLER", !open));
     setOpen(p=>!p);
   };
+
 
   return (
     <AppBar position="fixed" open={open} sx={{backgroundColor:'white',color:'black','.MuiAppBar-root':{boxShadow:'none'}}}>

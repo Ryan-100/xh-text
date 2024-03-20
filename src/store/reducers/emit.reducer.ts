@@ -1,6 +1,7 @@
 // emit.reducer.ts
 export interface EmitState {
   page: string; // Adjust the type based on your actual state structure
+  drawer_open:boolean;
 }
 
 export type EmitAction = {
@@ -10,6 +11,7 @@ export type EmitAction = {
 
 const initialState = {
   page: 'Dashboard',
+  drawer_open:true,
 };
 
 const emit = (state = initialState, action:EmitAction) => {
@@ -18,6 +20,11 @@ const emit = (state = initialState, action:EmitAction) => {
       return {
         ...state,
         page: action.payload,
+      };
+    case 'DRAWER_HANDLER':
+      return {
+        ...state,
+        drawer_open: action.payload,
       };
     default:
       return state;

@@ -26,7 +26,7 @@ export default function RootLayout() {
 
       <Sidebar open={open}  />
 
-      <Box component="main" className="bg-bright-ascent h-screen flex-grow p-6 overflow-auto">
+      <Box component="main" id="main-body" className="bg-bright-ascent h-screen flex-grow p-6 overflow-auto">
         <DrawerHeader />
         <Outleting />
       </Box>

@@ -1,10 +1,11 @@
+import { ProtectedRoute } from '../service/ProtectedRoute'
 import RootLayout from './components/layout'
 
 const LayoutIndex = () => {
   return (
-    <div>
+    <ProtectedRoute>
          <RootLayout/>
-    </div>
+    </ProtectedRoute>
   )
 }
 

@@ -15,6 +15,7 @@ export interface CreateAdminData {
 	address_region_id: string;
 	address: string;
 	counter_id: string;
+	profile_image_url?: string;
 	active: number;
 }
 

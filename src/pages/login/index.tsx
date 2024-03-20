@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { auth } from "../../store/actions";
-import { logout, setLocalStorage, setToken, setUserInfo } from "../../service/auth";
+import { logout, setLocalStorage, setRefreshToken, setToken, setUserInfo } from "../../service/auth";
 
 export type LoginFormValue = {
   adminID: string;
@@ -36,14 +36,15 @@ const Login = () => {
         }) as any
       );
       if (res.statusCode === 201) {
-        console.log(res,'res')
         setUserInfo({user_data:res?.data})
         setLocalStorage("user_id",res?.data?.id)
-        // setLocalStorage("token",res?.data?.access_token)
         setToken({
           j_token: res?.data?.access_token          ,
         });
-        navigate("/dashboard");
+        setRefreshToken({
+          r_token: res?.data?.refresh_token          ,
+        });
+        navigate("/dashboard/main");
       }
     }
   };

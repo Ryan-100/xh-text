@@ -19,6 +19,23 @@ export const getToken = () => {
   }
 };
 
+export const setRefreshToken = ({ r_token }) => {
+  const copherAccessToken = CryptoJS.AES.encrypt(JSON.stringify(r_token), 'r_token');
+  Cookies.set('r_token', copherAccessToken.toString(), { expires: 30 });
+};
+
+export const getRefreshToken = () => {
+  const sessi = Cookies.get('r_token');
+  if (!sessi) return false;
+  const bytes = CryptoJS.AES.decrypt(sessi, 'r_token');
+  try {
+    const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    return decryptedData;
+  } catch (err) {
+    console.log('error', err);
+  }
+};
+
 export const setUserInfo = ({ user_data }) => {
   const cipherUserInfo = CryptoJS.AES.encrypt(JSON.stringify(user_data), 'user_info');
   const rememberMe = getRememberMe();
@@ -60,6 +77,8 @@ export const removeLocalStorage = name => {
 export const logout = () => {
   setRememberMe(false);
   Cookies.remove('j_token');
+  Cookies.remove('r_token');
   Cookies.remove('user_info');
   localStorage.removeItem('j_token');
+  localStorage.removeItem('user_id');
 };
