@@ -141,9 +141,9 @@ const OnboardingDetail = ({
             <p className="">Back</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-semibold">Onboarding Photo Settings</p>
+            <p className="title">Onboarding Photo Settings</p>
           </div>
-          <div className="flex items-center text-base font-normal  h-10">
+          <div className="side-title  h-10">
             <p className="py-2 px-2 border-r border-r-gray text-gray">
               Settings
             </p>
@@ -175,7 +175,7 @@ const OnboardingDetail = ({
           )}
           <button className="self-end rounded-[10px] bg-primary py-3 px-[78.5px] flex items-center space-x-3 ">
             <Icon name="success" width={24} height={24} />
-            <p className="text-[20px] text-white">Submit</p>
+            <p className="btn-lg">Submit</p>
           </button>
         </div>
         <div className="">

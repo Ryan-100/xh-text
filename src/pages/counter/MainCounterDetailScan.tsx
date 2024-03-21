@@ -197,10 +197,10 @@ const MainCounterDetailScan = () => {
           <p>Back</p>
         </div>
         <div className="flex">
-          <p className="text-2xl font-semibold">Parcel List Detail</p>
-          <p className="text-2xl font-semibold text-gray">({cityName})</p>
+          <p className="title">Parcel List Detail</p>
+          <p className="title text-gray">({cityName})</p>
         </div>
-        <div className="flex items-center text-base font-normal h-10">
+        <div className="side-title h-10">
           <p className="py-2 px-4 border-r border-gray text-gray">Counter</p>
           <p className="py-2 px-4">Parcel List</p>
         </div>

@@ -100,10 +100,10 @@ const RiderReportDetail = () => {
           <p className="">Back</p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-semibold">Rider Report Detail</p>
+          <p className="title">Rider Report Detail</p>
           <p className="font-normal">9 Sep 2023 | Lashio_Branch_Counter1</p>
         </div>
-        <div className="flex items-center text-base font-normal  h-10">
+        <div className="side-title  h-10">
           <p className="py-2 px-4 border-r border-r-gray text-gray">
           Rider Report
           </p>{" "}

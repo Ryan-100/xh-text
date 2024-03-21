@@ -24,13 +24,26 @@ li {
   list-style-image: url("/list.svg");
   font-family: "Mukta", sans-serif;
 }
-
+.title{
+  @apply text-lg lg:text-xl xl:text-2xl font-semibold
+}
+.side-title{
+  @apply flex items-center text-sm xl:text-base font-normal h-10
+}
 .card {
   @apply bg-white rounded-[20px] p-6 drop-shadow;
 }
 .dateRangeClass {
   @apply h-12 w-full outline-none border border-gray-light rounded-[10px] pl-6;
 }
+
+.btn-lg{
+  @apply text-base xl:text-[20px] text-white
+}
+.btn-lg-padding {
+  @apply py-2 px-[40px] xl:py-3 xl:px-[62.5px] 
+}
+
 .buttonOutlined {
   padding: 8px 16px 8px 16px;
   border-radius: 10px;

@@ -21,8 +21,8 @@ const CurrencyDetail = () => {
           <Icon name="leftArrow" />
           <p className="">Back</p>
         </div>
-        <p className="text-2xl font-semibold">Currency Detail</p>
-        <div className="flex items-center text-base font-normal  h-10">
+        <p className="title">Currency Detail</p>
+        <div className="side-title  h-10">
           <p className="py-2 px-2 border-r border-r-gray text-gray">Currency</p>{" "}
           <p className=" py-2 px-2">Currency Detail</p>
         </div>
@@ -30,10 +30,10 @@ const CurrencyDetail = () => {
       <div className="w-full flex items-center justify-end">
         <div
           onClick={goToEdit}
-          className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
+          className="self-start rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 "
         >
           <Icon name="edit1" width={24} height={24} />
-          <p className="text-[20px] text-white">Edit</p>
+          <p className="btn-lg">Edit</p>
         </div>
       </div>
       <div className="bg-white rounded-[10px] shadow flex flex-col items-start p-6 drop-shadow">

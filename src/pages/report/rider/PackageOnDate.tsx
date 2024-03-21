@@ -78,9 +78,9 @@ const RiderPackageOnDate = () => {
           <p className="">Back</p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-semibold">Packages on 9 Sep 2023</p>
+          <p className="title">Packages on 9 Sep 2023</p>
         </div>
-        <div className="flex items-center text-base font-normal  h-10">
+        <div className="side-title  h-10">
           <p className="py-2 px-3 border-r border-r-gray text-gray">
           Rider Report
           </p>{" "}

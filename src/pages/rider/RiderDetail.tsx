@@ -21,8 +21,8 @@ const RiderDetail = () => {
           <Icon name="leftArrow" />
           <p className="">Back</p>
         </div>
-        <p className="text-2xl font-semibold">Rider Detail</p>
-        <div className="flex items-center text-base font-normal  h-10">
+        <p className="title">Rider Detail</p>
+        <div className="side-title  h-10">
           <p className="py-2 px-4 border-r border-r-gray text-gray">Counter</p>{" "}
           <p className=" py-2 px-4">Rider Detail</p>
         </div>
@@ -46,10 +46,10 @@ const RiderDetail = () => {
           <div className="flex items-center space-x-6">
             <div
               onClick={goToDeliveredHistory}
-              className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
+              className="self-start rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 "
             >
               <Icon name="history" width={24} height={24} />
-              <p className="text-[20px] text-white">Delivered History</p>
+              <p className="btn-lg">Delivered History</p>
             </div>
           </div>
         </div>

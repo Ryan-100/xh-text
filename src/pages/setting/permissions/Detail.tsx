@@ -62,8 +62,8 @@ console.log(permissionData)
           <Icon name="leftArrow" />
           <p className="">Back</p>
         </div>
-        <p className="text-2xl font-semibold">Admin Permission Detail</p>
-        <div className="flex items-center text-base font-normal  h-10">
+        <p className="title">Admin Permission Detail</p>
+        <div className="side-title  h-10">
           <p className="py-2 px-2 border-r border-r-gray text-gray">
             Permission
           </p>{" "}
@@ -90,10 +90,10 @@ console.log(permissionData)
         <div className="flex items-center space-x-6">
           <div
             onClick={goToEdit}
-            className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
+            className="self-start rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 "
           >
             <Icon name="edit1" width={24} height={24} />
-            <p className="text-[20px] text-white">Edit Permission</p>
+            <p className="btn-lg">Edit Permission</p>
           </div>
           <div className="editButton h-12" onClick={()=>setIsDelete(true)}>
             <Icon name="delete2" />

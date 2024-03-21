@@ -54,8 +54,8 @@ const CityDetail = () => {
               <Icon name="leftArrow" />
               <p className="">Back</p>
             </div>
-            <p className="text-2xl font-semibold">Branch Detail</p>
-            <div className="flex items-center text-base font-normal  h-10">
+            <p className="title">Branch Detail</p>
+            <div className="side-title  h-10">
               <p className="py-2 px-2 border-r border-r-gray text-gray">
                 Branch
               </p>{" "}
@@ -76,10 +76,10 @@ const CityDetail = () => {
             <div className="flex items-center space-x-6">
               <div
                 onClick={goToEdit}
-                className="self-start rounded-[10px] bg-primary cursor-pointer py-3 px-[62.5px] flex items-center space-x-3 "
+                className="self-start rounded-[10px] bg-primary cursor-pointer btn-lg-padding flex items-center space-x-3 "
               >
                 <Icon name="edit1" width={24} height={24} />
-                <p className="text-[20px] text-white">Edit Branch</p>
+                <p className="btn-lg">Edit Branch</p>
               </div>
               <div className="editButton h-12" onClick={()=>setIsDelete(true)}>
                 <Icon name="delete2" />

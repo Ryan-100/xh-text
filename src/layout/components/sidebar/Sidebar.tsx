@@ -114,7 +114,7 @@ const Sidebar = ({ open }) => {
           alt="logo"
         />
         <div className="">
-          <p className="text-primary text-lg md:text-xl xl:text-2xl font-semibold">
+          <p className="text-primary text-lg md:text-xl xl:title">
             XH Express
           </p>
           <p className="text-secondary text-2xs md:text-xs xl:text-sm font-semibold">

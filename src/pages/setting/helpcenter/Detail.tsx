@@ -55,8 +55,8 @@ const HelpCenterDetail = () => {
               <Icon name="leftArrow" />
               <p className="">Back</p>
             </div>
-            <p className="text-2xl font-semibold">Help Center Detail</p>
-            <div className="flex items-center text-base font-normal  h-10">
+            <p className="title">Help Center Detail</p>
+            <div className="side-title  h-10">
               <p className="py-2 px-2 border-r border-r-gray text-gray">
                 Help Center
               </p>{" "}
@@ -81,10 +81,10 @@ const HelpCenterDetail = () => {
             <div className="flex items-center space-x-6">
               <div
                 onClick={goToEdit}
-                className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
+                className="self-start rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 "
               >
                 <Icon name="edit1" width={24} height={24} />
-                <p className="text-[20px] text-white">Edit Help Center</p>
+                <p className="btn-lg">Edit Help Center</p>
               </div>
               <div
                 className="editButton h-12"

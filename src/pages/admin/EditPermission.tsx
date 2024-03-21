@@ -29,11 +29,11 @@ const ProfileEditComponent = () => {
           <Icon name="leftArrow" />
           <p className="">Back</p>
         </div>
-        <p className="text-2xl font-semibold">
+        <p className="title">
           Edit Permission{" "}
           <span className="text-gray">(Admin ID : SuperAdmin_HHW)</span>
         </p>
-        <div className="flex items-center text-base font-normal  h-10">
+        <div className="side-title  h-10">
           <p className="py-2 px-4 border-r border-r-gray text-gray">
             Admin Detail
           </p>{" "}
@@ -47,9 +47,9 @@ const ProfileEditComponent = () => {
           ))}
         </div>
       </div>
-      <div className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
+      <div className="self-start rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 ">
         <Icon name="save" width={16} height={16} />
-        <p className="text-[20px] text-white">Save Updates</p>
+        <p className="btn-lg">Save Updates</p>
       </div>
     </div>
   );

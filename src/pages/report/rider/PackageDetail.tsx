@@ -83,10 +83,10 @@ const RiderPackageDetail = () => {
           <p className="">Back</p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-semibold">Package Detail</p>
+          <p className="title">Package Detail</p>
           <p className="font-normal">Customer ID : LABAER012345</p>
         </div>
-        <div className="flex items-center text-base font-normal  h-10">
+        <div className="side-title  h-10">
           <p className="py-2 px-4 border-r border-r-gray text-gray">
             Delivered History
           </p>{" "}

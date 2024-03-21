@@ -98,10 +98,10 @@ const DailyReport = () => {
           <p className="">Back</p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-semibold">Income Report Detail</p>
+          <p className="title">Income Report Detail</p>
           <p className="font-normal">Lashio_Branch_Counter1</p>
         </div>
-        <div className="flex items-center text-base font-normal  h-10">
+        <div className="side-title  h-10">
           <p className="py-2 px-4 border-r border-r-gray text-gray">
             Income Report
           </p>{" "}

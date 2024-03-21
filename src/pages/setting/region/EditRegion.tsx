@@ -70,8 +70,8 @@ const EditRegion = () => {
               <Icon name="leftArrow" />
               <p className="">Back</p>
             </div>
-            <p className="text-2xl font-semibold">Edit Region</p>
-            <div className="flex items-center text-base font-normal  h-10">
+            <p className="title">Edit Region</p>
+            <div className="side-title  h-10">
               <p className="py-2 px-2 border-r border-r-gray text-gray">
                 Region
               </p>
@@ -105,9 +105,9 @@ const EditRegion = () => {
               </div>
             </div>
           </div>
-          <button className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
+          <button className="self-start rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 ">
             <Icon name="save" width={16} height={16} />
-            <p className="text-[20px] text-white">Save Updates</p>
+            <p className="btn-lg">Save Updates</p>
           </button>
         </form>
       )}

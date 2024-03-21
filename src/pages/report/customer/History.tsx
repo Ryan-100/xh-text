@@ -86,10 +86,10 @@ const ProfileEditComponent = () => {
           <p className="">Back</p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-semibold">Order History Of Customer</p>
+          <p className="title">Order History Of Customer</p>
           <p className="font-normal">Customer ID : LABAER012345</p>
         </div>
-        <div className="flex items-center text-base font-normal  h-10">
+        <div className="side-title  h-10">
           <p className="py-2 px-4 border-r border-r-gray text-gray">
             Customer Detail
           </p>

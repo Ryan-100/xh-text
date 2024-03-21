@@ -50,37 +50,35 @@ const App = () => {
 
 	
 	
-  React.useEffect(() => {
-		const refreshToken = async () => {
-			const user_id = getLocalStorageData("user_id");
-			let refresh_token = await getRefreshToken();
+  // React.useEffect(() => {
+	// 	const refreshToken = async () => {
+	// 		const user_id =await getLocalStorageData("user_id");
+	// 		let refresh_token = await getRefreshToken();
 
-      const res = await axios.get(
-        `http://64.23.137.248:2850/api/auth/refresh-token?id=${user_id}&refresh_token=${refresh_token}&app_type=adminUser`,
-        {
-          headers: {
-            Authorization: `Bearer ${refresh_token}`,
-          },
-        }
-      );
-      if (res?.status === 200) {
-        setToken({
-          j_token: res?.data?.data?.accessToken,
-        });
-        setRefreshToken({
-          r_token: res?.data?.data?.refreshToken,
-        });
-      }
-    };
-      refreshToken();
+  //     const res = await axios.get(
+  //       `http://64.23.137.248:2850/api/auth/refresh-token?id=${user_id}&refresh_token=${refresh_token}&app_type=adminUser`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${refresh_token}`,
+  //         },
+  //       }
+  //     );
+  //     if (res?.status === 200) {
+  //       setToken({
+  //         j_token: res?.data?.data?.accessToken,
+  //       });
+  //       setRefreshToken({
+  //         r_token: res?.data?.data?.refreshToken,
+  //       });
+  //     }
+  //   };
+  //     refreshToken();
+  //   // Set up interval to call the function every hour
+  //   const intervalId = setInterval(refreshToken, 300000); // 3600000 milliseconds = 1 hour
 
-
-    // Set up interval to call the function every hour
-    const intervalId = setInterval(refreshToken, 300000); // 3600000 milliseconds = 1 hour
-
-    // Clean up interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
+  //   // Clean up interval on component unmount
+  //   return () => clearInterval(intervalId);
+  // }, []);
   return (
     <div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -23,16 +23,16 @@ const CurrencyCreate = () => {
           <p className="">Back</p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-semibold">Edit Voucher Information</p>
+          <p className="title">Edit Voucher Information</p>
         </div>
-        <div className="flex items-center text-base font-normal  h-10">
+        <div className="side-title  h-10">
           <p className="py-2 px-2 border-r border-r-gray text-gray">Settings</p>
           <p className="py-2 px-2">Edit Voucher Information</p>
         </div>
       </div>
-      <div className="self-end rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
+      <div className="self-end rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 ">
         <Icon name="success" width={24} height={24} />
-        <p className="text-[20px] text-white">Update</p>
+        <p className="btn-lg">Update</p>
       </div>
       <div className="bg-white p-6 w-full flex flex-col space-y-4 rounded-[10px] drop-shadow">
         <div className="flex items-start justify-between w-[780px]">

@@ -8,12 +8,13 @@ type MuiTextareaProps = {
   rows: number;
   label: string;
   placeholder: string;
+  disabled?:boolean;
   defaultValue?: string;
 };
 
 const MuiTextarea = React.forwardRef<HTMLDivElement, MuiTextareaProps>(
   (
-    { control, name, rows, label, placeholder, defaultValue = "", ...rest },
+    { control, name, rows, label,disabled, placeholder, defaultValue = "", ...rest },
     ref
   ) => {
     const {
@@ -31,6 +32,7 @@ const MuiTextarea = React.forwardRef<HTMLDivElement, MuiTextareaProps>(
         multiline
         rows={rows}
         fullWidth
+        disabled={disabled}
         sx={{
           ".MuiInputBase-root": {
 

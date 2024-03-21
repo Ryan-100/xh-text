@@ -159,9 +159,9 @@ const ParcelWeight = () => {
             <p className="">Back</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-semibold">Parcel Weight</p>
+            <p className="title">Parcel Weight</p>
           </div>
-          <div className="flex items-center text-base font-normal  h-10">
+          <div className="side-title  h-10">
             <p className="py-2 px-2 border-r border-r-gray text-gray">
               Settings
             </p>

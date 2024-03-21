@@ -27,7 +27,7 @@ client.interceptors.response.use(
   },
   error => {
     console.log('error => ', error);
-    if(error.response.status){
+    if(error.response.status===401){
       const refreshToken = async () => {
         const user_id = await getLocalStorageData("user_id");
         let refresh_token = await getRefreshToken();

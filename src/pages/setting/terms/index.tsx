@@ -36,8 +36,8 @@ const TermsAndPolicy = () => {
             <Icon name="leftArrow" />
             <p className="">Back</p>
           </div>
-          <p className="text-2xl font-semibold">Terms & Policy</p>
-          <div className="flex items-center text-base font-normal  h-10">
+          <p className="title">Terms & Policy</p>
+          <div className="side-title  h-10">
             <p className="py-2 px-2 border-r border-r-gray text-gray">
               Settings
             </p>{" "}
@@ -54,10 +54,10 @@ const TermsAndPolicy = () => {
           <Editor setValue={setTemplate} defaultValue={""} />
           <button
             onClick={changeTermAndPolicy}
-            className="self-end rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
+            className="self-end rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 "
           >
             <Icon name="success" width={24} height={24} />
-            <p className="text-[20px] text-white">Change</p>
+            <p className="btn-lg">Change</p>
           </button>
         </div>
       </div>

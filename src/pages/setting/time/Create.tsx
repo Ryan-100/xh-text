@@ -23,9 +23,9 @@ const CurrencyCreate = () => {
           <p className="">Back</p>
         </div>
         <div className="text-center">
-          <p className="text-2xl font-semibold">Create Currency</p>
+          <p className="title">Create Currency</p>
         </div>
-        <div className="flex items-center text-base font-normal  h-10">
+        <div className="side-title  h-10">
           <p className="py-2 px-2 border-r border-r-gray text-gray">Currency</p>
           <p className="py-2 px-2">Create Currency</p>
         </div>
@@ -56,9 +56,9 @@ const CurrencyCreate = () => {
           </div>
         </div>
       </div>
-      <div className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
+      <div className="self-start rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 ">
         <Icon name="add" width={24} height={24} />
-        <p className="text-[20px] text-white">Create</p>
+        <p className="btn-lg">Create</p>
       </div>
     </div>
   );

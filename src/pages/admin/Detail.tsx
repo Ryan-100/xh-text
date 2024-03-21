@@ -93,8 +93,8 @@ const AdminDetail = () => {
 							<Icon name="leftArrow" />
 							<p className="">Back</p>
 						</div>
-						<p className="text-2xl font-semibold">Admin Detail</p>
-						<div className="flex items-center text-base font-normal  h-10">
+						<p className="title">Admin Detail</p>
+						<div className="side-title  h-10">
 							<p className="py-2 px-4 border-r border-r-gray text-gray">
 								Admin List
 							</p>{" "}
@@ -120,10 +120,10 @@ const AdminDetail = () => {
 							<div className="flex items-center space-x-6">
 								<div
 									onClick={goToEdit}
-									className="cursor-pointer self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
+									className="cursor-pointer self-start rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 "
 								>
 									<Icon name="edit1" width={24} height={24} />
-									<p className="text-[20px] text-white">Edit Information</p>
+									<p className="btn-lg">Edit Information</p>
 								</div>
 								<div onClick={() => setIsDelete(true)} className="editButton h-12">
 									<Icon name="delete2" />
@@ -217,10 +217,10 @@ const AdminDetail = () => {
 								<p className="text-sm md:text-base xl:text-xl">Permissions</p>
 								<div
 									onClick={goToEditPermission}
-									className="self-start rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 "
+									className="self-start rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 "
 								>
 									<Icon name="edit1" width={24} height={24} />
-									<p className="text-[20px] text-white">Edit Permission</p>
+									<p className="btn-lg">Edit Permission</p>
 								</div>
 							</div>
 							<div className="grid grid-cols-3 grid-rows-5 gap-2">

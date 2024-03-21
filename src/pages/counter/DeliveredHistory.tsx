@@ -81,8 +81,8 @@ const ProfileEditComponent = () => {
           <Icon name="leftArrow" />
           <p className="">Back</p>
         </div>
-        <p className="text-2xl font-semibold">Delivered History</p>
-        <div className="flex items-center text-base font-normal  h-10">
+        <p className="title">Delivered History</p>
+        <div className="side-title  h-10">
           <p className="py-2 px-4 border-r border-r-gray text-gray">
             Rider Detail
           </p>{" "}

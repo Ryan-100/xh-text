@@ -4,7 +4,7 @@ import { TotalRevenueOptions, TotalRevenueSeries } from "./chart.config";
 const TotalRevenue = () => {
   return (
     <div className="p-4 flex-1 bg-gray-100 rounded-lg">
-      <h2 className="text-2xl font-semibold text-blue-900">Total Revenue</h2>
+      <h2 className="title text-blue-900">Total Revenue</h2>
       <ReactApexChart
         series={TotalRevenueSeries}
         type="bar"

@@ -146,8 +146,8 @@ const AdvertisingAds = () => {
           <Icon name="leftArrow" />
           <p className="">Back</p>
         </div>
-        <p className="text-2xl font-semibold">Photo Settings</p>
-        <div className="flex items-center text-base font-normal  h-10">
+        <p className="title">Photo Settings</p>
+        <div className="side-title  h-10">
           <p className="py-2 px-2 border-r border-r-gray text-gray">Settings</p>{" "}
           <p className=" py-2 px-2">Photo Settings</p>
         </div>
@@ -175,9 +175,9 @@ const AdvertisingAds = () => {
               onChange={updateFile}
               hidden
             />
-            <div className="rounded-[10px] bg-primary py-3 px-[62.5px] flex items-center space-x-3 ">
+            <div className="rounded-[10px] bg-primary btn-lg-padding flex items-center space-x-3 ">
               <Icon name="edit1" width={24} height={24} />
-              <p className="text-[20px] text-white">Select Images</p>
+              <p className="btn-lg">Select Images</p>
             </div>
           </label>
           <div className="flex flex-col items-center justify-center">
@@ -209,7 +209,7 @@ const AdvertisingAds = () => {
           </button>
           <button disabled className="rounded-[10px] cursor-not-allowed bg-primary py-3 px-[29px] flex items-center space-x-3 ">
             <Icon name="success" width={24} height={24} />
-            <p className="text-[20px] text-white">Apply</p>
+            <p className="btn-lg">Apply</p>
           </button>
         </div>
       )}
@@ -235,7 +235,7 @@ const AdvertisingAds = () => {
           </button>
           <button onClick={()=>onSubmit()} className="rounded-[10px] bg-primary py-3 px-[29px] flex items-center space-x-3 ">
             <Icon name="success" width={24} height={24} />
-            <p className="text-[20px] text-white">Apply</p>
+            <p className="btn-lg">Apply</p>
           </button>
         </div>
       )}
